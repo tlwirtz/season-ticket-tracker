@@ -1,20 +1,30 @@
 import React, { Component } from 'react';
 import '../styles/Match.css';
-import logo from '../imgs/logo.svg';
 
 
 class Match extends Component {
+  constructor(props)  {
+    super(props)
+  }
+
   render() {
+    const { homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
     return (
       <div className="match-container">
-        <img src={logo} className="match-logo" alt="logo" />
+        <img src={awayTeam.img} className="match-logo" alt="logo" />
         <div>
-          <h1>Seattle Sounders vs Portland Timbers</h1>
-          <h2>JULY 01 2017 | 1:00PM | MLS | $25.00</h2>
+          <h1>{homeTeam.name} vs {awayTeam.name}</h1>
+          <h2>{location} | {date} | {time} | {matchType} | {ticketPrice}</h2>
+          <button onClick={this.props.claimTicket}>Claim Ticket</button>
         </div>
       </div>
     )
   }
 }
+
+Match.propTypes =  {
+  matchData: React.PropTypes.object.isRequired,
+  claimTicket: React.PropTypes.func.isRequired
+};
 
 export default Match

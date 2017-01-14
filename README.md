@@ -30,14 +30,20 @@
   "location":"CenturyLink Field",
   "time":"1:00 PM",
   "date":"July 01 2017",
-  "awayTeam":"LA Galaxy",
-  "homeTeam":"Seattle Sounders",
-  "type":"MLS",
+  "awayTeam":{
+    "name": "LA Galaxy",
+    "img":"imgurl"
+  },
+  "homeTeam":{
+    "name": "Seattle Sounders",
+    "img":"imgurl"
+  },
+  "matchType":"MLS",
   "available": true,
   "qtyTicketsAvailable": 1,
   "ticketPrice":"2000",
   "id":"diuf9ewfjw908e9f8wef",
-  "claimedUserId":"ud9s0df8sdjdf"
+  "claimedUserId":"ud9s0df8sdjdf",
 }
 ```
 
