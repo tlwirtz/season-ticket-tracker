@@ -1,0 +1,8 @@
+.match-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.match-logo {
+  height: 100px;
+}
