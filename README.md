@@ -1,6 +1,18 @@
 # season-ticket-tracker
 ⚽️ A small app to manage our extra season ticket
 
+## Design Notes
+Look at the design website and mimic the cards.
+People only care about a few specific details. Keep it simple.
+Card with away logo and have date and time in the detail.
+
+Don't over complicate anything.
+When people click you can ake them to a detail page (stretch goal).
+There will be an "add to cart" type label on the detail page.
+
+This is my inspiration: [Design Guidelines](http://designguidelines.co/)
+
+
 ## MVP
 * As a user, I want a list of home matches on the main page
 * As a user, I want to click on each home game to sign-up for the tickets
