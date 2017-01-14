@@ -21,3 +21,38 @@
 * As a user, I want each match to have their own detail page
 * As a developer, I want to update matches with scores & highlights
 * As a user, I want a ticketmaster link next to each match I'm attending so I can buy more tickets
+
+## Data
+
+* Matches
+```json
+{
+  "location":"CenturyLink Field",
+  "time":"1:00 PM",
+  "date":"July 01 2017",
+  "awayTeam":"LA Galaxy",
+  "homeTeam":"Seattle Sounders",
+  "type":"MLS",
+  "available": true,
+  "qtyTicketsAvailable": 1,
+  "ticketPrice":"2000",
+  "id":"diuf9ewfjw908e9f8wef",
+  "claimedUserId":"ud9s0df8sdjdf"
+}
+```
+
+* Accounts
+```json
+{
+  "first_name":"taylor",
+  "last_name":"wirtz",
+  "img":"https://fakeurl/imgs",
+  "matches": [
+    {
+      "matchId": "diuf9ewfjw908e9f8wef",
+      "price": "2000",
+      "status": "unpaid"
+    }
+  ]
+}
+```
