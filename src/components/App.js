@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Home from './Home'
-// import matches from '../fakeMatchData'
 import base from '../base'
 import '../styles/App.css'
 
@@ -18,27 +17,11 @@ class App extends Component {
       state: 'matches'
     })
 
-    this.claimTicket = this.claimTicket.bind(this)
     this.ticketAvailable = this.ticketAvailable.bind(this)
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     base.removeBinding(this.ref)
-  }
-
-  claimTicket(e, matchId) {
-    e.preventDefault();
-    const { matches } = this.state
-    if (this.ticketAvailable(matches[matchId])) {
-      matches[matchId].claimedUserId = this.state.user.uid
-      matches[matchId].available = false
-      return this.setState({ matches })
-    }
-  }
-
-  ticketAvailable(match) {
-    if (match.claimedUser || !match.available) return false
-    return true
   }
 
   render() {
