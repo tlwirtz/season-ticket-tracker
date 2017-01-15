@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import Match from './Match'
-import matches from '../fakeMatchData'
+import MatchList from './MatchList'
 import '../styles/App.css'
 
 //TODO -- this is a nice proof of concept.
@@ -10,19 +9,7 @@ import '../styles/App.css'
 
 class Home extends Component {
   render() {
-
-    return (
-      <div>
-        {
-          Object.keys(this.props.matches).map((key) =>
-            <Match
-              key={key}
-              matchData={this.props.matches[key]}
-              claimTicket={(e) => this.props.claimTicket(e, key)}/>
-            )
-        }
-    </div>
-    )
+    return <MatchList {... this.props} />
   }
 }
 
