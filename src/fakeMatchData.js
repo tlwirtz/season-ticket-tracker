@@ -16,7 +16,7 @@ const matches = {
     available: true,
     qtyTicketsAvailable: 1,
     ticketPrice:'2000',
-    id:'diuf9ewfjw908e9f8wef',
+    id:'gameOne',
     claimedUserId: null,
   },
   'gameTwo': {
@@ -35,7 +35,7 @@ const matches = {
     available: true,
     qtyTicketsAvailable: 1,
     ticketPrice:'2000',
-    id:'diuf9ewfjw908e9f8wef',
+    id:'gameTwo',
     claimedUserId: null,
   },
   'gameThree': {
@@ -54,7 +54,7 @@ const matches = {
     available: true,
     qtyTicketsAvailable: 1,
     ticketPrice:'2000',
-    id:'diuf9ewfjw908e9f8wef',
+    id:'gameThree',
     claimedUserId: null,
   }
 };
