@@ -6,11 +6,11 @@ class MatchList extends Component {
     return (
       <div>
         {
-          Object.keys(this.props.route.matches).map((key) =>
+          Object.keys(this.props.matches).map((key) =>
             <Match
               key={key}
-              matchData={this.props.route.matches[key]}
-              claimTicket={(e) => this.props.route.claimTicket(e, key)}/>
+              matchData={this.props.matches[key]}
+              claimTicket={(e) => this.props.claimTicket(e, key)}/>
             )
         }
     </div>

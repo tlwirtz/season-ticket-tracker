@@ -14,6 +14,7 @@ class Match extends Component {
             <h1>{homeTeam.name} vs {awayTeam.name}</h1>
           </Link>
           <h2>{location} | {date} | {time} | {matchType} | {ticketPrice}</h2>
+          <button onClick={this.props.claimTicket} />
         </div>
       </div>
     )
