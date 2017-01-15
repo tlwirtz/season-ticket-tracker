@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 import App from './components/App';
 import MatchDetail from './components/MatchDetail'
 import configureStore from './store/configure-store'
+import { fetchMatches } from './actions/matches-actions'
 import './styles/index.css';
 
-const store = configureStore()
+const store = configureStore({})
+store.dispatch(fetchMatches())
 
 const Root = () => {
   return (
