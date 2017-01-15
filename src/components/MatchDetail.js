@@ -5,7 +5,7 @@ class MatchDetail extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { }
+    this.state = { user: {uid: 'fakeUID'}}
     this.ref = base.syncState('matches', {
       context: this,
       state: 'matches'

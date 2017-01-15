@@ -9,8 +9,7 @@ class MatchList extends Component {
           Object.keys(this.props.matches).map((key) =>
             <Match
               key={key}
-              matchData={this.props.matches[key]}
-              claimTicket={(e) => this.props.claimTicket(e, key)}/>
+              matchData={this.props.matches[key]} />
             )
         }
     </div>

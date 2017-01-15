@@ -8,7 +8,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      user: { uid: "randomUID" },
+      user: {},
       matches: {}
     }
 
@@ -16,8 +16,6 @@ class App extends Component {
       context: this,
       state: 'matches'
     })
-
-    this.ticketAvailable = this.ticketAvailable.bind(this)
   }
 
   componentWillUnmount() {

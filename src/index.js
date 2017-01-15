@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory } from 'react-router'
 import App from './components/App';
@@ -7,10 +7,10 @@ import './styles/index.css';
 
 const Root = () => {
   return (
-    <Router history={browserHistory}>
-      <Route path="/" component={App} />
-      <Route path="/matches/:matchId" component={MatchDetail} />
-    </Router>
+      <Router history={browserHistory}>
+        <Route path="/" component={App} />
+        <Route path="/matches/:matchId" component={MatchDetail} />
+      </Router>
   )
 }
 
