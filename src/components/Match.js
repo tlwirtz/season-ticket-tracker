@@ -3,10 +3,6 @@ import '../styles/Match.css';
 
 
 class Match extends Component {
-  constructor(props)  {
-    super(props)
-  }
-
   render() {
     const { homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
     return (
