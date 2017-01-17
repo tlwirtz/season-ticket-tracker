@@ -6,11 +6,11 @@ class MatchList extends Component {
     return (
       <div>
         {
-          Object.keys(this.props.matches).map((key) =>
-            <Match
-              key={key}
-              matchData={this.props.matches[key]} />
-            )
+          // Object.keys(this.props.matches).map((key) =>
+          //   <Match
+          //     key={key}
+          //     matchData={this.props.matches[key]} />
+          //   )
         }
     </div>
     )
