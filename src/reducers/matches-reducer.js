@@ -12,13 +12,14 @@ const updateKey = (state, payload) => {
 
 export default (state = {}, action) => {
   switch(action.type) {
-    case types.ADD_MATCHES, types.ADD_MATCHES_SUCCESS,
-    types.ADD_MATCHES_FAILURE:
+    case types.ADD_MATCHES:
+    case types.ADD_MATCHES_SUCCESS:
+    case types.ADD_MATCHES_FAILURE:
       return updateKey(state, action.payload)
       break;
-    case types.UPDATE_MATCH,
-    types.UPDATE_MATCH_SUCCESS,
-    types.UPDATE_MATCH_FAILURE:
+    case types.UPDATE_MATCH:
+    case types.UPDATE_MATCH_SUCCESS:
+    case types.UPDATE_MATCH_FAILURE:
       return updateKey(state[action.matchId], action.payload)
       break;
     default:
