@@ -6,6 +6,16 @@ export const ADD_MATCHES_FAILURE = 'ADD_MATCHES_FAILURE'
 export const UPDATE_MATCH = 'UPDATE_MATCH'
 export const UPDATE_MATCH_SUCCESS = 'UPDATE_MATCH_SUCCESS'
 export const UPDATE_MATCH_FAILURE = 'UPDATE_MATCH_FAILURE'
+export const MATCH_SELECTED = 'MATCH_SELECTED'
+
+export const selectMatch = (matchId) => {
+  return {
+    type: MATCH_SELECTED,
+    payload: {
+      selectedMatch: matchId
+    }
+  }
+}
 
 export const addMatches = () => {
   return {
@@ -40,19 +50,15 @@ export const updateMatch = (matchId) => {
   return {
     type: UPDATE_MATCH,
     matchId,
-    payload: {
-      isFetching: true
-    }
+    payload: {}
   }
 }
 
-export const updateMatchSuccess = (matchId, key, value) => {
+export const updateMatchSuccess = (matchId, payload) => {
   return {
     type: UPDATE_MATCH_SUCCESS,
     matchId,
-    payload: {
-      [key]: value
-    }
+    payload
   }
 }
 
@@ -75,13 +81,13 @@ export const fetchMatches = () => {
   }
 }
 
-export const updateMatchReq = (matchId, key, payload) => {
+export const updateMatchReq = (matchId, payload) => {
   return (dispatch) => {
-    dispatch(updateMatch(matchId))
+    dispatch(updateMatch())
     return base.update(`matches/${matchId}`, {
-      data: { [key]: payload}
+      data: payload
     })
-    .then(() => dispatch(updateMatchSuccess(matchId, key, payload)))
-    .then((err) => dispatch(updateMatchFailure(err)))
+    .then(() => dispatch(updateMatchSuccess(matchId, payload)))
+    .catch((err) => dispatch(updateMatchFailure(err)))
   }
 }
