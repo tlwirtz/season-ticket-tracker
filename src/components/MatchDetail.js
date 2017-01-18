@@ -14,6 +14,10 @@ class MatchDetail extends Component {
     this.props.selectMatch(this.props.params.matchId)
   }
 
+  componentWillUnmount() {
+    this.props.selectMatch(null)
+  }
+
   ticketAvailable(match) {
     if (match.claimedUser || !match.available) return false
     return true
