@@ -1,35 +1,17 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { updateMatchReq, selectMatch } from '../actions/matches-actions'
 import base from '../base'
 
 class MatchDetail extends Component {
   constructor(props) {
     super(props)
 
-    this.findMatch = this.findMatch.bind(this)
-    this.claimTicket = this.claimTicket.bind(this)
     this.ticketAvailable = this.ticketAvailable.bind(this)
   }
 
-  componentWillUnmount() {
-    base.removeBinding(this.ref)
-  }
-
-  findMatch(matchId) {
-    // console.log(matchId)
-    //   if (this.state.matches) {
-    //     const filteredMatches = Object.keys(this.state.matches).filter(key => key === matchId)
-    //     return this.state.matches[filteredMatches]
-    //   }
-  }
-
-  claimTicket(e, matchId) {
-    // e.preventDefault();
-    // const { matches } = this.state
-    // if (this.ticketAvailable(matches[matchId])) {
-    //   matches[matchId].claimedUserId = this.state.user.uid
-    //   matches[matchId].available = false
-    //   return this.setState({ matches })
-    // }
+  componentWillMount() {
+    this.props.selectMatch(this.props.params.matchId)
   }
 
   ticketAvailable(match) {
@@ -38,14 +20,36 @@ class MatchDetail extends Component {
   }
 
   render() {
-    const match = this.findMatch(this.props.params.matchId)
+    const { match } = this.props
     return (
       <div>
         <h1>{ match ? match.homeTeam.name : '' }</h1>
-        <button onClick={(e) => this.claimTicket(e, this.props.params.matchId)}>Claim Ticket</button>
+        <button onClick={(e) => this.props.claimTicket(this.props.params.matchId)}>Claim Ticket</button>
       </div>
     )
   }
 }
 
-export default MatchDetail
+const mapStateToProps = (state) => {
+  return {
+    match: state.matches.data[state.matches.selectedMatch],
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    claimTicket: (matchId, userId='xxx') => {
+      dispatch(updateMatchReq(matchId, {
+        claimedUserId: userId,
+        available: false
+      }))
+    },
+    selectMatch: (matchId) => {
+      dispatch(selectMatch(matchId))
+    }
+  }
+}
+
+const MatchDetailContainer = connect(mapStateToProps, mapDispatchToProps)(MatchDetail)
+export default MatchDetailContainer

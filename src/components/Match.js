@@ -10,7 +10,7 @@ class Match extends Component {
       <div className="match-container">
         <img src={awayTeam.img} className="match-logo" alt="logo" />
         <div>
-          <Link to={`/matches/${id}`}>
+          <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
             <h1>{homeTeam.name} vs {awayTeam.name}</h1>
           </Link>
           <h2>{location} | {date} | {time} | {matchType} | {ticketPrice}</h2>
