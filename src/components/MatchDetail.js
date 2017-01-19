@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
+import { userLoginReq } from '../actions/user-actions'
 import base from '../base'
 
 class MatchDetail extends Component {
@@ -29,6 +30,7 @@ class MatchDetail extends Component {
       <div>
         <h1>{ match ? match.homeTeam.name : '' }</h1>
         <button onClick={(e) => this.props.claimTicket(this.props.params.matchId)}>Claim Ticket</button>
+        <button onClick={(e) => this.props.authenticate('github')}>Sign In</button>
       </div>
     )
   }
@@ -51,6 +53,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     selectMatch: (matchId) => {
       dispatch(selectMatch(matchId))
+    },
+    authenticate: (provider) => {
+      dispatch(userLoginReq(provider))
     }
   }
 }
