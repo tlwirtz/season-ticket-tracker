@@ -37,15 +37,17 @@ class MatchDetail extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log('the state', state)
   return {
     match: state.matches.data[state.matches.selectedMatch],
-    user: state.user
+    user: state.user.user,
+    credential: state.user.credential
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    claimTicket: (matchId, userId='xxx') => {
+    claimTicket: (matchId, userId) => {
       dispatch(updateMatchReq(matchId, {
         claimedUserId: userId,
         available: false

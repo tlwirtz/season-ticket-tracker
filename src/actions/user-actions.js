@@ -51,7 +51,6 @@ export const userLoginReq = (provider) => {
     dispatch(userLogin())
     const authHandler = (err, authData) => {
       if (err) {
-        console.log(err)
         return dispatch(userLoginFailure(err))
       }
       return dispatch(userLoginSuccess(authData))

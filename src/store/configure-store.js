@@ -7,7 +7,8 @@ import rootReducer from '../reducers'
 const initialState = {
   matches: {
     data: []
-  }
+  },
+  user: {}
 }
 const middleware = applyMiddleware(thunkMiddleware)
 const enhancers = compose(
