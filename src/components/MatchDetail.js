@@ -54,6 +54,7 @@ const mapDispatchToProps = (dispatch) => {
     selectMatch: (matchId) => {
       dispatch(selectMatch(matchId))
     },
+    //TODO -- remove me and move into the log-in page
     authenticate: (provider) => {
       dispatch(userLoginReq(provider))
     }
