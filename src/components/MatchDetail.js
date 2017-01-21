@@ -1,41 +1,22 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { updateMatchReq, selectMatch } from '../actions/matches-actions'
+import { userLoginReq } from '../actions/user-actions'
 import base from '../base'
 
 class MatchDetail extends Component {
   constructor(props) {
     super(props)
 
-    this.state = { user: {uid: 'fakeUID'}}
-    this.ref = base.syncState('matches', {
-      context: this,
-      state: 'matches'
-    })
-
-    this.findMatch = this.findMatch.bind(this)
-    this.claimTicket = this.claimTicket.bind(this)
     this.ticketAvailable = this.ticketAvailable.bind(this)
   }
 
+  componentWillMount() {
+    this.props.selectMatch(this.props.params.matchId)
+  }
+
   componentWillUnmount() {
-    base.removeBinding(this.ref)
-  }
-
-  findMatch(matchId) {
-    console.log(matchId)
-      if (this.state.matches) {
-        const filteredMatches = Object.keys(this.state.matches).filter(key => key === matchId)
-        return this.state.matches[filteredMatches]
-      }
-  }
-
-  claimTicket(e, matchId) {
-    e.preventDefault();
-    const { matches } = this.state
-    if (this.ticketAvailable(matches[matchId])) {
-      matches[matchId].claimedUserId = this.state.user.uid
-      matches[matchId].available = false
-      return this.setState({ matches })
-    }
+    this.props.selectMatch(null)
   }
 
   ticketAvailable(match) {
@@ -44,14 +25,43 @@ class MatchDetail extends Component {
   }
 
   render() {
-    const match = this.findMatch(this.props.params.matchId)
+    const { match } = this.props
     return (
       <div>
         <h1>{ match ? match.homeTeam.name : '' }</h1>
-        <button onClick={(e) => this.claimTicket(e, this.props.params.matchId)}>Claim Ticket</button>
+        <button onClick={(e) => this.props.claimTicket(this.props.params.matchId)}>Claim Ticket</button>
+        <button onClick={(e) => this.props.authenticate('github')}>Sign In</button>
       </div>
     )
   }
 }
 
-export default MatchDetail
+const mapStateToProps = (state) => {
+  console.log('the state', state)
+  return {
+    match: state.matches.data[state.matches.selectedMatch],
+    user: state.user.user,
+    credential: state.user.credential
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    claimTicket: (matchId, userId) => {
+      dispatch(updateMatchReq(matchId, {
+        claimedUserId: userId,
+        available: false
+      }))
+    },
+    selectMatch: (matchId) => {
+      dispatch(selectMatch(matchId))
+    },
+    //TODO -- remove me and move into the log-in page
+    authenticate: (provider) => {
+      dispatch(userLoginReq(provider))
+    }
+  }
+}
+
+const MatchDetailContainer = connect(mapStateToProps, mapDispatchToProps)(MatchDetail)
+export default MatchDetailContainer
