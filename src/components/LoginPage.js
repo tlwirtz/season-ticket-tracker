@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { userLogoutReq, userLoginReq } from '../actions/user-actions'
+import _ from 'lodash'
 import '../styles/LoginPage.css'
 
 class LoginPage extends Component {
@@ -8,6 +9,13 @@ class LoginPage extends Component {
     super(props)
 
     this.handleSignIn = this.handleSignIn.bind(this)
+    this.handleSignOut = this.handleSignOut.bind(this)
+    this.renderLogin = this.renderLogin.bind(this)
+    this.renderLogout = this.renderLogout.bind(this)
+  }
+
+  componetWillMount() {
+    console.log('rendering log-in', this.props)
   }
 
   handleSignIn(e, provider) {
@@ -15,7 +23,21 @@ class LoginPage extends Component {
     return this.props.login(provider)
   }
 
-  render() {
+  handleSignOut(e) {
+    e.preventDefault();
+    return this.props.logout();
+  }
+
+  renderLogout() {
+    return (
+      <div>
+        <h1>You are already logged in</h1>
+        <button onClick={(e) => this.handleSignOut(e)}>Logout</button>
+      </div>
+    )
+  }
+
+  renderLogin() {
     return (
       <div className="login-container">
         <button
@@ -41,11 +63,21 @@ class LoginPage extends Component {
       </div>
     )
   }
+
+  render() {
+    return (
+      <div>
+        {
+          !this.props.user ? this.renderLogin() : this.renderLogout()
+        }
+    </div>
+    )
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: _.isEmpty(state.user) ? null : state.user
   }
 }
 
