@@ -18,10 +18,26 @@ class LoginPage extends Component {
   render() {
     return (
       <div className="login-container">
-        <button className='login-button github' onClick={(e) => this.handleSignIn(e, 'github')} >Github</button>
-        <button className='login-button facebook' onClick={(e) => this.handleSignIn(e, 'facebook')} >Facebook</button>
-        <button className='login-button google' onClick={(e) => this.handleSignIn(e, 'google')} >Google</button>
-        <button className='login-button twitter' onClick={(e) => this.handleSignIn(e, 'twitter')} >Twitter</button>
+        <button
+          className='login-button github'
+          onClick={(e) => this.handleSignIn(e, 'github')} >
+          <h3>Github</h3>
+        </button>
+        <button
+          className='login-button facebook'
+          onClick={(e) => this.handleSignIn(e, 'facebook')} >
+          <h3>Facebook</h3>
+        </button>
+        <button
+          className='login-button google'
+          onClick={(e) => this.handleSignIn(e, 'google')} >
+          <h3>Google</h3>
+        </button>
+        <button
+          className='login-button twitter'
+          onClick={(e) => this.handleSignIn(e, 'twitter')} >
+          <h3>Twitter</h3>
+        </button>
       </div>
     )
   }
