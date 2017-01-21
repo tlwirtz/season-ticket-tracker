@@ -13,7 +13,7 @@ class Match extends Component {
           <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
             <h1>{homeTeam.name} vs {awayTeam.name}</h1>
           </Link>
-          <h2>{location} | {date} | {time} | {matchType} | {ticketPrice}</h2>
+          <p>{location} | {date} | {time} | {matchType} | {ticketPrice}</p>
         </div>
       </div>
     )
