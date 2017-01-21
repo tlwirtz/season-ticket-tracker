@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { userLogoutReq, userLoginReq } from '../actions/user-actions'
+import '../styles/LoginPage.css'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -16,12 +17,11 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div>
-        <button onClick={(e) => this.handleSignIn(e, 'github')} >Login with Github</button>
-        <button onClick={(e) => this.handleSignIn(e, 'facebook')} >Login with Facebook</button>
-        <button onClick={(e) => this.handleSignIn(e, 'google')} >Login with Google</button>
-        <button onClick={(e) => this.handleSignIn(e, 'twitter')} >Login with Twitter</button>
-
+      <div className="login-container">
+        <button className='login-button github' onClick={(e) => this.handleSignIn(e, 'github')} >Github</button>
+        <button className='login-button facebook' onClick={(e) => this.handleSignIn(e, 'facebook')} >Facebook</button>
+        <button className='login-button google' onClick={(e) => this.handleSignIn(e, 'google')} >Google</button>
+        <button className='login-button twitter' onClick={(e) => this.handleSignIn(e, 'twitter')} >Twitter</button>
       </div>
     )
   }

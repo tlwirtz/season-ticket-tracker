@@ -1,0 +1,43 @@
+.login-button {
+  color: white;
+  border-radius: 3px;
+  border: 0;
+  display: block;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  width: 50%;
+}
+
+.github {
+  background: #82D465;
+}
+
+.github:hover {
+  background: #50b02e;
+}
+
+.facebook {
+  background: #3864A3;
+}
+
+.facebook:hover {
+  background: #164fa1
+}
+
+.twitter {
+  background: #5EA9DD
+}
+
+.twitter:hover {
+  background: #0c75bd
+}
+
+.google {
+
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
