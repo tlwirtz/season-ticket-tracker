@@ -10,8 +10,6 @@ import { fetchMatches } from './actions/matches-actions'
 import { checkIfLoggedIn } from './actions/user-actions'
 import './styles/index.css';
 
-
-
 store.dispatch(fetchMatches())
 store.dispatch(checkIfLoggedIn())
 
