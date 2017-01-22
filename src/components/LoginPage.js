@@ -14,15 +14,6 @@ class LoginPage extends Component {
     this.renderLogout = this.renderLogout.bind(this)
   }
 
-  componentWillMount() {
-    console.log('rendering log-in', this.props)
-    const auth = localStorage.getItem('user')
-    if (auth) {
-      this.props.submitLocalStorageAuth(auth)
-    }
-    console.log('this is the user', auth)
-  }
-
   handleSignIn(e, provider) {
     e.preventDefault();
     return this.props.login(provider)
@@ -72,9 +63,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
-        {
-          !this.props.user ? this.renderLogin() : this.renderLogout()
-        }
+        { this.props.user ? this.renderLogout() : this.renderLogin() }
     </div>
     )
   }
@@ -93,9 +82,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     logout: () => {
       dispatch(userLogoutReq())
-    },
-    submitLocalStorageAuth: (authData) => {
-      dispatch(userLoginLocalStorage(authData))
     }
   }
 }
