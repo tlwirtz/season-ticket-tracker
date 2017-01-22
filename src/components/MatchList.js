@@ -4,7 +4,7 @@ import Match from './Match'
 class MatchList extends Component {
   render() {
     return (
-      <div>
+      <div className='match-container'>
         {
           Object.keys(this.props.matches).map((key) =>
             <Match

@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router'
 import '../styles/Match.css';
+import img from '../imgs/Seattle_Sounders_FC.jpg'
 
 
 class Match extends Component {
   render() {
     const { id, homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
     return (
-      <div className="match-container">
-        <img src={awayTeam.img} className="match-logo" alt="logo" />
-        <div>
-          <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
+      <div className="match" style={{backgroundImage: `url(${img})`}}>
+        <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
+        <div className="desc" >
             <h1>{homeTeam.name} vs {awayTeam.name}</h1>
-          </Link>
           <p>{location} | {date} | {time} | {matchType} | {ticketPrice}</p>
         </div>
+      </Link>
       </div>
     )
   }
