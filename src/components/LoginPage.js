@@ -47,11 +47,6 @@ class LoginPage extends Component {
           <h3>Facebook</h3>
         </button>
         <button
-          className='login-button google'
-          onClick={(e) => this.handleSignIn(e, 'google')} >
-          <h3>Google</h3>
-        </button>
-        <button
           className='login-button twitter'
           onClick={(e) => this.handleSignIn(e, 'twitter')} >
           <h3>Twitter</h3>
