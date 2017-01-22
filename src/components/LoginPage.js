@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { userLogoutReq, userLoginReq } from '../actions/user-actions'
+import { userLogoutReq, userLoginReq, userLoginLocalStorage } from '../actions/user-actions'
 import _ from 'lodash'
 import '../styles/LoginPage.css'
 
@@ -14,8 +14,13 @@ class LoginPage extends Component {
     this.renderLogout = this.renderLogout.bind(this)
   }
 
-  componetWillMount() {
+  componentWillMount() {
     console.log('rendering log-in', this.props)
+    const auth = localStorage.getItem('user')
+    if (auth) {
+      this.props.submitLocalStorageAuth(auth)
+    }
+    console.log('this is the user', auth)
   }
 
   handleSignIn(e, provider) {
@@ -88,6 +93,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     logout: () => {
       dispatch(userLogoutReq())
+    },
+    submitLocalStorageAuth: (authData) => {
+      dispatch(userLoginLocalStorage(authData))
     }
   }
 }

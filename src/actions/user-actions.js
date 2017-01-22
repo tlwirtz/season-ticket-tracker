@@ -45,6 +45,15 @@ export const userLogoutSuccess = () => {
   }
 }
 
+export const userLogoutReq = () => {
+  return (dispatch, getState) => {
+    dispatch(userLogout())
+    localStorage.setItem('user', null)
+    base.unauth()
+    dispatch(userLogoutSuccess())
+  }
+}
+
 
 export const userLoginReq = (provider) => {
   return (dispatch) => {
@@ -53,6 +62,8 @@ export const userLoginReq = (provider) => {
       if (err) {
         return dispatch(userLoginFailure(err))
       }
+
+      localStorage.setItem('user', JSON.stringify(authData))
       return dispatch(userLoginSuccess(authData))
     }
 
@@ -60,10 +71,17 @@ export const userLoginReq = (provider) => {
   }
 }
 
-export const userLogoutReq = () => {
-  return (dispatch, getState) => {
-    dispatch(userLogout())
-    base.unauth()
-    dispatch(userLogoutSuccess())
+export const userLoginLocalStorage = (authData) => {
+  return (dispatch) => {
+    dispatch(userLogin())
+    const authHandler = (user) => {
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user))
+        return dispatch(userLoginSuccess(user))
+      }
+
+      return dispatch(userLogoutReq())
+    }
+    return base.onAuth(authHandler)
   }
 }
