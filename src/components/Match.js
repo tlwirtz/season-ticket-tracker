@@ -11,8 +11,13 @@ class Match extends Component {
       <div className="match" style={{backgroundImage: `url(${img})`}}>
         <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
         <div className="desc" >
-            <h1>{homeTeam.name} vs {awayTeam.name}</h1>
-          <p>{location} | {date} | {time} | {matchType} | {ticketPrice}</p>
+          <h3>{awayTeam.name}</h3>
+          <p>
+            {date.toUpperCase()} - {time}
+          </p>
+           <p>
+            $20.00
+          </p>
         </div>
       </Link>
       </div>
