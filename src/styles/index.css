@@ -1,5 +1,31 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  background: fafafa;
+}
+
+p {
+  color: #727376;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #3a343a;
+  font-family: 'Work Sans', sans-serif;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.title {
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 105%;
+  font-size: 38px;
 }

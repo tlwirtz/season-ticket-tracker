@@ -15,7 +15,7 @@ const updateMatch = (state, matchId, payload) => {
     data[matchId][key] = payload[key]
   })
 
-  return Object.assign(state, { data })
+  return Object.assign({}, state, { data })
 }
 
 export default (state = {}, action) => {

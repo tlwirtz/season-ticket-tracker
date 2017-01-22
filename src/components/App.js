@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectMatch } from '../actions/matches-actions'
 import Home from './Home'
-import base from '../base'
 import '../styles/App.css'
 
 //TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
