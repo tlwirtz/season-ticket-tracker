@@ -54,7 +54,6 @@ export const userLogoutReq = () => {
   }
 }
 
-
 export const userLoginReq = (provider) => {
   return (dispatch) => {
     dispatch(userLogin())
@@ -83,5 +82,14 @@ export const userLoginLocalStorage = (authData) => {
       return dispatch(userLogoutReq())
     }
     return base.onAuth(authHandler)
+  }
+}
+
+export const checkIfLoggedIn = () => {
+  return (dispatch) => {
+    const auth = localStorage.getItem('user')
+    if (auth) {
+      dispatch(userLoginLocalStorage(auth))
+    }
   }
 }
