@@ -1,6 +1,5 @@
 .match-container {
   display: flex;
-  justify-content: flex-start;
 }
 
 .match-logo {
@@ -8,7 +7,7 @@
 }
 
 .match {
-  width: 25%;
+  flex: auto;
   padding-left: 10px;
   padding-right: 10px;
   height: 400px;
@@ -35,4 +34,34 @@
 
 a {
   text-decoration: none;
+}
+
+/* Really small phones */
+@media screen and (max-width:320px) {
+  .match-container {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .match {
+    width: 100%;
+  }
+}
+
+/* Regular smart phones, including iPhone 6 + with 414px viewport! */
+@media screen and (min-width: 321px) {
+
+}
+
+/* Regular Tablets from 480 to 800px including Galaxy tablets - 768px is only good for iPad */
+@media screen and (min-width: 481px) {
+
+}
+
+@media screen and (min-width: 660px) {
+
+}
+
+@media screen and (min-width: 810px) {
+
 }
