@@ -40,6 +40,24 @@ a {
   text-decoration: none;
 }
 
+.match-animation-enter {
+  opacity: 0.01;
+}
+
+.match-animation-enter.match-animation-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.match-animation-leave {
+  opacity: 1;
+}
+
+.match-animation-leave.match-animation-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
 /* Really small phones */
 @media screen and (max-width:320px) {
   .match-container {
