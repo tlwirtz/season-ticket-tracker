@@ -40,13 +40,22 @@ a {
   text-decoration: none;
 }
 
+.match-animation-appear {
+  opacity: 0.0;
+}
+
+.match-animation-appear.match-animation-appear-active {
+  opacity: 1;
+  transition: opacity 600ms ease-in;
+}
+
 .match-animation-enter {
   opacity: 0.01;
 }
 
 .match-animation-enter.match-animation-enter-active {
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  transition: opacity 600ms ease-in;
 }
 
 .match-animation-leave {

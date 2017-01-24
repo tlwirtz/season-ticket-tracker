@@ -8,14 +8,8 @@ class Match extends Component {
   render() {
     const { id, homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
     return (
-      <ReactCSSTransitionGroup
-        transitionName="match-animiation"
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={300}
-        className="match"
-        style={{backgroundImage: `url(${awayTeam.img})`}}
-        >
-        <div >
+
+        <div>
           <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
           <div className="desc" >
             <h3>{awayTeam.name}</h3>
@@ -28,7 +22,6 @@ class Match extends Component {
           </div>
         </Link>
         </div>
-      </ReactCSSTransitionGroup >
     )
   }
 }
