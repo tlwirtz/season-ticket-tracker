@@ -1,8 +1,131 @@
 .match-container {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-start;;
+  flex-wrap: wrap;
 }
 
 .match-logo {
   height: 100px;
+}
+
+.match {
+  min-width: 20%;
+  max-width: 50%;
+  flex: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 400px;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  background-size: cover;
+  background-position: top center;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.18);
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.desc {
+  background: white;
+  padding: 10px 20px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.match-animation-appear {
+  opacity: 0.0;
+}
+
+.match-animation-appear.match-animation-appear-active {
+  opacity: 1;
+  transition: opacity 600ms ease-in;
+}
+
+.match-animation-enter {
+  opacity: 0.01;
+}
+
+.match-animation-enter.match-animation-enter-active {
+  opacity: 1;
+  transition: opacity 600ms ease-in;
+}
+
+.match-animation-leave {
+  opacity: 1;
+}
+
+.match-animation-leave.match-animation-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+/* Really small phones */
+@media screen and (max-width:320px) {
+  .match-container {
+    justify-content: center;
+  }
+
+  .match {
+    min-width: 80%;
+    max-width: 80%;
+    height: 300px;
+  }
+}
+
+/* Regular smart phones, including iPhone 6 + with 414px viewport! */
+@media screen and (min-width: 321px) {
+  .match-container {
+    justify-content: center;
+  }
+
+  .match {
+    min-width: 80%;
+    max-width: 80%;
+    height: 300px;
+  }
+}
+
+/* Regular Tablets from 480 to 800px including Galaxy tablets - 768px is only good for iPad */
+@media screen and (min-width: 481px) {
+  .match-container {
+    justify-content: center;
+  }
+
+  .match {
+    min-width: 80%;
+    max-width: 80%;
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 660px) {
+  .match-container {
+    justify-content: flex-start;
+  }
+
+  .match {
+    min-width: 33%;
+    max-width: 50%;
+    height: 400px;
+  }
+}
+
+@media screen and (min-width: 810px) {
+  .match-container {
+    justify-content: flex-start;
+  }
+
+  .match {
+    min-width: 25%;
+    max-width: 50%;
+    height: 400px;
+  }
 }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { Link } from 'react-router'
 import '../styles/Match.css';
 
@@ -7,15 +8,20 @@ class Match extends Component {
   render() {
     const { id, homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
     return (
-      <div className="match-container">
-        <img src={awayTeam.img} className="match-logo" alt="logo" />
+
         <div>
           <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
-            <h1>{homeTeam.name} vs {awayTeam.name}</h1>
-          </Link>
-          <p>{location} | {date} | {time} | {matchType} | {ticketPrice}</p>
+          <div className="desc" >
+            <h3>{awayTeam.name}</h3>
+            <p>
+              {date.toUpperCase()} - {time}
+            </p>
+             <p>
+              $20.00
+            </p>
+          </div>
+        </Link>
         </div>
-      </div>
     )
   }
 }

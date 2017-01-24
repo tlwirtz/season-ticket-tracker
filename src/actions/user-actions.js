@@ -6,7 +6,6 @@ export const USER_LOGIN_REQUEST_FAILURE = 'USER_LOGIN_REQUEST_FAILURE'
 export const USER_LOGOUT_REQUEST = 'USER_LOGOUT_REQUEST'
 export const USER_LOGOUT_REQUEST_SUCCESS = 'USER_LOGOUT_REQUEST_SUCCESS'
 
-
 export const userLogin = () => {
   return {
     type: USER_LOGIN_REQUEST
