@@ -1,5 +1,7 @@
 .match-container {
   display: flex;
+  justify-content: flex-start;;
+  flex-wrap: wrap;
 }
 
 .match-logo {
@@ -7,6 +9,8 @@
 }
 
 .match {
+  min-width: 20%;
+  max-width: 50%;
   flex: auto;
   padding-left: 10px;
   padding-right: 10px;
@@ -39,29 +43,62 @@ a {
 /* Really small phones */
 @media screen and (max-width:320px) {
   .match-container {
-    flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
   }
 
   .match {
-    width: 100%;
+    min-width: 80%;
+    max-width: 80%;
+    height: 300px;
   }
 }
 
 /* Regular smart phones, including iPhone 6 + with 414px viewport! */
 @media screen and (min-width: 321px) {
+  .match-container {
+    justify-content: center;
+  }
 
+  .match {
+    min-width: 80%;
+    max-width: 80%;
+    height: 300px;
+  }
 }
 
 /* Regular Tablets from 480 to 800px including Galaxy tablets - 768px is only good for iPad */
 @media screen and (min-width: 481px) {
+  .match-container {
+    justify-content: center;
+  }
 
+  .match {
+    min-width: 80%;
+    max-width: 80%;
+    height: 300px;
+  }
 }
 
 @media screen and (min-width: 660px) {
+  .match-container {
+    justify-content: flex-start;
+  }
 
+  .match {
+    min-width: 33%;
+    max-width: 50%;
+    height: 400px;
+  }
 }
 
 @media screen and (min-width: 810px) {
+  .match-container {
+    justify-content: flex-start;
+  }
 
+  .match {
+    min-width: 25%;
+    max-width: 50%;
+    height: 400px;
+  }
 }
