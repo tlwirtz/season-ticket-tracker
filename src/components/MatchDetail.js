@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
 import { userLoginReq } from '../actions/user-actions'
-import base from '../base'
 
 class MatchDetail extends Component {
   constructor(props) {

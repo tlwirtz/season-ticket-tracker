@@ -6,10 +6,6 @@ import '../styles/App.css'
 
 //TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
 class App extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
       <Home
