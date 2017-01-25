@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
 import { userLoginReq } from '../actions/user-actions'
+import NavBar from './NavBar'
 
 class MatchDetail extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class MatchDetail extends Component {
     const { match } = this.props
     return (
       <div>
+        <NavBar />
         <h1>{ match ? match.homeTeam.name : '' }</h1>
         <button onClick={(e) => this.props.claimTicket(this.props.params.matchId)}>Claim Ticket</button>
         <button onClick={(e) => this.props.authenticate('github')}>Sign In</button>
