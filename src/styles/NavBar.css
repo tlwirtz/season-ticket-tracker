@@ -1,0 +1,30 @@
+.nav-bar-container {
+  padding: 3em;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-bar-item {
+  flex: auto;
+}
+
+.nav-bar-heading {
+  flex-grow: 3;
+}
+
+.nav-bar-title {
+  padding: 4px;
+  margin-bottom: 0;
+  line-height: 105%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 38px;
+  letter-spacing: -2.5px;
+}
+
+.nav-bar-subheading {
+  font-family: 'Work-Sans', sans-serif;
+  font-weight: 400;
+  padding: 4px;
+}
