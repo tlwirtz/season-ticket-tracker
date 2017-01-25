@@ -23,7 +23,12 @@ class NavBar extends Component {
             <button className="action-button" onClick={(e) => {this.props.logout(e)}} > Logout</button>
           </div>
         </div>
-          : <Link to="/login"  className="nav-bar-item" > Login </ Link>
+          :
+          <div className="nav-bar-group">
+            <Link to="/login"  className="nav-bar-item" >
+            <button className="action-button">Login</button>
+          </ Link>
+          </div>
         }
       </div>
     )
