@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { userLogoutReq, userLoginReq, userLoginLocalStorage } from '../actions/user-actions'
+import { userLogoutReq, userLoginReq } from '../actions/user-actions'
 import _ from 'lodash'
 import '../styles/LoginPage.css'
 

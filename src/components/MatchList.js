@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import Match from './Match'
 
 class MatchList extends Component {
@@ -7,21 +6,11 @@ class MatchList extends Component {
     const items = Object.keys(this.props.matches).map((key) => {
       const bg = this.props.matches[key].awayTeam.img
       return (
-        <ReactCSSTransitionGroup
-        transitionName="match-animation"
-        transitionAppear={true}
-        transitionAppearTimeout={600}
-        transitionEnterTimeout={600}
-        transitionLeaveTimeout={300}
-        key={key}
-        className='match'
-        style={{backgroundImage: `url(${bg})`}}
-        >
-        <Match
-          key={key}
-          matchData={this.props.matches[key]}
-          {...this.props}/>
-      </ReactCSSTransitionGroup>
+        <div key={key} className='match' style={{backgroundImage: `url(${bg})`}} >
+          <Match
+            matchData={this.props.matches[key]}
+            {...this.props}/>
+        </div>
       )
     }
   )

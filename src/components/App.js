@@ -2,21 +2,21 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectMatch } from '../actions/matches-actions'
 import Home from './Home'
+import NavBar from './NavBar'
 import '../styles/App.css'
 
 //TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
 class App extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
-      <Home
-        matches={this.props.matches}
-        user={this.props.user}
-        onMatchClick={this.props.matchClick}
-      />
+      <div>
+        <NavBar />
+        <Home
+          matches={this.props.matches}
+          user={this.props.user}
+          onMatchClick={this.props.matchClick}
+        />
+    </div>
     )
   }
 }

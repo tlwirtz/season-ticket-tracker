@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { Link } from 'react-router'
 import '../styles/Match.css';
-
 
 class Match extends Component {
   render() {
