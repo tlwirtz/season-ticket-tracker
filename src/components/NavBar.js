@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
+import { userLogoutReq } from '../actions/user-actions'
 import '../styles/NavBar.css'
 import '../styles/Colors.css'
 
@@ -14,8 +15,15 @@ class NavBar extends Component {
         </div>
 
         { this.props.user.user ?
-          <h3 className="nav-bar-item" >[[Display Name Here]]</h3> :
-          <Link to="/login"  className="nav-bar-item" > Login </ Link>
+        <div className="nav-bar-group">
+          <div className="nav-bar-item">
+            <img className="nav-bar-user-logo" src={this.props.user.user.photoURL} />
+          </div>
+          <div className="nav-bar-item">
+            <button className="action-button" onClick={(e) => {this.props.logout(e)}} > Logout</button>
+          </div>
+        </div>
+          : <Link to="/login"  className="nav-bar-item" > Login </ Link>
         }
       </div>
     )
@@ -28,6 +36,18 @@ const mapStateToProps = (state) => {
   }
 }
 
-const NavBarContainer = connect(mapStateToProps)(NavBar)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: (e) => {
+      e.preventDefault();
+      return dispatch(userLogoutReq())
+    }
+  }
+}
+
+const NavBarContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NavBar)
 
 export default NavBarContainer
