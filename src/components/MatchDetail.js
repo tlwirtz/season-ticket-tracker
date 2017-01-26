@@ -3,12 +3,14 @@ import { connect } from 'react-redux'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
 import { userLoginReq } from '../actions/user-actions'
 import NavBar from './NavBar'
+import '../styles/MatchDetail.css'
 
 class MatchDetail extends Component {
   constructor(props) {
     super(props)
 
     this.ticketAvailable = this.ticketAvailable.bind(this)
+    this.renderMatchDetails = this.renderMatchDetails.bind(this)
   }
 
   componentWillMount() {
@@ -24,14 +26,40 @@ class MatchDetail extends Component {
     return true
   }
 
+  renderMatchDetails(match) {
+    return (
+      <div className='match-detail-item'>
+        <h1 className='match-detail-title'>{ match.homeTeam.name } vs. { match.awayTeam.name }</h1>
+        <h3 className='center-text match-detail-subtitle medium-grey-text'> There is {match.qtyTicketsAvailable} ticket available for this match.</h3>
+        <div className="center-button">
+          <button className="action-button claim-ticket-button" onClick={(e) => this.props.claimTicket(this.props.params.matchId)}>Claim Ticket</button>
+        </div>
+
+        <div className='match-detail-group'>
+          <div className='match-detail-item half-width'>
+            <h4 className='match-detail-text medium-grey-text'>{ match.date } - { match.time }</h4>
+            <h4 className='match-detail-text medium-grey-text'>{ match.location }</h4>
+            <h4 className='match-detail-text medium-grey-text'>${ ( match.ticketPrice / 100 ).toFixed(2)} each</h4>
+          </div>
+
+          {/* TODO -- need to create CSS that sets flex-direction: row-reverse on small screens  */}
+
+          <div className='match-detail-item half-width'>
+            <img className='away-team-img' src={match.awayTeam.img} alt={match.awayTeam.name}/>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     const { match } = this.props
     return (
       <div>
         <NavBar />
-        <h1>{ match ? match.homeTeam.name : '' }</h1>
-        <button onClick={(e) => this.props.claimTicket(this.props.params.matchId)}>Claim Ticket</button>
-        <button onClick={(e) => this.props.authenticate('github')}>Sign In</button>
+        <div className='match-detail-container'>
+          { match ? this.renderMatchDetails(match) : '' }
+        </div>
       </div>
     )
   }
@@ -56,10 +84,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     selectMatch: (matchId) => {
       dispatch(selectMatch(matchId))
-    },
-    //TODO -- remove me and move into the log-in page
-    authenticate: (provider) => {
-      dispatch(userLoginReq(provider))
     }
   }
 }

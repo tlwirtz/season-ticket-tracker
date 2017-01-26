@@ -1,0 +1,57 @@
+.match-detail-container {
+  display: flex;
+  width: 100%;
+  padding: 3em;
+  padding-top: 0;
+}
+
+.match-detail-item {
+  flex: auto;
+}
+
+.half-width {
+  max-width: 50%;
+}
+
+.match-detail-group {
+  display: flex;
+  width: 100%;
+  padding-top: 3em;
+  justify-content: space-around;
+}
+
+.match-detail-title {
+  padding: 4px;
+  margin: 0;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -1.5px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.match-detail-subtitle {
+  padding: 4px;
+  font-family: 'Work-Sans', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.center-button {
+  text-align: center;
+}
+
+.match-detail-text {
+  margin: 0;
+  padding: 4px;
+  font-size: 24px;
+  line-height: 150%;
+}
+
+.away-team-img {
+  max-width: 80%;
+}
