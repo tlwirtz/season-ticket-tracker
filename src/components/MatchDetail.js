@@ -56,7 +56,7 @@ class MatchDetail extends Component {
         :
           <div className="center-button">
             <h3 className="center-text match-detail-subtitle medium-grey-text">
-              Sorry, there are no more tickets available.
+              Sorry, there are no tickets available for this match.
             </h3>
           </div>
         }
