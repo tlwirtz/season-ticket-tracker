@@ -11,6 +11,7 @@ class MatchDetail extends Component {
 
     this.ticketAvailable = this.ticketAvailable.bind(this)
     this.renderMatchDetails = this.renderMatchDetails.bind(this)
+    this.handleClaimTicket = this.handleClaimTicket.bind(this)
   }
 
   componentWillMount() {
@@ -22,18 +23,44 @@ class MatchDetail extends Component {
   }
 
   ticketAvailable(match) {
-    if (match.claimedUser || !match.available) return false
-    return true
+    //TODO -- this should also check qty available when that gets set up
+    return !match.claimedUserId || match.available
+  }
+
+  handleClaimTicket(e) {
+    e.preventDefault();
+
+    const { user, params} = this.props
+    if (user.uid) {
+      return this.props.claimTicket(params.matchId, user.uid)
+    }
+
+    return false;
   }
 
   renderMatchDetails(match) {
     return (
       <div className='match-detail-item'>
         <h1 className='match-detail-title'>{ match.homeTeam.name } vs. { match.awayTeam.name }</h1>
-        <h3 className='center-text match-detail-subtitle medium-grey-text'> There is {match.qtyTicketsAvailable} ticket available for this match.</h3>
-        <div className="center-button">
-          <button className="action-button claim-ticket-button" onClick={(e) => this.props.claimTicket(this.props.params.matchId)}>Claim Ticket</button>
-        </div>
+        { this.ticketAvailable(match) ?
+          <div className='center'>
+            <h3 className='match-detail-subtitle medium-grey-text'>
+              There is {match.qtyTicketsAvailable} ticket available for this match.
+            </h3>
+            <button
+              className="action-button claim-ticket-button"
+              onClick={(e) => this.handleClaimTicket(e)}>
+                Claim Ticket
+            </button>
+          </div>
+        :
+          <div className="center-button">
+            <h3 className="center-text match-detail-subtitle medium-grey-text">
+              Sorry, there are no more tickets available.
+            </h3>
+          </div>
+        }
+
 
         <div className='match-detail-group'>
           <div className='match-detail-item half-width'>
