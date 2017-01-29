@@ -10,7 +10,9 @@ class NavBar extends Component {
     return (
       <div className="nav-bar-container">
         <div className="nav-bar-item nav-bar-heading">
-          <h1 className="nav-bar-title">Match Finder</h1>
+          <Link to="/">
+            <h1 className="nav-bar-title">Match Finder</h1>
+          </Link>
           <h3 className="nav-bar-subheading soft-grey-text">Seattle Sounders 2017 Season</h3>
         </div>
 
