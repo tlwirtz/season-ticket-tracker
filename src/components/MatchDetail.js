@@ -12,6 +12,8 @@ class MatchDetail extends Component {
     this.ticketAvailable = this.ticketAvailable.bind(this)
     this.renderMatchDetails = this.renderMatchDetails.bind(this)
     this.handleClaimTicket = this.handleClaimTicket.bind(this)
+    this.matchBelongToUser = this.matchBelongToUser.bind(this)
+    this.renderMatchAvailable = this.renderMatchAvailable.bind(this)
   }
 
   componentWillMount() {
@@ -38,6 +40,27 @@ class MatchDetail extends Component {
     return false;
   }
 
+  matchBelongToUser(userId, match) {
+    return match.claimedUserId === userId
+  }
+
+  renderMatchAvailable(userId, match) {
+    console.log('hello',  userId, match)
+    if (this.matchBelongToUser(userId, match)) {
+      return (
+        <h3 className='center-text match-detail-subtitle medium-grey-text'>
+          You're going to this match!!
+        </h3>
+      )
+    }
+
+    return (
+      <h3 className="center-text match-detail-subtitle medium-grey-text">
+        Sorry, there are no tickets available for this match.
+      </h3>
+    )
+  }
+
   renderMatchDetails(match) {
     return (
       <div className='match-detail-item'>
@@ -55,9 +78,7 @@ class MatchDetail extends Component {
           </div>
         :
           <div className="center-button">
-            <h3 className="center-text match-detail-subtitle medium-grey-text">
-              Sorry, there are no tickets available for this match.
-            </h3>
+            { this.renderMatchAvailable(this.props.user.uid, match)}
           </div>
         }
 
