@@ -12,7 +12,7 @@ const updateKey = (state, payload) => {
 const updateMatch = (state, matchId, payload) => {
   const { data } = state
   Object.keys(payload).forEach(key => {
-    data[matchId][key] = payload[key]
+    data[matchId] = Object.assign({}, data[matchId], payload)
   })
 
   return Object.assign({}, state, { data })
