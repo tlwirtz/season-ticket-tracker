@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
 import { userLoginReq } from '../actions/user-actions'
 import NavBar from './NavBar'
+import Alert from './Alert'
 import '../styles/MatchDetail.css'
 
 class MatchDetail extends Component {
@@ -45,7 +46,6 @@ class MatchDetail extends Component {
   }
 
   renderMatchAvailable(userId, match) {
-    console.log('hello',  userId, match)
     if (this.matchBelongToUser(userId, match)) {
       return (
         <h3 className='center-text match-detail-subtitle medium-grey-text'>
@@ -105,6 +105,7 @@ class MatchDetail extends Component {
     return (
       <div>
         <NavBar />
+        { this.props.alert ? <Alert /> : null}
         <div className='match-detail-container'>
           { match ? this.renderMatchDetails(match) : '' }
         </div>
@@ -118,7 +119,8 @@ const mapStateToProps = (state) => {
   return {
     match: state.matches.data[state.matches.selectedMatch],
     user: state.user.user,
-    credential: state.user.credential
+    credential: state.user.credential,
+    alert: state.alert.visible
   }
 }
 

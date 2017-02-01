@@ -1,4 +1,5 @@
 import base from '../base'
+import  { updateAlert, SHOW_ALERT } from './alert-actions'
 
 export const ADD_MATCHES = 'ADD_MATCHES'
 export const ADD_MATCHES_SUCCESS = 'ADD_MATCHES_SUCCESS'
@@ -87,7 +88,31 @@ export const updateMatchReq = (matchId, payload) => {
     return base.update(`matches/${matchId}`, {
       data: payload
     })
-    .then(() => dispatch(updateMatchSuccess(matchId, payload)))
-    .catch((err) => dispatch(updateMatchFailure(err)))
+    .then(() => {
+      dispatch(updateAlert(
+        {
+          payload:
+          {
+            msg: 'Nice Job! You\'re going to this match',
+            visible: true,
+            status: 'success'
+          }
+        }
+      ))
+      dispatch(updateMatchSuccess(matchId, payload))
+    })
+    .catch((err) => {
+      dispatch(updateAlert(
+        {
+          payload:
+          {
+            msg: 'Oh no! Something went wrong. Please try again.',
+            visible: true,
+            status: 'error'
+          }
+        }
+      ))
+      dispatch(updateMatchFailure(err))
+    })
   }
 }
