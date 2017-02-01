@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { selectMatch } from '../actions/matches-actions'
 import Home from './Home'
 import NavBar from './NavBar'
+import Alert from './Alert'
 import '../styles/App.css'
 
 //TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
@@ -11,6 +12,7 @@ class App extends Component {
     return (
       <div>
         <NavBar />
+        { this.props.alert ? <Alert /> : null }
         <Home
           matches={this.props.matches}
           user={this.props.user}
@@ -24,7 +26,8 @@ class App extends Component {
 const mapStateToProps = (state) => {
   return {
     matches: state.matches.data,
-    user: state.user
+    user: state.user,
+    alert: state.alert.visible
   }
 }
 

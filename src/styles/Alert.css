@@ -1,0 +1,57 @@
+.alert-container {
+  width: 100%;
+  margin: 1rem;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+}
+
+.alert-item {
+  width: 50%;
+  padding: 0.33rem;
+  margin: 1rem;
+  margin-top: 0;
+  padding-top: 0;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.alert-item:hover {
+  cursor: pointer;
+}
+
+.normal {
+  background-color: rgba(153, 76, 241, 0.4);
+  border: thin solid rgba(153, 76, 241, 1);
+}
+
+.normal > p {
+  color: white;
+}
+
+.error {
+  background-color: rgba(207, 22, 88, 0.4);
+  border: thin solid rgba(207, 22, 88, 1)
+}
+
+.error > p {
+  color: white;
+}
+
+.success {
+  background-color: rgba(41, 210, 73, 0.4);
+  border: thin solid rgba(41, 210, 73, 1)
+}
+
+.success > p {
+  color: white;
+}
+
+.warning {
+  background-color: rgba(233, 127, 1, 0.4);
+  border: thin solid rgba(233, 127, 1, 1)
+}
+
+.warning > p {
+  color: white;
+}
