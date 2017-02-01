@@ -10,6 +10,8 @@
   width: 50%;
   padding: 0.33rem;
   margin: 1rem;
+  margin-top: 0;
+  padding-top: 0;
   border-radius: 3px;
   text-align: center;
 }
