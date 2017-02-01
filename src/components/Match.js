@@ -15,7 +15,7 @@ class Match extends Component {
               {date.toUpperCase()} - {time}
             </p>
              <p>
-              $20.00
+              ${(ticketPrice / 100).toFixed(2)}
             </p>
           </div>
         </Link>
