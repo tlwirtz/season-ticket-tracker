@@ -36,6 +36,36 @@
   right: 0;
 }
 
+.match-condensed {
+  padding: 0.5em;
+  border: thin solid #727376;
+  border-bottom: none;
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  padding-left: 0px;
+}
+
+.match-condensed-heading {
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 105%;
+  font-size: 24px;
+}
+
+.match-condensed-subheading {
+  line-height: 95%;
+  font-size: 22spx;
+}
+
+li:last-child {
+  border-bottom: thin solid #727376;
+}
+
 a {
   text-decoration: none;
 }
