@@ -154,8 +154,8 @@ a {
   }
 
   .match {
-    min-width: 25%;
-    max-width: 50%;
+    min-width: 20%;
+    max-width: 30%;
     height: 400px;
   }
 }

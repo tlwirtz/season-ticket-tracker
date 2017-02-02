@@ -15,6 +15,11 @@ class UserProfile extends Component {
         <div className="match-detail-container">
           <div className="match-detail-item">
             <h2>Your Matches</h2>
+            <p>Give the list a little bit of depth and great a small drop shadow. </p>
+            <p>Think about rounding the corners just a bit.</p>
+            <p>Maybe update the page background color...</p>
+            <p>Shrink the list and center on page</p>
+            <p>Less, but Better.</p>
             <ul>
               {
                 this.props.userMatches.map(match =>

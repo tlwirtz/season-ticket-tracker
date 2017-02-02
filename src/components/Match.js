@@ -35,8 +35,7 @@ class Match extends Component {
 
     return (
       <div className="match-condensed ">
-        <h3 className="match-condensed-heading">{awayTeam.name} vs.</h3>
-        <h3 className="match-condensed-subheading soft-grey-text">{homeTeam.name}</h3>
+        <h3 className="match-condensed-heading">{awayTeam.name}</h3>
         <h3 className="match-condensed-subheading soft-grey-text">CENTER BLOCK VERTICALLY IN BOX</h3>
       </div>
     )
