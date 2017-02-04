@@ -65,7 +65,7 @@ const computeUserMatches = (user, matches) => {
 
 const mapStateToProps = (state) => {
   const { matches } = state
-  const user = _.isEmpty(state.user) ? null : state.user
+  const user = _.isEmpty(state.user) ? null : state.user.user
 
   return {
     userMatches: user ? computeUserMatches(user, matches) : null,
