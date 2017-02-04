@@ -23,7 +23,7 @@ class NavBar extends Component {
           </div>
           <div className="nav-bar-item">
             <Link to="/profile">
-              <a className="nav-link" href="#">My Matches</a>
+              <div className="nav-link">My Matches</div>
             </Link>
           </div>
           <div className="nav-bar-item">
