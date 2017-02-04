@@ -34,10 +34,13 @@ class Match extends Component {
     const { id, homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
 
     return (
-      <div className="match-condensed ">
-        <h3 className="match-condensed-heading">{awayTeam.name}</h3>
-        <h3 className="match-condensed-subheading soft-grey-text">CENTER BLOCK VERTICALLY IN BOX</h3>
-      </div>
+      <Link to={`/matches/${id}`}>
+        <div className="match-condensed">
+          <h3 className="match-condensed-heading">{awayTeam.name}</h3>
+          <h5 className="match-condensed-subheading medium-grey-text">{date} - {time}</h5>
+          <h5 className="match-condensed-subheading medium-grey-text">{location}</h5>
+        </div>
+      </Link>
     )
   }
 
