@@ -4,7 +4,7 @@ body {
   font-family: 'Work Sans', sans-serif;
   font-weight: 400;
   font-size: 16px;
-  background: fafafa;
+  background: #fafafa;
 }
 
 p {
@@ -28,4 +28,8 @@ h3 {
   font-family: 'Montserrat', sans-serif;
   line-height: 105%;
   font-size: 38px;
+}
+
+.centered {
+  text-align: center;
 }

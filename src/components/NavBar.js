@@ -22,6 +22,11 @@ class NavBar extends Component {
             <img className="nav-bar-user-logo" src={this.props.user.user.photoURL} />
           </div>
           <div className="nav-bar-item">
+            <Link to="/profile">
+              <div className="nav-link">My Matches</div>
+            </Link>
+          </div>
+          <div className="nav-bar-item">
             <button className="action-button" onClick={(e) => {this.props.logout(e)}} > Logout</button>
           </div>
         </div>
