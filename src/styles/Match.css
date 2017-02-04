@@ -28,7 +28,7 @@
 }
 
 .desc {
-  background: white;
+  background: #ffffff;
   padding: 10px 20px;
   position: absolute;
   bottom: 0;
@@ -38,11 +38,13 @@
 
 .match-condensed {
   padding: 0.5em;
-  border: thin solid #727376;
+  border: thin solid #efefef;
   border-bottom: none;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
 }
 
 li {
+  background-color: #fefefe;
   list-style: none;
 }
 
@@ -63,7 +65,7 @@ ul {
 }
 
 li:last-child {
-  border-bottom: thin solid #727376;
+  border-bottom: thin solid #efefef;
 }
 
 a {
@@ -154,7 +156,7 @@ a {
   }
 
   .match {
-    min-width: 20%;
+    min-width: 25%;
     max-width: 30%;
     height: 400px;
   }
