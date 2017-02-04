@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import _ from 'lodash'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
 import { userLoginReq } from '../actions/user-actions'
 import NavBar from './NavBar'
@@ -70,18 +71,28 @@ class MatchDetail extends Component {
             <h3 className='match-detail-subtitle medium-grey-text'>
               There is {match.qtyTicketsAvailable} ticket available for this match.
             </h3>
-            <button
-              className="action-button claim-ticket-button"
-              onClick={(e) => this.handleClaimTicket(e)}>
-                Claim Ticket
-            </button>
+            {
+              this.props.user
+              ? <button
+                className="action-button claim-ticket-button"
+                onClick={(e) => this.handleClaimTicket(e)}>
+                  Claim Ticket
+              </button>
+
+              : <h3 className="match-detail-subtitle medium-grey-text"> Log-in to claim this ticket for yourself! </h3>
+            }
+
           </div>
         :
           <div className="center-button">
-            { this.renderMatchAvailable(this.props.user.uid, match)}
+            {
+              this.props.user
+              ? this.renderMatchAvailable(this.props.user.uid, match)
+              : this.renderMatchAvailable(null, match)
+
+            }
           </div>
         }
-
 
         <div className='match-detail-group'>
           <div className='match-detail-item half-width'>
@@ -105,7 +116,7 @@ class MatchDetail extends Component {
     return (
       <div>
         <NavBar />
-        { this.props.alert ? <Alert /> : null}
+        { this.props.alert ? <Alert /> : null }
         <div className='match-detail-container'>
           { match ? this.renderMatchDetails(match) : '' }
         </div>
@@ -116,10 +127,11 @@ class MatchDetail extends Component {
 
 const mapStateToProps = (state) => {
   console.log('the state', state)
+  const isLoggedIn = !(_.isEmpty(state.user))
   return {
     match: state.matches.data[state.matches.selectedMatch],
-    user: state.user.user,
-    credential: state.user.credential,
+    user: isLoggedIn ? state.user.user : null,
+    credential: isLoggedIn ? state.user.credential : null,
     alert: state.alert.visible
   }
 }
