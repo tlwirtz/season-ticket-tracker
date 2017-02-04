@@ -1,4 +1,5 @@
 import base from '../base'
+import { history } from '../store/configure-store'
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST'
 export const USER_LOGIN_REQUEST_SUCCESS = 'USER_LOGIN_REQUEST_SUCCESS'
@@ -62,6 +63,7 @@ export const userLoginReq = (provider) => {
       }
 
       localStorage.setItem('user', JSON.stringify(authData))
+      history.push('/')
       return dispatch(userLoginSuccess(authData))
     }
 
