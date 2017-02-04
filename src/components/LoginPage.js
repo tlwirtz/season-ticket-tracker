@@ -12,7 +12,6 @@ class LoginPage extends Component {
     this.handleSignIn = this.handleSignIn.bind(this)
     this.handleSignOut = this.handleSignOut.bind(this)
     this.renderLogin = this.renderLogin.bind(this)
-    this.renderLogout = this.renderLogout.bind(this)
   }
 
   handleSignIn(e, provider) {
@@ -23,15 +22,6 @@ class LoginPage extends Component {
   handleSignOut(e) {
     e.preventDefault();
     return this.props.logout();
-  }
-
-  renderLogout() {
-    return (
-      <div>
-        <h1>You are already logged in</h1>
-        <button onClick={(e) => this.handleSignOut(e)}>Logout</button>
-      </div>
-    )
   }
 
   renderLogin() {
@@ -60,7 +50,7 @@ class LoginPage extends Component {
     return (
       <div>
         <NavBar />
-        { this.props.user ? this.renderLogout() : this.renderLogin() }
+        { this.renderLogin() }
     </div>
     )
   }
