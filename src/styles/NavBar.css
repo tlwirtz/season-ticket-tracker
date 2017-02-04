@@ -40,6 +40,7 @@
 }
 
 .nav-bar-user-logo {
+  margin: 1em;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -65,7 +66,7 @@
   padding-right: 2em;
   padding-left: 2em;
   border-radius: 6px;
-  margin-right: 1em;
+  margin: 1em;
 }
 
 .action-button:hover {
