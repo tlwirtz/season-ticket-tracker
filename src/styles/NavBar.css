@@ -1,6 +1,7 @@
 .nav-bar-container {
   padding: 3em;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 }
 
@@ -73,4 +74,37 @@
   cursor: pointer;
   color: #3a343a;
   border: thin solid #3a343a;
+}
+
+/* Really small phones */
+@media screen and (max-width:320px) {
+  .nav-bar-container {
+    flex-direction: column;
+  }
+}
+
+/* Regular smart phones, including iPhone 6 + with 414px viewport! */
+@media screen and (min-width: 414) {
+  .nav-bar-container {
+    flex-direction: row;
+  }
+}
+
+/* Regular Tablets from 480 to 800px including Galaxy tablets - 768px is only good for iPad */
+@media screen and (min-width: 481px) {
+  .nav-bar-container {
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 660px) {
+  .nav-bar-container {
+    flex-direction: row;
+  }
+}
+
+@media screen and (min-width: 810px) {
+  .nav-bar-container {
+    flex-direction: row;
+  }
 }

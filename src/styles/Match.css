@@ -10,9 +10,9 @@
 
 .match {
   min-width: 20%;
-  max-width: 50%;
+  max-width: 100%;
   flex: auto;
-  -webkit-flex: 2 2 30%;
+  -webkit-flex: 2 2 100%;
   padding-left: 10px;
   padding-right: 10px;
   height: 400px;
@@ -118,6 +118,7 @@ a {
   }
 
   .match {
+    -webkit-flex: 2 2 100%;
     min-width: 80%;
     max-width: 80%;
     height: 300px;
@@ -125,7 +126,7 @@ a {
 }
 
 /* Regular smart phones, including iPhone 6 + with 414px viewport! */
-@media screen and (min-width: 319px) {
+@media screen and (min-width: 321) {
   .match-container {
     justify-content: center;
   }
