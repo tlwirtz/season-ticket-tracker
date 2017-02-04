@@ -1,11 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash'
 import NavBar from './NavBar'
 import Match from './Match'
+import NotLoggedIn from './NotLoggedIn'
 
 class UserProfile extends Component {
   constructor(props) {
     super(props)
+
+    this.renderLoggedIn = this.renderLoggedIn.bind(this)
+    this.renderNotLoggedIn = this.renderNotLoggedIn.bind(this)
+  }
+
+  renderLoggedIn() {
+    return (
+      <div>
+        <h2 className="animated fadeInUp">Your Matches</h2>
+        <ul>
+          {
+            this.props.userMatches.map(match =>
+              <li key={match.id} className="animated fadeInUp">
+                <Match key={match.id} matchData={match} condensed/>
+              </li> )
+          }
+        </ul>
+      </div>
+    )
+  }
+
+  renderNotLoggedIn() {
+    return (
+      <NotLoggedIn />
+    )
   }
 
   render() {
@@ -14,16 +41,11 @@ class UserProfile extends Component {
         <NavBar />
         <div className="match-detail-container">
           <div className="match-detail-item">
-            <h2 className="animated fadeInUp">Your Matches</h2>
-
-            <ul>
-              {
-                this.props.userMatches.map(match =>
-                  <li key={match.id} className="animated fadeInUp">
-                    <Match key={match.id} matchData={match} condensed/>
-                  </li> )
-              }
-            </ul>
+            {
+              this.props.user
+              ? this.renderLoggedIn()
+              : this.renderNotLoggedIn()
+            }
           </div>
         </div>
       </div>
@@ -33,16 +55,21 @@ class UserProfile extends Component {
 
 const filterUserMatches = (match, userid) => match.claimedUserId === userid
 const reduceMatches = (matches) => (a, b) => a.concat([matches[b]])
+const matchReducer = matches => reduceMatches(matches.data)
+const computeUserMatches = (user, matches) => {
+  return Object
+    .keys(matches.data)
+    .reduce(matchReducer(matches), [])
+    .filter((match) => filterUserMatches(match, user.uid))
+}
 
 const mapStateToProps = (state) => {
-  //TODO -- this should go into a selector
   const { matches } = state
-  const { user } = state.user
-  const matchReducer = reduceMatches(matches.data)
-  const filteredMatches = Object.keys(matches.data).reduce(matchReducer, []).filter((match) => filterUserMatches(match, user.uid))
+  const user = _.isEmpty(state.user) ? null : state.user
 
   return {
-    userMatches: filteredMatches
+    userMatches: user ? computeUserMatches(user, matches) : null,
+    user
   }
 }
 
