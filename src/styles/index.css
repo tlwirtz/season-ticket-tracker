@@ -29,3 +29,7 @@ h3 {
   line-height: 105%;
   font-size: 38px;
 }
+
+.centered {
+  text-align: center;
+}
