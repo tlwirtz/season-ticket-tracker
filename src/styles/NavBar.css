@@ -47,6 +47,15 @@
   border: thin solid #4d4d4d;
 }
 
+.nav-link {
+  color: #727376;
+  padding: 1em;
+}
+
+.nav-link:hover {
+  color: #3a343a;
+}
+
 .action-button {
   background-color: white;
   border: thin solid #727376;
