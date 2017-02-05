@@ -1,17 +1,19 @@
 .match-detail-container {
   display: flex;
-  width: 100%;
+  /*width: 90%;*/
   padding: 3em;
   padding-top: 0;
 }
 
 .match-detail-item {
   flex: auto;
+  padding: 1em;
+  padding-top: 0;
 }
 
 .match-detail-group {
   display: flex;
-  width: 100%;
+  width: 90%;
   padding-top: 3em;
   justify-content: center;
   flex-direction: column-reverse;
@@ -51,7 +53,7 @@
 }
 
 .away-team-img {
-  max-width: 95%;
+  max-width: 100%;
   margin-right: auto;
   margin-left: auto;
 }
