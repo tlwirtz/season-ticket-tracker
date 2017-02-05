@@ -64,38 +64,38 @@ class MatchDetail extends Component {
 
   renderMatchDetails(match) {
     return (
-      <div className='match-detail-item'>
-        <h1 className='match-detail-title'>{ match.homeTeam.name } vs. { match.awayTeam.name }</h1>
-        { this.ticketAvailable(match) ?
-          <div className='center'>
-            <h3 className='match-detail-subtitle medium-grey-text'>
-              There is {match.qtyTicketsAvailable} ticket available for this match.
-            </h3>
-            {
-              this.props.user
-              ? <button
-                className="action-button claim-ticket-button"
-                onClick={(e) => this.handleClaimTicket(e)}>
-                  Claim Ticket
-              </button>
+      <div>
+        <div className='match-detail-item'>
+          <h1 className='match-detail-title'>{ match.homeTeam.name } vs. { match.awayTeam.name }</h1>
+          { this.ticketAvailable(match) ?
+            <div className='center'>
+              <h3 className='match-detail-subtitle medium-grey-text'>
+                There is {match.qtyTicketsAvailable} ticket available for this match.
+              </h3>
+              {
+                this.props.user
+                ? <button
+                    className="action-button claim-ticket-button"
+                    onClick={(e) => this.handleClaimTicket(e)}>
+                      Claim Ticket
+                  </button>
 
-              : <h3 className="match-detail-subtitle medium-grey-text"> Log-in to claim this ticket for yourself! </h3>
-            }
+                : <h3 className="match-detail-subtitle medium-grey-text"> Log-in to claim this ticket for yourself! </h3>
+              }
 
-          </div>
-        :
-          <div className="center-button">
-            {
-              this.props.user
-              ? this.renderMatchAvailable(this.props.user.uid, match)
-              : this.renderMatchAvailable(null, match)
-
-            }
-          </div>
-        }
-
+            </div>
+          :
+            <div className="center-button">
+              {
+                this.props.user
+                ? this.renderMatchAvailable(this.props.user.uid, match)
+                : this.renderMatchAvailable(null, match)
+              }
+            </div>
+          }
+      </div>
         <div className='match-detail-group'>
-          <div className='match-detail-item half-width'>
+          <div className='match-detail-item'>
             <h4 className='match-detail-text medium-grey-text'>{ match.date } - { match.time }</h4>
             <h4 className='match-detail-text medium-grey-text'>{ match.location }</h4>
             <h4 className='match-detail-text medium-grey-text'>${ ( match.ticketPrice / 100 ).toFixed(2)} each</h4>
@@ -103,7 +103,7 @@ class MatchDetail extends Component {
 
           {/* TODO -- need to create CSS that sets flex-direction: row-reverse on small screens  */}
 
-          <div className='match-detail-item half-width'>
+          <div className='match-detail-item'>
             <img className='away-team-img' src={match.awayTeam.img} alt={match.awayTeam.name}/>
           </div>
         </div>

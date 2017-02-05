@@ -86,7 +86,7 @@
 /* Regular smart phones, including iPhone 6 + with 414px viewport! */
 @media screen and (min-width: 414) {
   .nav-bar-container {
-    flex-direction: row;
+    flex-direction: column;
   }
 }
 
