@@ -35,7 +35,7 @@ class Alert extends Component {
     return (
       <div className='alert-container' onClick={() => {this.sendUpdate()}} >
         <div className={alertClasses}>
-          <p>{this.props.msg}       X</p>
+          <p>{this.props.msg}</p>
         </div>
       </div>
     )
