@@ -19,6 +19,11 @@ class NavBar extends Component {
         { this.props.user.user ?
         <div className="nav-bar-group">
           <div className="nav-bar-item">
+            <Link to="/">
+              <div className="nav-link">Home</div>
+            </Link>
+          </div>
+          <div className="nav-bar-item">
             <Link to="/profile">
             <div className="nav-link">My Matches</div>
           </Link>
