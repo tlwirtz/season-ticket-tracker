@@ -84,6 +84,14 @@ a {
   text-decoration: none;
 }
 
+a.soft-grey-text {
+  transition: 0.25s color ease-in-out;
+}
+
+a.soft-grey-text:hover {
+  color: #4a4d55;
+}
+
 .match-animation-appear {
   opacity: 0.0;
 }

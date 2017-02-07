@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash'
+import { Link } from 'react-router'
 import NavBar from './NavBar'
 import Match from './Match'
 import NotLoggedIn from './NotLoggedIn'
@@ -19,10 +20,18 @@ class UserProfile extends Component {
         <h2 className="animated fadeInUp">Your Matches</h2>
         <ul>
           {
-            this.props.userMatches.map(match =>
+            this.props.userMatches.length > 0
+
+            ? this.props.userMatches.map(match =>
               <li key={match.id} className="animated fadeInUp">
                 <Match key={match.id} matchData={match} condensed/>
               </li> )
+            : (
+              <div className="animated fadeInUp">
+                <h2 className="medium-grey-text"> You are not going to any matches</h2>
+                <h2 className="medium-grey-text"> Find some <Link className="soft-grey-text" to="/">here</Link></h2>
+              </div>
+            )
           }
         </ul>
       </div>

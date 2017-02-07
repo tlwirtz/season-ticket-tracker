@@ -49,14 +49,14 @@ class MatchDetail extends Component {
   renderMatchAvailable(userId, match) {
     if (this.matchBelongToUser(userId, match)) {
       return (
-        <h3 className='center-text match-detail-subtitle medium-grey-text'>
+        <h3 className='animated fadeInUp center-text match-detail-subtitle medium-grey-text'>
           You're going to this match!!
         </h3>
       )
     }
 
     return (
-      <h3 className="center-text match-detail-subtitle medium-grey-text">
+      <h3 className="animated fadeInUp center-text match-detail-subtitle medium-grey-text">
         Sorry, there are no tickets available for this match.
       </h3>
     )
@@ -66,9 +66,9 @@ class MatchDetail extends Component {
     return (
       <div>
         <div className='match-detail-item'>
-          <h1 className='match-detail-title'>{ match.homeTeam.name } vs. { match.awayTeam.name }</h1>
+          <h1 className='animated fadeInUp match-detail-title'>{ match.homeTeam.name } vs. { match.awayTeam.name }</h1>
           { this.ticketAvailable(match) ?
-            <div className='center'>
+            <div className='animated fadeInUp center'>
               <h3 className='match-detail-subtitle medium-grey-text'>
                 There is {match.qtyTicketsAvailable} ticket available for this match.
               </h3>
@@ -85,7 +85,7 @@ class MatchDetail extends Component {
 
             </div>
           :
-            <div className="center-button">
+            <div className="animated fadeInUp center-button">
               {
                 this.props.user
                 ? this.renderMatchAvailable(this.props.user.uid, match)
@@ -94,7 +94,7 @@ class MatchDetail extends Component {
             </div>
           }
       </div>
-        <div className='match-detail-group'>
+        <div className='animated fadeInUp match-detail-group'>
           <div className='match-detail-item'>
             <h4 className='match-detail-text medium-grey-text'>{ match.date } - { match.time }</h4>
             <h4 className='match-detail-text medium-grey-text'>{ match.location }</h4>
