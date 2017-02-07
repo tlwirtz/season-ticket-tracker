@@ -23,6 +23,8 @@ class Alert extends Component {
 
   render() {
     const alertClasses = classNames({
+      animated: true,
+      fadeInLeft: true,
       normal: this.props.status === 'normal',
       error: this.props.status === 'error',
       success: this.props.status === 'success',
@@ -33,7 +35,7 @@ class Alert extends Component {
     return (
       <div className='alert-container' onClick={() => {this.sendUpdate()}} >
         <div className={alertClasses}>
-          <p>{this.props.msg} - Click to dismiss.</p>
+          <p>{this.props.msg}       X</p>
         </div>
       </div>
     )

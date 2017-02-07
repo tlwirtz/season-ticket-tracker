@@ -49,7 +49,7 @@ class MatchDetail extends Component {
   renderMatchAvailable(userId, match) {
     if (this.matchBelongToUser(userId, match)) {
       return (
-        <h3 className='animated fadeInUp center-text match-detail-subtitle medium-grey-text'>
+        <h3 className='center-text match-detail-subtitle medium-grey-text'>
           You're going to this match!!
         </h3>
       )
