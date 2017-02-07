@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 import Match from './Match'
 
 class MatchList extends Component {
@@ -6,11 +7,15 @@ class MatchList extends Component {
     const items = Object.keys(this.props.matches).map((key) => {
       const bg = this.props.matches[key].awayTeam.img
       return (
-        <div key={key} className='match animated fadeInUp' style={{backgroundImage: `url(${bg})`}} >
-          <Match
-            matchData={this.props.matches[key]}
-            {...this.props}/>
-        </div>
+        <Link
+          key={key} to={`/matches/${key}`}
+          className='match animated fadeInUp'
+          style={{backgroundImage: `url(${bg})`}}
+          onClick={() => this.props.onMatchClick(key)} >
+            <Match
+              matchData={this.props.matches[key]}
+              {...this.props}/>
+        </Link>
       )
     }
   )
