@@ -16,12 +16,8 @@ class Match extends Component {
     return (
         <div className="desc" >
           <h3>{awayTeam.name}</h3>
-          <p>
-            {date.toUpperCase()} - {time}
-          </p>
-           <p>
-            ${(ticketPrice / 100).toFixed(2)}
-          </p>
+          <p> {date.toUpperCase()} - {time} </p>
+           <p> ${(ticketPrice / 100).toFixed(2)} </p>
         </div>
     )
   }
