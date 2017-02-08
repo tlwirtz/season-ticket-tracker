@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectMatch } from '../actions/matches-actions'
-import Home from './Home'
 import NavBar from './NavBar'
 import Alert from './Alert'
+import Footer from './Footer'
 import '../styles/App.css'
 
 //TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
@@ -13,11 +13,8 @@ class App extends Component {
       <div>
         <NavBar />
         { this.props.alert ? <Alert /> : null }
-        <Home
-          matches={this.props.matches}
-          user={this.props.user}
-          onMatchClick={this.props.matchClick}
-        />
+        { this.props.children }
+        <Footer />
     </div>
     )
   }

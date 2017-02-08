@@ -1,0 +1,42 @@
+.footer-container {
+  display: flex;
+  padding: 1em;
+  justify-content: center;
+  align-items: center;
+  border-top: thin solid #cacacc;
+}
+
+.footer-item {
+  padding: 1em;
+  flex: 0 1 auto;
+}
+
+.footer-item > h4 {
+  margin: 0;
+}
+
+.footer-item > a > h4 {
+  margin: 0;
+}
+
+.footer-item > a > h4 > i {
+  color: #cacacc;
+  transition: 0.25s color ease-in-out;
+}
+
+.footer-item > a > h4 > i:hover {
+  color: #727376
+}
+
+.footer-item > h4 > a {
+  color: #cacacc;
+  transition: 0.25s color ease-in-out;
+}
+
+.footer-item > h4 > a:hover {
+  color: #727376;
+}
+
+.footer-tem > h4 > a:visited {
+  color: #cacacc;
+}

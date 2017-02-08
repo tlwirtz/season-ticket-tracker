@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
+import { connect } from 'react-redux'
+import { selectMatch } from '../actions/matches-actions'
+
 import Match from './Match'
 
 class MatchList extends Component {
+
   render() {
     const items = Object.keys(this.props.matches).map((key) => {
       const bg = this.props.matches[key].awayTeam.img
@@ -27,4 +31,25 @@ class MatchList extends Component {
   }
 }
 
-export default MatchList
+const mapStateToProps = (state) => {
+  return {
+    matches: state.matches.data,
+    user: state.user,
+    alert: state.alert.visible
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    matchClick: (matchId) => {
+      dispatch(selectMatch(matchId))
+    }
+  }
+}
+
+const MatchListContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(MatchList)
+
+export default MatchListContainer
