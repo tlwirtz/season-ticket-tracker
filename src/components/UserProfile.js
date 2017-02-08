@@ -46,8 +46,6 @@ class UserProfile extends Component {
 
   render() {
     return (
-      <div>
-        <NavBar />
         <div className="match-detail-container">
           <div className="match-detail-item">
             {
@@ -57,7 +55,6 @@ class UserProfile extends Component {
             }
           </div>
         </div>
-      </div>
     )
   }
 }

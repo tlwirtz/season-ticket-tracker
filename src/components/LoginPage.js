@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { userLogoutReq, userLoginReq } from '../actions/user-actions'
 import _ from 'lodash'
-import NavBar from './NavBar'
 import '../styles/LoginPage.css'
 
 class LoginPage extends Component {
@@ -48,8 +47,7 @@ class LoginPage extends Component {
 
   render() {
     return (
-      <div>
-        <NavBar />
+    <div>
         { this.renderLogin() }
     </div>
     )

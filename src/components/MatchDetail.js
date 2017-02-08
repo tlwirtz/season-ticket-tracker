@@ -113,19 +113,14 @@ class MatchDetail extends Component {
   render() {
     const { match } = this.props
     return (
-      <div>
-        <NavBar />
-        { this.props.alert ? <Alert /> : null }
-        <div className='match-detail-container'>
-          { match ? this.renderMatchDetails(match) : '' }
-        </div>
+      <div className='match-detail-container'>
+        { match ? this.renderMatchDetails(match) : '' }
       </div>
     )
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log('the state', state)
   const isLoggedIn = !(_.isEmpty(state.user))
   return {
     match: state.matches.data[state.matches.selectedMatch],
