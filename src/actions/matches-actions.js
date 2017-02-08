@@ -93,7 +93,7 @@ export const updateMatchReq = (matchId, payload) => {
         {
           payload:
           {
-            msg: 'Nice Job! You\'re going to this match',
+            msg: 'Sweet! You\'re going to this match.',
             visible: true,
             status: 'success'
           }
