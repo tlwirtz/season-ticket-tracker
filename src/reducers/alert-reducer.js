@@ -13,9 +13,7 @@ export default (state = {}, action) => {
     case types.SHOW_ALERT:
     case types.HIDE_ALERT:
       return updateState(state, action.payload);
-      break;
     default:
       return state;
-      break;
   }
 }
