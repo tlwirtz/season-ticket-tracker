@@ -1,5 +1,5 @@
 import base from '../base'
-import  { updateAlert, SHOW_ALERT } from './alert-actions'
+import  { updateAlert } from './alert-actions'
 
 export const ADD_MATCHES = 'ADD_MATCHES'
 export const ADD_MATCHES_SUCCESS = 'ADD_MATCHES_SUCCESS'

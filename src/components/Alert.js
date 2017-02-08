@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames'
 import '../styles/Alert.css'
 
-import {
-  SHOW_ALERT,
-  HIDE_ALERT,
-  updateAlert }
+import {  HIDE_ALERT, updateAlert }
   from '../actions/alert-actions'
 
 class Alert extends Component {
