@@ -11,10 +11,9 @@ class Match extends Component {
   }
 
   renderMatchCard() {
-    const { id, homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
+    const { awayTeam, date, time, ticketPrice } = this.props.matchData
 
     return (
-      // <Link to={`/matches/${id}`} onClick={() => this.props.onMatchClick(id)} >
         <div className="desc" >
           <h3>{awayTeam.name}</h3>
           <p>
@@ -24,12 +23,11 @@ class Match extends Component {
             ${(ticketPrice / 100).toFixed(2)}
           </p>
         </div>
-      // </Link>
     )
   }
 
   renderMatchCondensed() {
-    const { id, homeTeam, awayTeam, date, time, matchType, location, ticketPrice } = this.props.matchData
+    const { id, awayTeam, date, time, location } = this.props.matchData
 
     return (
       <Link to={`/matches/${id}`}>
