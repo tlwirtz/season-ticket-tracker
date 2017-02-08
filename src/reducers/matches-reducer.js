@@ -25,14 +25,11 @@ export default (state = {}, action) => {
     case types.ADD_MATCHES_FAILURE:
     case types.MATCH_SELECTED:
       return updateKey(state, action.payload)
-      break;
     case types.UPDATE_MATCH:
       return state;
-      break;
     case types.UPDATE_MATCH_SUCCESS:
     case types.UPDATE_MATCH_FAILURE:
       return updateMatch(state, action.matchId, action.payload)
-      break;
     default:
       return state;
   }
