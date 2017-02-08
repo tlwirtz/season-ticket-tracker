@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
-import NavBar from './NavBar'
-import Alert from './Alert'
 import '../styles/MatchDetail.css'
 
 class MatchDetail extends Component {
