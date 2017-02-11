@@ -1,6 +1,6 @@
 import base64 from 'base-64'
 import base from '../base'
-import  { updateAlert } from './alert-actions'
+import  { updateAlert, generateAlertPayload } from './alert-actions'
 
 export const ADD_MATCHES = 'ADD_MATCHES'
 export const ADD_MATCHES_SUCCESS = 'ADD_MATCHES_SUCCESS'
@@ -83,52 +83,32 @@ export const fetchMatches = () => {
   }
 }
 
-export const fetchAuthCode = () => {
-  return base.fetch('auth-codes', {context: {}})
-}
-
-const validateAuthCode = (userCode, authCode) => base64.encode(userCode) === authCode
-
+const fetchAuthCode = () => base.fetch('auth-codes', {context: {}})
+const validateAuthCode = (userCode, authCode) => base64.encode(userCode.toLowerCase()) === authCode
 
 export const updateMatchReq = (matchId, payload, userAuthCode) => {
   return (dispatch) => {
-    dispatch(updateMatch())
+    const defaultSuccess = generateAlertPayload('success', 'Sweet! You\'re going to this match')
+    const defaultError = generateAlertPayload('error', 'Oh no! Something went wrong. Please try again')
 
+    dispatch(updateMatch())
+    
     return fetchAuthCode()
     .then(authCode => validateAuthCode(userAuthCode, authCode))
-    .then((validatedCode) => {
+    .then(validatedCode => {
       if (validatedCode) {
-        return base.update(`matches/${matchId}`, {
-          data: payload
-        })
+        return base.update(`matches/${matchId}`, { data: payload })
       }
-      return Promise.reject('Did not provide proper Auth Code');
+      return Promise.reject({custom: true, msg: 'You did not provide a valid redemption code'});
     })
     .then(() => {
-      dispatch(updateAlert(
-        {
-          payload:
-          {
-            msg: 'Sweet! You\'re going to this match.',
-            visible: true,
-            status: 'success'
-          }
-        }
-      ))
+      dispatch(updateAlert(defaultSuccess))
       dispatch(updateMatchSuccess(matchId, payload))
     })
-    .catch((err) => {
-      console.log('err', err)
-      dispatch(updateAlert(
-        {
-          payload:
-          {
-            msg: 'Oh no! Something went wrong. Please try again.',
-            visible: true,
-            status: 'error'
-          }
-        }
-      ))
+    .catch(err => {
+      err.custom
+      ? dispatch(updateAlert(generateAlertPayload('error', err.msg)))
+      : dispatch(updateAlert(defaultError))
       dispatch(updateMatchFailure(matchId, err))
     })
   }

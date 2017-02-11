@@ -1,7 +1,8 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import { updateMatchReq, selectMatch } from '../actions/matches-actions'
+import RedeemMatch from './RedeemMatch'
 import '../styles/MatchDetail.css'
 
 class MatchDetail extends Component {
@@ -43,6 +44,10 @@ class MatchDetail extends Component {
     return match.claimedUserId === userId
   }
 
+  handleChange(e) {
+    this.setState({[e.target.name]: e.target.value})
+  }
+
   renderMatchAvailable(userId, match) {
     if (this.matchBelongToUser(userId, match)) {
       return (
@@ -71,12 +76,7 @@ class MatchDetail extends Component {
               </h3>
               {
                 this.props.user
-                ? <button
-                    className="action-button claim-ticket-button"
-                    onClick={(e) => this.handleClaimTicket(e)}>
-                      Claim Ticket
-                  </button>
-
+                ? <RedeemMatch user={this.props.user} matchId={this.props.params.matchId}/> // need to pass in other props
                 : <h3 className="match-detail-subtitle medium-grey-text"> Log-in to claim this ticket for yourself! </h3>
               }
 
@@ -97,8 +97,6 @@ class MatchDetail extends Component {
             <h4 className='match-detail-text medium-grey-text'>{ match.location }</h4>
             <h4 className='match-detail-text medium-grey-text'>${ ( match.ticketPrice / 100 ).toFixed(2)} each</h4>
           </div>
-
-          {/* TODO -- need to create CSS that sets flex-direction: row-reverse on small screens  */}
 
           <div className='match-detail-item'>
             <img className='away-team-img' src={match.awayTeam.img} alt={match.awayTeam.name}/>
@@ -130,12 +128,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    claimTicket: (matchId, userId) => {
-      dispatch(updateMatchReq(matchId, {
-        claimedUserId: userId,
-        available: false
-      }))
-    },
     selectMatch: (matchId) => {
       dispatch(selectMatch(matchId))
     }
