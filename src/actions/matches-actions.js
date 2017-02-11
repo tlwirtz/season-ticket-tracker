@@ -83,18 +83,18 @@ export const fetchMatches = () => {
   }
 }
 
-const fetchAuthCode = () => base.fetch('auth-codes', {context: {}})
-const validateAuthCode = (userCode, authCode) => base64.encode(userCode.toLowerCase()) === authCode
+const fetchAuthCode = () => base.fetch('redemption-codes', {context: {}})
+const validateRedemptionCode = (userCode, redemptionCode) => base64.encode(userCode.toLowerCase()) === redemptionCode
 
-export const updateMatchReq = (matchId, payload, userAuthCode) => {
+export const updateMatchReq = (matchId, payload, userCode) => {
   return (dispatch) => {
     const defaultSuccess = generateAlertPayload('success', 'Sweet! You\'re going to this match')
     const defaultError = generateAlertPayload('error', 'Oh no! Something went wrong. Please try again')
 
     dispatch(updateMatch())
-    
+
     return fetchAuthCode()
-    .then(authCode => validateAuthCode(userAuthCode, authCode))
+    .then(redemptionCode => validateRedemptionCode(userCode, redemptionCode))
     .then(validatedCode => {
       if (validatedCode) {
         return base.update(`matches/${matchId}`, { data: payload })
