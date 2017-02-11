@@ -16,6 +16,7 @@ export const updateAlert = config => {
 
 export const generateAlertPayload = (status, msg) => {
   return {
+    type: SHOW_ALERT,
     payload: {
       visible: true,
       status,
