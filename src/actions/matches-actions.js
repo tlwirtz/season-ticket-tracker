@@ -1,5 +1,6 @@
+import base64 from 'base-64'
 import base from '../base'
-import  { updateAlert } from './alert-actions'
+import  { updateAlert, generateAlertPayload } from './alert-actions'
 
 export const ADD_MATCHES = 'ADD_MATCHES'
 export const ADD_MATCHES_SUCCESS = 'ADD_MATCHES_SUCCESS'
@@ -82,37 +83,33 @@ export const fetchMatches = () => {
   }
 }
 
-export const updateMatchReq = (matchId, payload) => {
+const fetchAuthCode = () => base.fetch('redemption-codes', {context: {}})
+const validateRedemptionCode = (userCode, redemptionCode) => base64.encode(userCode.toLowerCase()) === redemptionCode
+
+export const updateMatchReq = (matchId, payload, userCode) => {
   return (dispatch) => {
+    const defaultSuccess = generateAlertPayload('success', 'Sweet! You\'re going to this match')
+    const defaultError = generateAlertPayload('error', 'Oh no! Something went wrong. Please try again')
+
     dispatch(updateMatch())
-    return base.update(`matches/${matchId}`, {
-      data: payload
+
+    return fetchAuthCode()
+    .then(redemptionCode => validateRedemptionCode(userCode, redemptionCode))
+    .then(validatedCode => {
+      if (validatedCode) {
+        return base.update(`matches/${matchId}`, { data: payload })
+      }
+      return Promise.reject({custom: true, msg: 'You did not provide a valid redemption code'});
     })
     .then(() => {
-      dispatch(updateAlert(
-        {
-          payload:
-          {
-            msg: 'Sweet! You\'re going to this match.',
-            visible: true,
-            status: 'success'
-          }
-        }
-      ))
+      dispatch(updateAlert(defaultSuccess))
       dispatch(updateMatchSuccess(matchId, payload))
     })
-    .catch((err) => {
-      dispatch(updateAlert(
-        {
-          payload:
-          {
-            msg: 'Oh no! Something went wrong. Please try again.',
-            visible: true,
-            status: 'error'
-          }
-        }
-      ))
-      dispatch(updateMatchFailure(err))
+    .catch(err => {
+      err.custom
+      ? dispatch(updateAlert(generateAlertPayload('error', err.msg)))
+      : dispatch(updateAlert(defaultError))
+      dispatch(updateMatchFailure(matchId, err))
     })
   }
 }

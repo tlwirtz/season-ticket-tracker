@@ -76,6 +76,11 @@
   border: thin solid #3a343a;
 }
 
+.action-button:disabled {
+  color: rgb(208, 208, 208);
+  border-color: rgb(208, 208, 208);
+}
+
 /* Really small phones */
 @media screen and (max-width:320px) {
   .nav-bar-container {
