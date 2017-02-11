@@ -77,8 +77,6 @@ export const userLoginLocalStorage = (authData) => {
     const authHandler = (user) => {
       if (user) {
         localStorage.setItem('user', JSON.stringify(user))
-        console.log('inside of auth handler', user)
-
         return dispatch(userLoginSuccess({ user }))
       }
 
