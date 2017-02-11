@@ -11,15 +11,15 @@ export const updateAlert = config => {
     }
   }
 
-  export const generateAlertPayload(status, msg) => {
-    return {
-      payload: {
-        visible: true,
-        status,
-        msg
-      }
+  return { ...defaults, ...config }
+}
+
+export const generateAlertPayload = (status, msg) => {
+  return {
+    payload: {
+      visible: true,
+      status,
+      msg
     }
   }
-
-  return { ...defaults, ...config }
 }
