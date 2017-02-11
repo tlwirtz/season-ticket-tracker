@@ -1,3 +1,4 @@
+import base64 from 'base-64'
 import base from '../base'
 import  { updateAlert } from './alert-actions'
 
@@ -82,11 +83,26 @@ export const fetchMatches = () => {
   }
 }
 
-export const updateMatchReq = (matchId, payload) => {
+export const fetchAuthCode = () => {
+  return base.fetch('auth-codes', {context: {}})
+}
+
+const validateAuthCode = (userCode, authCode) => base64.encode(userCode) === authCode
+
+
+export const updateMatchReq = (matchId, payload, userAuthCode) => {
   return (dispatch) => {
     dispatch(updateMatch())
-    return base.update(`matches/${matchId}`, {
-      data: payload
+
+    return fetchAuthCode()
+    .then(authCode => validateAuthCode(userAuthCode, authCode))
+    .then((validatedCode) => {
+      if (validatedCode) {
+        return base.update(`matches/${matchId}`, {
+          data: payload
+        })
+      }
+      return Promise.reject('Did not provide proper Auth Code');
     })
     .then(() => {
       dispatch(updateAlert(
@@ -102,6 +118,7 @@ export const updateMatchReq = (matchId, payload) => {
       dispatch(updateMatchSuccess(matchId, payload))
     })
     .catch((err) => {
+      console.log('err', err)
       dispatch(updateAlert(
         {
           payload:
@@ -112,7 +129,7 @@ export const updateMatchReq = (matchId, payload) => {
           }
         }
       ))
-      dispatch(updateMatchFailure(err))
+      dispatch(updateMatchFailure(matchId, err))
     })
   }
 }
