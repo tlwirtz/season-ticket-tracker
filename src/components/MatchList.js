@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    matchClick: (matchId) => {
+    onMatchClick: (matchId) => {
       dispatch(selectMatch(matchId))
     }
   }
