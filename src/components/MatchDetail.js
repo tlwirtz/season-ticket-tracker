@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateMatchReq, selectMatch } from '../actions/matches-actions'
+import { selectMatch } from '../actions/matches-actions'
 import RedeemMatch from './RedeemMatch'
 import '../styles/MatchDetail.css'
 
