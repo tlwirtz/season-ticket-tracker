@@ -68,6 +68,7 @@ const computeUserMatches = (user, matches) => {
     .filter((match) => filterUserMatches(match, user.uid))
 }
 
+
 const mapStateToProps = (state) => {
   const { matches } = state
   const user = _.isEmpty(state.user) ? null : state.user.user

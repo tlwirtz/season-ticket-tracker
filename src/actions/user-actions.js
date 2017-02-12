@@ -58,9 +58,7 @@ export const userLoginReq = (provider) => {
   return (dispatch) => {
     dispatch(userLogin())
     const authHandler = (err, authData) => {
-      if (err) {
-        return dispatch(userLoginFailure(err))
-      }
+      if (err) return dispatch(userLoginFailure(err))
 
       localStorage.setItem('user', JSON.stringify(authData))
       history.push('/')
@@ -93,4 +91,10 @@ export const checkIfLoggedIn = () => {
       dispatch(userLoginLocalStorage(JSON.parse(auth)))
     }
   }
+}
+
+export const checkIfAdmin = (userId) => {
+  return base.fetch('admins', {context: {} })
+  .then(admins => Object.keys(admins).includes(userId))
+  .catch(() => { return false })
 }
