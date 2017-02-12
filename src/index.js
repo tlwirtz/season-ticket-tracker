@@ -10,6 +10,7 @@ import App from './components/App';
 import LoginPage from './components/LoginPage'
 import MatchDetail from './components/MatchDetail'
 import UserProfile from './components/UserProfile'
+import Admin from './components/Admin'
 import './styles/index.css';
 
 store.dispatch(fetchMatches())
@@ -24,6 +25,7 @@ const Root = () => {
           <Route path="/login" component={LoginPage} />
           <Route path="/matches/:matchId" component={MatchDetail} />
           <Route path="/profile" component={UserProfile} />
+          <Route path="/admin" component={Admin} />
         </Route>
       </Router>
     </Provider>
