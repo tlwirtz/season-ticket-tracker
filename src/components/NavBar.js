@@ -43,7 +43,7 @@ class NavBar extends Component {
         </div>
           { this.state.isAdmin
             ? <div className="nav-bar-item">
-                <Link to="/profile">
+                <Link to="/admin">
                   <div className="nav-link">Admin</div>
                 </Link>
               </div>
