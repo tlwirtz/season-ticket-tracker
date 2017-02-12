@@ -1,6 +1,5 @@
 .alert-container {
   width: 100%;
-  /*margin: 1rem;*/
   z-index: 10;
   display: flex;
   justify-content: center;
@@ -10,11 +9,8 @@
 
 .alert-item {
   width: 100%;
-  /*padding: 0.25rem;*/
-  /*margin: 1rem;*/
   margin-top: 0;
   padding-top: 0;
-  /*border-radius: 3px;*/
   text-align: center;
 }
 

@@ -40,7 +40,12 @@ class NavBar extends Component {
             <Link to="/profile">
             <div className="nav-link">My Matches</div>
           </Link>
-        </div>
+          </div>
+          <div className="nav-bar-item">
+            <Link to="/about">
+            <div className="nav-link">About</div>
+          </Link>
+          </div>
           { this.state.isAdmin
             ? <div className="nav-bar-item">
                 <Link to="/admin">
