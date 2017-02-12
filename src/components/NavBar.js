@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router'
 import { connect } from 'react-redux'
-import { userLogoutReq } from '../actions/user-actions'
+import { userLogoutReq, checkIfAdmin } from '../actions/user-actions'
 import '../styles/NavBar.css'
 import '../styles/Colors.css'
 
 class NavBar extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {}
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.user && nextProps.user.user) {
+      checkIfAdmin(nextProps.user.user.uid)
+      .then(result => this.setState({isAdmin: result}))
+    }
+  }
+
   render() {
     return (
       <div className="nav-bar-container">
@@ -28,6 +41,14 @@ class NavBar extends Component {
             <div className="nav-link">My Matches</div>
           </Link>
         </div>
+          { this.state.isAdmin
+            ? <div className="nav-bar-item">
+                <Link to="/profile">
+                  <div className="nav-link">Admin</div>
+                </Link>
+              </div>
+            : null
+          }
           <div className="nav-bar-item">
             <img alt="user-logo" className="nav-bar-user-logo" src={this.props.user.user.photoURL} />
           </div>
