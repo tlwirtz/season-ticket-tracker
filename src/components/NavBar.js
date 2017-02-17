@@ -13,16 +13,16 @@ class NavBar extends Component {
     this.windowResize = this.windowResize.bind(this)
   }
 
+  windowResize() {
+    const { innerWidth } = window
+    this.setState({ hideNav: innerWidth < 660, innerWidth })
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.user && nextProps.user.user) {
       checkIfAdmin(nextProps.user.user.uid)
       .then(result => this.setState({isAdmin: result}))
     }
-  }
-
-  windowResize() {
-    const { innerWidth } = window
-    this.setState({ hideNav: innerWidth < 660, innerWidth })
   }
 
   componentWillMount() {
@@ -56,13 +56,13 @@ class NavBar extends Component {
             </Link>
           </div>
           <div className="nav-bar-item">
-            <Link to="/profile">
-            <div className="nav-link">My Matches</div>
-          </Link>
+            <Link to="/about">
+              <div className="nav-link">About</div>
+            </Link>
           </div>
           <div className="nav-bar-item">
-            <Link to="/about">
-            <div className="nav-link">About</div>
+            <Link to="/profile">
+            <div className="nav-link">My Matches</div>
           </Link>
           </div>
           { this.state.isAdmin

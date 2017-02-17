@@ -82,7 +82,7 @@
 }
 
 /* Really small phones */
-@media screen and (max-width:320px) {
+@media screen and (min-width: 300px) {
   .nav-bar-container {
     flex-direction: column;
   }
@@ -93,7 +93,7 @@
 }
 
 /* Regular smart phones, including iPhone 6 + with 414px viewport! */
-@media screen and (min-width: 414) {
+@media screen and (min-width: 414px) {
   .nav-bar-container {
     flex-direction: column;
   }
