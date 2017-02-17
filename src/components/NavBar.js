@@ -10,6 +10,7 @@ class NavBar extends Component {
     super(props)
 
     this.state = {}
+    this.windowResize = this.windowResize.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -19,6 +20,24 @@ class NavBar extends Component {
     }
   }
 
+  windowResize() {
+    const { innerWidth } = window
+    this.setState({ hideNav: innerWidth < 660, innerWidth })
+  }
+
+  componentWillMount() {
+    this.windowResize()
+    window.addEventListener('resize', this.windowResize)
+  }
+
+  componentWillUnMount() {
+    window.removeEventListener('resize', this.windowResize)
+  }
+
+  //TODO -- display hamburger menu if small window
+  //TODO -- display nav menu if hamburger menu clicked
+  //TODO -- hide nav menu if 'close' is clicked
+  
   render() {
     return (
       <div className="nav-bar-container">
