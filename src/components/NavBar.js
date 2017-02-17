@@ -34,10 +34,10 @@ class NavBar extends Component {
     window.removeEventListener('resize', this.windowResize)
   }
 
-  //TODO -- display hamburger menu if small window
+  //TODO -- display menu icon if small window
   //TODO -- display nav menu if hamburger menu clicked
   //TODO -- hide nav menu if 'close' is clicked
-  
+
   render() {
     return (
       <div className="nav-bar-container">
