@@ -10,6 +10,12 @@ class NavBar extends Component {
     super(props)
 
     this.state = {}
+    this.windowResize = this.windowResize.bind(this)
+  }
+
+  windowResize() {
+    const { innerWidth } = window
+    this.setState({ hideNav: innerWidth < 660, innerWidth })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -18,6 +24,19 @@ class NavBar extends Component {
       .then(result => this.setState({isAdmin: result}))
     }
   }
+
+  componentWillMount() {
+    this.windowResize()
+    window.addEventListener('resize', this.windowResize)
+  }
+
+  componentWillUnMount() {
+    window.removeEventListener('resize', this.windowResize)
+  }
+
+  //TODO -- display menu icon if small window
+  //TODO -- display nav menu if hamburger menu clicked
+  //TODO -- hide nav menu if 'close' is clicked
 
   render() {
     return (
@@ -37,15 +56,17 @@ class NavBar extends Component {
             </Link>
           </div>
           <div className="nav-bar-item">
-            <Link to="/profile">
-            <div className="nav-link">My Matches</div>
-          </Link>
-          </div>
-          {/* <div className="nav-bar-item">
             <Link to="/about">
               <div className="nav-link">About</div>
             </Link>
-          </div> */}
+          </div>
+
+          <div className="nav-bar-item">
+            <Link to="/profile">
+              <div className="nav-link">My Matches</div>
+            </Link>
+          </div>
+      
           { this.state.isAdmin
             ? <div className="nav-bar-item">
                 <Link to="/admin">
