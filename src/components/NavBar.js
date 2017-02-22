@@ -60,11 +60,13 @@ class NavBar extends Component {
               <div className="nav-link">About</div>
             </Link>
           </div>
+
           <div className="nav-bar-item">
             <Link to="/profile">
-            <div className="nav-link">My Matches</div>
-          </Link>
+              <div className="nav-link">My Matches</div>
+            </Link>
           </div>
+      
           { this.state.isAdmin
             ? <div className="nav-bar-item">
                 <Link to="/admin">
