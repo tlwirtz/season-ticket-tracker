@@ -1,10 +1,10 @@
-import { updateAlert, generateAlertPayload } from '../actions/alert-actions'
+import * as actions from '../actions/alert-actions'
 
 describe('alert actions', () => {
   describe('update alert', () => {
     it('returns an action when no config passed', () => {
       const expectedAction = {
-        type: 'HIDE_ALERT',
+        type: actions.HIDE_ALERT,
         payload: {
           status: 'normal',
           visible: false,
@@ -12,7 +12,7 @@ describe('alert actions', () => {
         }
       }
 
-      const action = updateAlert()
+      const action = actions.updateAlert()
       expect(action).toEqual(expectedAction)
     })
 
@@ -34,7 +34,7 @@ describe('alert actions', () => {
         }
       }
 
-      const action = updateAlert(testConfig)
+      const action = actions.updateAlert(testConfig)
       expect(action).toEqual(expectedAction)
     })
   })
@@ -42,7 +42,7 @@ describe('alert actions', () => {
   describe('generateAlertPayload', () => {
     it('should generate an action to show alert', () => {
       const expectedAction = {
-        type: 'SHOW_ALERT',
+        type: actions.SHOW_ALERT,
         payload: {
           visible: true,
           status: 'test status',
@@ -50,7 +50,7 @@ describe('alert actions', () => {
         }
       }
 
-      const action = generateAlertPayload('test status', 'test msg')
+      const action = actions.generateAlertPayload('test status', 'test msg')
       expect(action).toEqual(expectedAction)
     })
   })
