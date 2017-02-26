@@ -71,9 +71,13 @@ describe('user actions', () => {
     })
   })
 
+  //TODO -- try actually mocking by using nock ...
+  //TODO -- figure out which calls
   describe('userLoginReq', () => {
-    xit('should log in a user', () => {
-      
+    it('should log in a user', () => {
+      const store = mockStore({})
+      return store.dispatch(actions.userLoginReq('google'))
+        .then(data => expect(data).toEqual(null))
     })
   })
 
