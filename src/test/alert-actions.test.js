@@ -38,4 +38,20 @@ describe('alert actions', () => {
       expect(action).toEqual(expectedAction)
     })
   })
+
+  describe('generateAlertPayload', () => {
+    it('should generate an action to show alert', () => {
+      const expectedAction = {
+        type: 'SHOW_ALERT',
+        payload: {
+          visible: true,
+          status: 'test status',
+          msg: 'test msg'
+        }
+      }
+
+      const action = generateAlertPayload('test status', 'test msg')
+      expect(action).toEqual(expectedAction)
+    })
+  })
 })
