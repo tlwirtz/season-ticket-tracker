@@ -40,7 +40,7 @@ describe('alert actions', () => {
   })
 
   describe('generateAlertPayload', () => {
-    it('should generate an action to show alert', () => {
+    it('generates an action to show alert', () => {
       const expectedAction = {
         type: actions.SHOW_ALERT,
         payload: {
