@@ -1,20 +1,22 @@
+// MOCKS
+jest.mock('../../base')
+jest.mock('../../store/configure-store')
+import base from '../../base'
+import * as config from '../../store/configure-store'
 import configureMockStore from 'redux-mock-store'
+
 import thunk from 'redux-thunk'
 import * as actions from '../user-actions'
 
 const middlewares = [ thunk ]
 const mockStore = configureMockStore(middlewares)
 
-jest.mock('../../base')
-import base from '../../base'
 
 base.authWithOAuthPopup = jest.fn((provider, authHandler) => {
   if (provider === 'bad-provider') return authHandler({ err: 'bad provider' })
   return authHandler(null, {user: { id: 'taylor' } })
 })
 
-jest.mock('../../store/configure-store')
-import * as config from '../../store/configure-store'
 config.history = { push: jest.fn() }
 
 const mapActions = (act) => act.type
