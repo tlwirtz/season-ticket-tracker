@@ -1,4 +1,4 @@
-import * as actions from '../actions/alert-actions'
+import * as actions from '../alert-actions'
 
 describe('alert actions', () => {
   describe('update alert', () => {
