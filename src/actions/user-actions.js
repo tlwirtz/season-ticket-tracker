@@ -94,7 +94,7 @@ export const checkIfLoggedIn = () => {
 }
 
 export const checkIfAdmin = (userId) => {
-  return base.fetch('admins', {context: {} })
+  return base.fetch('admins', { context: {} })
   .then(admins => Object.keys(admins).includes(userId))
   .catch(() => { return false })
 }
