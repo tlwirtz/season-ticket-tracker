@@ -1,3 +1,4 @@
+import base64 from 'base-64'
 let base = jest.genMockFromModule('../base')
 
 base.unauth = jest.fn()
@@ -12,14 +13,30 @@ base.onAuth = jest.fn((authHandler) => {
   authHandler(auth)
 })
 
+base.update = jest.fn((path, payload) => {
+  if (path && payload) return Promise.resolve()
+  return Promise.reject()
+})
+
 base.fetch = jest.fn((path, context) => {
   const admins = {
     user1: true,
     user2: true,
   }
+  const matches = {'testmatch': 'test'}
+  const codes = base64.encode('testcode')
 
-  if ( path === 'admins' ) return Promise.resolve(admins)
-  return Promise.resolve()
+  switch (path) {
+    case 'admins':
+      return Promise.resolve(admins)
+    case 'matches':
+      return Promise.resolve(matches)
+    case 'redemption-codes':
+      return Promise.resolve(codes)
+    default:
+      return Promise.reject()
+  }
+
 })
 
 export default base
