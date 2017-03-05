@@ -84,18 +84,17 @@ describe('user actions', () => {
     })
 
     it('should clear local storage', () => {
-      const expected =[ ['user', null] ]
       const store = mockStore({})
       store.dispatch(actions.userLogoutReq())
 
-      expect(localStorage.setItem.mock.calls).toEqual(expected)
+      expect(localStorage.setItem).toBeCalledWith('user', null)
     })
+
     it('should make a call to base.unauth', () => {
-      const expected = []
       const store = mockStore({})
       store.dispatch(actions.userLogoutReq())
 
-      expect(base.unauth.mock.calls.length).toEqual(1)
+      expect(base.unauth).toBeCalled();
     })
   })
 
@@ -127,12 +126,9 @@ describe('user actions', () => {
     it('correctly sets localStorage if user logged in', () => {
       const store = mockStore({})
       const user = { user: { id: 'taylor' } }
-      const expected = [
-        ['user', JSON.stringify(user)]
-      ]
 
       store.dispatch(actions.userLoginReq('google'))
-      expect(localStorage.setItem.mock.calls).toEqual(expected)
+      expect(localStorage.setItem).toBeCalledWith('user', JSON.stringify(user))
     })
 
     it('does not call localStorage or history', () => {
@@ -145,10 +141,9 @@ describe('user actions', () => {
 
     it('correctly sets the history if user logged in', () => {
       const store = mockStore({})
-      const expected = [ ['/'] ]
 
       store.dispatch(actions.userLoginReq('google'))
-      expect(config.history.push.mock.calls).toEqual(expected)
+      expect(config.history.push).toBeCalledWith('/')
     })
   })
 
@@ -157,7 +152,7 @@ describe('user actions', () => {
       const store = mockStore({})
       const authData = { email: 'taylor', password: 'fake' }
       store.dispatch(actions.userLoginLocalStorage(authData))
-      expect(base.onAuth.mock.calls.length).toEqual(1)
+      expect(base.onAuth).toBeCalled()
     })
 
     it('dispatches the proper actions', () => {
@@ -177,10 +172,9 @@ describe('user actions', () => {
       const store = mockStore({})
       const authData = { email: 'taylor', password: 'fake' }
       const user = { id: 'taylor' }
-      const expected = [ 'user', JSON.stringify({ user }) ]
 
       store.dispatch(actions.userLoginLocalStorage(authData))
-      expect(localStorage.setItem.mock.calls).toEqual([ expected ])
+      expect(localStorage.setItem).toBeCalledWith('user', JSON.stringify({ user}))
     })
   })
 
@@ -199,8 +193,17 @@ describe('user actions', () => {
   })
 
   describe('checkifLoggedIn', () => {
-    xit('checks if the user is in local storage', () => {
+    it('checks if the user is in local storage', () => {
+      const store = mockStore({})
+      const expected = [
+        actions.USER_LOGIN_REQUEST,
+        actions.USER_LOGIN_REQUEST_SUCCESS
+      ]
+      store.dispatch(actions.checkIfLoggedIn())
+      const dispatched = store.getActions().map(mapActions)
 
+      expect(localStorage.getItem).toBeCalledWith('user')
+      expect(dispatched).toEqual(expected)
     })
   })
 })
