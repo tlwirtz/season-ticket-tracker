@@ -9,6 +9,7 @@
     "animate.css": "^3.5.2",
     "base-64": "^0.1.0",
     "classnames": "^2.2.5",
+    "enzyme": "^2.7.1",
     "lodash": "^4.17.4",
     "nock": "^9.0.7",
     "re-base": "^2.5.2",
