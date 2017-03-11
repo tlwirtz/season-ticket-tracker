@@ -7,7 +7,7 @@ import Footer from './Footer';
 import '../styles/App.css';
 
 //TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
-class App extends Component {
+export class App extends Component {
   render() {
     return (
       <div>

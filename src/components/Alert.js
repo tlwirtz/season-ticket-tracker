@@ -6,7 +6,7 @@ import '../styles/Alert.css';
 import {  HIDE_ALERT, updateAlert }
   from '../actions/alert-actions';
 
-class Alert extends Component {
+export class Alert extends Component {
   constructor(props) {
     super(props);
 

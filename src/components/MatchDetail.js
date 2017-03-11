@@ -5,7 +5,7 @@ import { selectMatch } from '../actions/matches-actions';
 import RedeemMatch from './RedeemMatch';
 import '../styles/MatchDetail.css';
 
-class MatchDetail extends Component {
+export class MatchDetail extends Component {
   constructor(props) {
     super(props);
 

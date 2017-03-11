@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { checkIfAdmin } from '../actions/user-actions';
 import Match from './Match';
 
-class Admin extends Component {
+export class Admin extends Component {
   constructor(props) {
     super(props);
 

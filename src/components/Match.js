@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import '../styles/Match.css';
 
-class Match extends Component {
+export class Match extends Component {
   constructor(props) {
     super(props);
 

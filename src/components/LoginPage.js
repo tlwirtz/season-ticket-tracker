@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { userLogoutReq, userLoginReq } from '../actions/user-actions';
-import _ from 'lodash';
 import '../styles/LoginPage.css';
 
-class LoginPage extends Component {
+export class LoginPage extends Component {
   constructor(props) {
     super(props);
 

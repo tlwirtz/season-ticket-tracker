@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import Match from './Match';
 import NotLoggedIn from './NotLoggedIn';
 
-class UserProfile extends Component {
+export class UserProfile extends Component {
   constructor(props) {
     super(props);
 

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { updateMatchReq } from '../actions/matches-actions';
 import '../styles/RedeemMatch.css';
 
-class RedeemMatch extends Component {
+export class RedeemMatch extends Component {
   constructor(props) {
     super(props);
 

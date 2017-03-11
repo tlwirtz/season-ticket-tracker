@@ -5,7 +5,7 @@ import { userLogoutReq, checkIfAdmin } from '../actions/user-actions';
 import '../styles/NavBar.css';
 import '../styles/Colors.css';
 
-class NavBar extends Component {
+export class NavBar extends Component {
   constructor(props) {
     super(props);
 

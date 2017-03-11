@@ -5,7 +5,7 @@ import { selectMatch } from '../actions/matches-actions';
 
 import Match from './Match';
 
-class MatchList extends Component {
+export class MatchList extends Component {
 
   render() {
     const items = Object.keys(this.props.matches).map((key) => {
