@@ -24,6 +24,7 @@
     "browser": true
   },
   "globals": {
+    "jest":true,
     "describe": false,
     "it": false,
     "beforeEach": false,
@@ -40,5 +41,6 @@
       "impliedStrict": true
     },
   },
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "react-app"]
+  
 }

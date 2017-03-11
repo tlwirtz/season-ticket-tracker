@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from 'lodash';
 
 export const SHOW_ALERT = 'SHOW_ALERT';
 export const HIDE_ALERT = 'HIDE_ALERT';
@@ -11,10 +11,10 @@ export const updateAlert = config => {
       visible: false,
       msg: 'No message provided.'
     }
-  }
+  };
 
-  return _.merge(defaults, config)
-}
+  return _.merge(defaults, config);
+};
 
 export const generateAlertPayload = (status, msg) => {
   return {
@@ -24,5 +24,5 @@ export const generateAlertPayload = (status, msg) => {
       status,
       msg
     }
-  }
-}
+  };
+};

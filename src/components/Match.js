@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 import '../styles/Match.css';
 
 class Match extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.renderMatchCard = this.renderMatchCard.bind(this)
-    this.renderMatchCondensed = this.renderMatchCondensed.bind(this)
+    this.renderMatchCard = this.renderMatchCard.bind(this);
+    this.renderMatchCondensed = this.renderMatchCondensed.bind(this);
   }
 
   renderMatchCard() {
-    const { awayTeam, date, time, ticketPrice } = this.props.matchData
+    const { awayTeam, date, time, ticketPrice } = this.props.matchData;
 
     return (
         <div className="desc" >
@@ -19,11 +19,11 @@ class Match extends Component {
           <p> {date.toUpperCase()} - {time} </p>
            <p> ${(ticketPrice / 100).toFixed(2)} </p>
         </div>
-    )
+    );
   }
 
   renderMatchCondensed() {
-    const { id, awayTeam, date, time, location } = this.props.matchData
+    const { id, awayTeam, date, time, location } = this.props.matchData;
 
     return (
       <Link to={`/matches/${id}`}>
@@ -33,7 +33,7 @@ class Match extends Component {
           <h5 className="match-condensed-subheading medium-grey-text">{location}</h5>
         </div>
       </Link>
-    )
+    );
   }
 
   render() {
@@ -45,7 +45,7 @@ class Match extends Component {
           : this.renderMatchCard()
         }
       </div>
-    )
+    );
   }
 }
 
@@ -53,4 +53,4 @@ Match.propTypes =  {
   matchData: React.PropTypes.object.isRequired,
 };
 
-export default Match
+export default Match;

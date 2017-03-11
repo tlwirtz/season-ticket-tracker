@@ -1,21 +1,21 @@
 import React from 'react';
-import { Router, Route, IndexRoute } from 'react-router'
+import { Router, Route, IndexRoute } from 'react-router';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
-import store, { history } from './store/configure-store'
-import { fetchMatches } from './actions/matches-actions'
-import { checkIfLoggedIn } from './actions/user-actions'
-import MatchList from './components/MatchList'
+import store, { history } from './store/configure-store';
+import { fetchMatches } from './actions/matches-actions';
+import { checkIfLoggedIn } from './actions/user-actions';
+import MatchList from './components/MatchList';
 import App from './components/App';
-import LoginPage from './components/LoginPage'
-import MatchDetail from './components/MatchDetail'
-import UserProfile from './components/UserProfile'
-import Admin from './components/Admin'
-import About from './components/About'
+import LoginPage from './components/LoginPage';
+import MatchDetail from './components/MatchDetail';
+import UserProfile from './components/UserProfile';
+import Admin from './components/Admin';
+import About from './components/About';
 import './styles/index.css';
 
-store.dispatch(fetchMatches())
-store.dispatch(checkIfLoggedIn())
+store.dispatch(fetchMatches());
+store.dispatch(checkIfLoggedIn());
 
 const Root = () => {
   return (
@@ -31,8 +31,8 @@ const Root = () => {
         </Route>
       </Router>
     </Provider>
-  )
-}
+  );
+};
 
 ReactDOM.render(
   <Root />,

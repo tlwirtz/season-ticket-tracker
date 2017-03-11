@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 
 class About extends Component {
   render() {
@@ -26,8 +26,8 @@ class About extends Component {
           <p>Don't panic if you must cancel within 48 hours of match day! Just let me know as soon as you can and we can work together to find a solution. Feel free to hand off your ticket to a friend to take their spot!</p>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default About
+export default About;

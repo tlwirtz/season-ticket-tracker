@@ -1,4 +1,4 @@
-import * as actions from '../alert-actions'
+import * as actions from '../alert-actions';
 
 describe('alert actions', () => {
   describe('update alert', () => {
@@ -10,11 +10,11 @@ describe('alert actions', () => {
           visible: false,
           msg: 'No message provided.'
         }
-      }
+      };
 
-      const action = actions.updateAlert()
-      expect(action).toEqual(expectedAction)
-    })
+      const action = actions.updateAlert();
+      expect(action).toEqual(expectedAction);
+    });
 
     it('overrides defaults when config passed', () => {
       const expectedAction = {
@@ -24,7 +24,7 @@ describe('alert actions', () => {
           visible: true,
           msg: 'test message.'
         }
-      }
+      };
 
       const testConfig = {
         type: 'TEST_ALERT',
@@ -32,12 +32,12 @@ describe('alert actions', () => {
           visible: true,
           msg: 'test message.'
         }
-      }
+      };
 
-      const action = actions.updateAlert(testConfig)
-      expect(action).toEqual(expectedAction)
-    })
-  })
+      const action = actions.updateAlert(testConfig);
+      expect(action).toEqual(expectedAction);
+    });
+  });
 
   describe('generateAlertPayload', () => {
     it('generates an action to show alert', () => {
@@ -48,10 +48,10 @@ describe('alert actions', () => {
           status: 'test status',
           msg: 'test msg'
         }
-      }
+      };
 
-      const action = actions.generateAlertPayload('test status', 'test msg')
-      expect(action).toEqual(expectedAction)
-    })
-  })
-})
+      const action = actions.generateAlertPayload('test status', 'test msg');
+      expect(action).toEqual(expectedAction);
+    });
+  });
+});

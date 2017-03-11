@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router'
-import { connect } from 'react-redux'
-import { selectMatch } from '../actions/matches-actions'
+import React, { Component } from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { selectMatch } from '../actions/matches-actions';
 
-import Match from './Match'
+import Match from './Match';
 
 class MatchList extends Component {
 
   render() {
     const items = Object.keys(this.props.matches).map((key) => {
-      const bg = this.props.matches[key].awayTeam.img
+      const bg = this.props.matches[key].awayTeam.img;
       return (
         <Link
           key={key} to={`/matches/${key}`}
@@ -20,14 +20,14 @@ class MatchList extends Component {
               matchData={this.props.matches[key]}
               {...this.props}/>
         </Link>
-      )
+      );
     }
-  )
+  );
     return (
       <div className='match-container'>
         { items }
       </div>
-    )
+    );
   }
 }
 
@@ -36,20 +36,20 @@ const mapStateToProps = (state) => {
     matches: state.matches.data,
     user: state.user,
     alert: state.alert.visible
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onMatchClick: (matchId) => {
-      dispatch(selectMatch(matchId))
+      dispatch(selectMatch(matchId));
     }
-  }
-}
+  };
+};
 
 const MatchListContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MatchList)
+)(MatchList);
 
-export default MatchListContainer
+export default MatchListContainer;

@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { selectMatch } from '../actions/matches-actions'
-import NavBar from './NavBar'
-import Alert from './Alert'
-import Footer from './Footer'
-import '../styles/App.css'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { selectMatch } from '../actions/matches-actions';
+import NavBar from './NavBar';
+import Alert from './Alert';
+import Footer from './Footer';
+import '../styles/App.css';
 
 //TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
         { this.props.children }
         <Footer />
     </div>
-    )
+    );
   }
 }
 
@@ -25,20 +25,20 @@ const mapStateToProps = (state) => {
     matches: state.matches.data,
     user: state.user,
     alert: state.alert.visible
-  }
-}
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     matchClick: (matchId) => {
-      dispatch(selectMatch(matchId))
+      dispatch(selectMatch(matchId));
     }
-  }
-}
+  };
+};
 
 const AppContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)
+)(App);
 
 export default AppContainer;
