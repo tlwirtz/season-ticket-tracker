@@ -5,6 +5,9 @@
   "devDependencies": {
     "react-scripts": "0.9.3"
   },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "dependencies": {
     "animate.css": "^3.5.2",
     "base-64": "^0.1.0",
