@@ -1,6 +1,6 @@
 import base64 from 'base-64';
 import base from '../base';
-import  { updateAlert, generateAlertPayload } from './alert-actions';
+import { updateAlert, generateAlertPayload } from './alert-actions';
 
 export const ADD_MATCHES = 'ADD_MATCHES';
 export const ADD_MATCHES_SUCCESS = 'ADD_MATCHES_SUCCESS';
@@ -77,15 +77,22 @@ export const updateMatchFailure = (matchId, err) => {
 export const fetchMatches = () => {
   return (dispatch) => {
     dispatch(addMatches());
-    return base.fetch('matches', {context: {}})
-    .then((data) => dispatch(addMatchesSuccess(data)))
-    .catch((err) => dispatch(addMatchesFailure(err)));
+    return base.fetch('matches', { context: {} })
+      .then((data) => dispatch(addMatchesSuccess(data)))
+      .catch((err) => dispatch(addMatchesFailure(err)));
   };
 };
 
-const fetchAuthCode = () => base.fetch('redemption-codes', {context: {}});
+const fetchAuthCode = () => base.fetch('redemption-codes', { context: {} });
 const validateRedemptionCode = (userCode, redemptionCode) => base64.encode(userCode.toLowerCase()) === redemptionCode;
+const updateQtyTickets = (data) => {
+  if (data.qtyTicketsAvailable > 0) {
+    const qty = data.qtyTicketsAvailable - 1
+    return base.update(`matches/${data.id}`, { data: { qtyTicketsAvailable: qty } })
+  }
 
+  return Promise.resolve()
+}
 export const updateMatchReq = (matchId, payload, userCode) => {
   return (dispatch) => {
     const defaultSuccess = generateAlertPayload('success', 'Sweet! You\'re going to this match');
@@ -94,22 +101,24 @@ export const updateMatchReq = (matchId, payload, userCode) => {
     dispatch(updateMatch());
 
     return fetchAuthCode()
-    .then(redemptionCode => validateRedemptionCode(userCode, redemptionCode))
-    .then(validatedCode => {
-      if (validatedCode) {
-        return base.update(`matches/${matchId}`, { data: payload });
-      }
-      return Promise.reject({custom: true, msg: 'You did not provide a valid redemption code'});
-    })
-    .then(() => {
-      dispatch(updateAlert(defaultSuccess));
-      dispatch(updateMatchSuccess(matchId, payload));
-    })
-    .catch(err => {
-      err.custom
-      ? dispatch(updateAlert(generateAlertPayload('error', err.msg)))
-      : dispatch(updateAlert(defaultError));
-      dispatch(updateMatchFailure(matchId, err));
-    });
+      .then(redemptionCode => validateRedemptionCode(userCode, redemptionCode))
+      .then(validatedCode => {
+        if (validatedCode) {
+          return base.fetch(`matches/${matchId}`, { context: {} })
+          .then(updateQtyTickets)
+          .then(() => base.update(`matches/${matchId}`, { data: payload }))
+        }
+        return Promise.reject({ custom: true, msg: 'You did not provide a valid redemption code' });
+      })
+      .then(() => {
+        dispatch(updateAlert(defaultSuccess));
+        dispatch(updateMatchSuccess(matchId, payload));
+      })
+      .catch(err => {
+        err.custom
+          ? dispatch(updateAlert(generateAlertPayload('error', err.msg)))
+          : dispatch(updateAlert(defaultError));
+        dispatch(updateMatchFailure(matchId, err));
+      });
   };
 };

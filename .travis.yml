@@ -14,5 +14,3 @@ deploy:
     secure: "R0cSxQUQu63J0vM/i9Oj6qD1NGzWfPuONwFXWi+UtwJO2qRSi/7lborhIFRSg1ePd1bNc8n0rnUutiHZ4rnfmH40Wl7im6R1jBOLQdvkyR8jP0nq2DP0kyydwDPvCDuEHYChR5AO/jU2rbFV/cXG6/bLeVw8RatO3j5BmVwLUPLCquBedbt5z2/RRA+4pUMPEkJXJcSxkmWQ3OMDccu7oW2vguXF24iReyMx4H+OerjyTO/3dBPTv2RY4yzPxpQKBbS+F+Qcaz4Tl81LCJjMJ1O1S1o6EiJFEWw1ApGTcNOEaREPIl5V0nAvZ3MfK03Cbxn8wW7r+l2f0iolsEdGFVgN9izyZPQOiftMVLTreuTpS2eymXpS7Qyl5nEWPkVoPoSZyrHglVkOEjzfhiVwPwvuNYO4tVwC5jM/Q5OPmVrZS6gYdkIIQgyFBlj4dV6ZJ2xCzI3ZEdSTFxIVjrmuDDVjhR7OCYtvmYLqo1nkxf/o5mVL5Lix1KICM7LQbCg8/32Xb8l6SRySCRpFwfuRPFWCf1NRccvjT3KWA/aVL2jtavZlax0bot2wh13XzLTgwOQ+uPi1z8aRMyuEp4hdumFyKbbS0YXFk4BaiBrUjDTHlwceUUDEaKz1wzb/7Ba+Y13o7AYY9xd5lsjR2rK/syvH6v+RO4RKqWPe0ga3SEE="
   on:
     branch: master
-# after_success:
-#  - npm run build && firebase deploy --token ${FIREBASE_TOKEN} --non-interactive
