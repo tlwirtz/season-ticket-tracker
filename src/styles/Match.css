@@ -8,6 +8,10 @@
   height: 100px;
 }
 
+.extra-left-margin {
+  margin-left: 48px;
+}
+
 .match {
   min-width: 20%;
   max-width: 100%;
@@ -121,6 +125,10 @@ a.soft-grey-text:hover {
 
 /* Really small phones */
 @media screen and (max-width:320px) {
+  .extra-left-margin {
+    margin-left: 0;
+  }
+
   .match-container {
     justify-content: center;
   }
@@ -135,6 +143,10 @@ a.soft-grey-text:hover {
 
 /* Regular smart phones, including iPhone 6 + with 414px viewport! */
 @media screen and (min-width: 321) {
+  .extra-left-margin {
+    margin-left: 0;
+  }
+
   .match-container {
     justify-content: center;
   }
@@ -149,6 +161,10 @@ a.soft-grey-text:hover {
 
 /* Regular Tablets from 480 to 800px including Galaxy tablets - 768px is only good for iPad */
 @media screen and (min-width: 481px) {
+  .extra-left-margin {
+    margin-left: 0;
+  }
+
   .match-container {
     justify-content: center;
   }
@@ -162,6 +178,10 @@ a.soft-grey-text:hover {
 }
 
 @media screen and (min-width: 660px) {
+  .extra-left-margin {
+    margin-left: 48px;
+  }
+
   .match-container {
     justify-content: flex-start;
   }
@@ -175,6 +195,10 @@ a.soft-grey-text:hover {
 }
 
 @media screen and (min-width: 810px) {
+  .extra-left-margin {
+    margin-left: 48px;
+  }
+
   .match-container {
     justify-content: flex-start;
   }
