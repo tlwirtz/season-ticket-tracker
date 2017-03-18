@@ -12,7 +12,6 @@ export const updateAlert = config => {
       msg: 'No message provided.'
     }
   };
-
   return _.merge(defaults, config);
 };
 
