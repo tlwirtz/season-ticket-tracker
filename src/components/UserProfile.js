@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash'
-import { Link } from 'react-router'
-import Match from './Match'
-import NotLoggedIn from './NotLoggedIn'
+import _ from 'lodash';
+import { Link } from 'react-router';
+import Match from './Match';
+import NotLoggedIn from './NotLoggedIn';
 
-class UserProfile extends Component {
+export class UserProfile extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.renderLoggedIn = this.renderLoggedIn.bind(this)
-    this.renderNotLoggedIn = this.renderNotLoggedIn.bind(this)
+    this.renderLoggedIn = this.renderLoggedIn.bind(this);
+    this.renderNotLoggedIn = this.renderNotLoggedIn.bind(this);
   }
 
   renderLoggedIn() {
@@ -34,13 +34,13 @@ class UserProfile extends Component {
           }
         </ul>
       </div>
-    )
+    );
   }
 
   renderNotLoggedIn() {
     return (
       <NotLoggedIn />
-    )
+    );
   }
 
   render() {
@@ -54,31 +54,31 @@ class UserProfile extends Component {
             }
           </div>
         </div>
-    )
+    );
   }
 }
 
-const filterUserMatches = (match, userid) => match.claimedUserId === userid
-const reduceMatches = (matches) => (a, b) => a.concat([matches[b]])
-const matchReducer = matches => reduceMatches(matches.data)
+const filterUserMatches = (match, userid) => match.claimedUserId === userid;
+const reduceMatches = (matches) => (a, b) => a.concat([matches[b]]);
+const matchReducer = matches => reduceMatches(matches.data);
 const computeUserMatches = (user, matches) => {
   return Object
     .keys(matches.data)
     .reduce(matchReducer(matches), [])
-    .filter((match) => filterUserMatches(match, user.uid))
-}
+    .filter((match) => filterUserMatches(match, user.uid));
+};
 
 
 const mapStateToProps = (state) => {
-  const { matches } = state
-  const user = _.isEmpty(state.user) ? null : state.user.user
+  const { matches } = state;
+  const user = _.isEmpty(state.user) ? null : state.user.user;
 
   return {
     userMatches: user ? computeUserMatches(user, matches) : null,
     user
-  }
-}
+  };
+};
 
-const UserProfileContainer = connect(mapStateToProps)(UserProfile)
+const UserProfileContainer = connect(mapStateToProps)(UserProfile);
 
 export default UserProfileContainer;

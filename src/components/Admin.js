@@ -1,34 +1,34 @@
-import _ from 'lodash'
+import _ from 'lodash';
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { checkIfAdmin } from '../actions/user-actions'
-import Match from './Match'
+import { connect } from 'react-redux';
+import { checkIfAdmin } from '../actions/user-actions';
+import Match from './Match';
 
-class Admin extends Component {
+export class Admin extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.state = { }
-    this.renderAdmin = this.renderAdmin.bind(this)
-    this.renderNotAdmin = this.renderNotAdmin.bind(this)
-    this.checkAdmin = this.checkAdmin.bind(this)
+    this.state = { };
+    this.renderAdmin = this.renderAdmin.bind(this);
+    this.renderNotAdmin = this.renderNotAdmin.bind(this);
+    this.checkAdmin = this.checkAdmin.bind(this);
   }
 
   componentWillMount() {
-    const { user } = this.props
-    if (user)  return this.checkAdmin(user.uid)
-    return this.setState({isAdmin: false})
+    const { user } = this.props;
+    if (user)  return this.checkAdmin(user.uid);
+    return this.setState({isAdmin: false});
   }
 
   componentWillReceiveProps(nextProps) {
-    const { user } = nextProps
-    if (user) return this.checkAdmin(user.uid)
-    return this.setState({isAdmin: false})
+    const { user } = nextProps;
+    if (user) return this.checkAdmin(user.uid);
+    return this.setState({isAdmin: false});
   }
 
   checkAdmin(userid) {
     checkIfAdmin(userid)
-    .then(result => this.setState({isAdmin: result}))
+    .then(result => this.setState({isAdmin: result}));
   }
 
   renderAdmin() {
@@ -51,7 +51,7 @@ class Admin extends Component {
           </ul>
         </h2>
       </div>
-    )
+    );
   }
 
   renderNotAdmin() {
@@ -59,7 +59,7 @@ class Admin extends Component {
       <div >
         <h1 className="match-detail-title"> Oh no! You don't have access to this page.</h1>
       </div>
-    )
+    );
   }
 
   render() {
@@ -73,30 +73,30 @@ class Admin extends Component {
           }
         </div>
       </div>
-    )
+    );
   }
 }
 
-const reduceMatches = (matches) => (a, b) => a.concat([matches[b]])
-const matchReducer = matches => reduceMatches(matches.data)
+const reduceMatches = (matches) => (a, b) => a.concat([matches[b]]);
+const matchReducer = matches => reduceMatches(matches.data);
 
 const claimedMatches = (matches) => {
   return Object
     .keys(matches.data)
     .reduce(matchReducer(matches), [])
-    .filter((match) => !match.available && match.claimedUserId)
-}
+    .filter((match) => !match.available && match.claimedUserId);
+};
 
 const mapStateToProps = (state) => {
-  const { matches } = state
-  const user = _.isEmpty(state.user) ? null : state.user.user
+  const { matches } = state;
+  const user = _.isEmpty(state.user) ? null : state.user.user;
 
   return {
     user,
     claimedMatches: matches ? claimedMatches(matches) : null,
-  }
-}
+  };
+};
 
-const AdminContainer = connect(mapStateToProps)(Admin)
+const AdminContainer = connect(mapStateToProps)(Admin);
 
 export default AdminContainer;
