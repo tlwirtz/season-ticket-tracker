@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { checkIfAdmin } from '../actions/user-actions';
 import Match from './Match';
@@ -77,6 +77,11 @@ export class Admin extends Component {
   }
 }
 
+Admin.propTypes = {
+  user: T.object.isRequired,
+  claimedMatches: T.array.isRequired,
+}
+
 const reduceMatches = (matches) => (a, b) => a.concat([matches[b]]);
 const matchReducer = matches => reduceMatches(matches.data);
 
@@ -98,5 +103,6 @@ const mapStateToProps = (state) => {
 };
 
 const AdminContainer = connect(mapStateToProps)(Admin);
+
 
 export default AdminContainer;

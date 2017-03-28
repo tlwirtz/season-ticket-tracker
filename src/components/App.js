@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import React, { Component, PropTypes as T } from 'react';
 import { selectMatch } from '../actions/matches-actions';
 import NavBar from './NavBar';
 import Alert from './Alert';
@@ -20,6 +20,13 @@ export class App extends Component {
   }
 }
 
+App.propTypes = {
+  alert: T.instanceOf(Alert),
+  children: T.element
+}
+
+//TODO -- do we really need to have matches and user and matchClick?
+// These don't seem to do anything ...
 const mapStateToProps = (state) => {
   return {
     matches: state.matches.data,

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { userLogoutReq, checkIfAdmin } from '../actions/user-actions';
@@ -92,6 +92,11 @@ export class NavBar extends Component {
       </div>
     );
   }
+}
+
+NavBar.propTypes = {
+  user: T.object.isRequired,
+  logout: T.func.isRequired
 }
 
 const mapStateToProps = (state) => {

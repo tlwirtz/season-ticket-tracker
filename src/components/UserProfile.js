@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router';
@@ -56,6 +56,11 @@ export class UserProfile extends Component {
         </div>
     );
   }
+}
+
+UserProfile.propTypes = {
+  userMatches: T.array,
+  user: T.object
 }
 
 const filterUserMatches = (match, userid) => match.claimedUserId === userid;

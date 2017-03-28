@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { Link } from 'react-router';
 import '../styles/Match.css';
 
@@ -50,7 +50,8 @@ export class Match extends Component {
 }
 
 Match.propTypes =  {
-  matchData: React.PropTypes.object.isRequired,
+  matchData: T.object.isRequired,
+  condensed: T.bool
 };
 
 export default Match;

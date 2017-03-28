@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { selectMatch } from '../actions/matches-actions';
 import RedeemMatch from './RedeemMatch';
@@ -116,12 +116,20 @@ export class MatchDetail extends Component {
   }
 }
 
+MatchDetail.propTypes = {
+  match: T.object.isRequired,
+  user: T.object.isRequired,
+  credential: T.object,
+  alert: T.bool,
+  selectMatch: T.func.isRequired
+}
+
 const mapStateToProps = (state) => {
   const isLoggedIn = !(_.isEmpty(state.user));
   return {
     match: state.matches.data[state.matches.selectedMatch],
     user: isLoggedIn ? state.user.user : null,
-    credential: isLoggedIn ? state.user.credential : null,
+    credential: isLoggedIn ? state.user.credential : null, //TODO -- review if this is needed
     alert: state.alert.visible
   };
 };

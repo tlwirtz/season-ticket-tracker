@@ -11,7 +11,8 @@ const props = {
         img: 'testimg'
       }
     }
-  ]
+  ],
+  onMatchClick: () => null
 }
 describe('MatchList Component', () => {
   it('renders without crashing', () => {

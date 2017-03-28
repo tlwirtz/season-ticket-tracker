@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { selectMatch } from '../actions/matches-actions';
@@ -59,11 +59,16 @@ export class MatchList extends Component {
   }
 }
 
+MatchList.propTypes = {
+  matches: T.array.isRequired,
+  user: T.object, //TODO -- do we need the user?
+  onMatchClick: T.func.isRequired,
+}
+
 const mapStateToProps = (state) => {
   return {
     matches: state.matches.data,
     user: state.user,
-    alert: state.alert.visible
   };
 };
 

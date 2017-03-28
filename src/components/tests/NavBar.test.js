@@ -5,6 +5,7 @@ import { NavBar } from '../NavBar';
 
 const props = {
   user: { uid: 'testuid', user: 'testuser' },
+  logout: () => null
 }
 
 describe('NavBar Component', () => {
