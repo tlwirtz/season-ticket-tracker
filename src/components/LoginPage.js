@@ -59,7 +59,9 @@ LoginPage.propTypes = {
   logout: T.func.isRequired,
 }
 
-const mapStateToProps = (state) => {}
+const mapStateToProps = (state) => {
+  return {}
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
