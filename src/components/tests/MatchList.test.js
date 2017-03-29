@@ -4,16 +4,17 @@ import { shallow } from 'enzyme';
 import { MatchList } from '../MatchList';
 
 const props = {
-  matches: [
-    {
+  matches: {
+    matchOne: {
       awayTeam: {
         name: 'testname',
         img: 'testimg'
       }
     }
-  ],
+  },
   onMatchClick: () => null
 }
+
 describe('MatchList Component', () => {
   it('renders without crashing', () => {
     shallow(<MatchList {...props } />)

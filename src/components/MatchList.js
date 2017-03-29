@@ -60,7 +60,7 @@ export class MatchList extends Component {
 }
 
 MatchList.propTypes = {
-  matches: T.array.isRequired,
+  matches: T.object.isRequired,
   user: T.object, //TODO -- do we need the user?
   onMatchClick: T.func.isRequired,
 }
