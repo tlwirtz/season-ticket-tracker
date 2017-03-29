@@ -1,44 +1,34 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectMatch } from '../actions/matches-actions';
+import React, { Component, PropTypes as T } from 'react';
 import NavBar from './NavBar';
 import Alert from './Alert';
 import Footer from './Footer';
 import '../styles/App.css';
 
-//TODO -- NEED TO HOOK UP TO REDUX WITH CONNECT()
 export class App extends Component {
   render() {
     return (
       <div>
         <NavBar />
-        { this.props.alert ? <Alert /> : null }
-        { this.props.children }
+        {this.props.alert ? <Alert /> : null}
+        {this.props.children}
         <Footer />
-    </div>
+      </div>
     );
   }
 }
 
+App.propTypes = {
+  alert: T.bool,
+  children: T.element
+}
+
 const mapStateToProps = (state) => {
   return {
-    matches: state.matches.data,
-    user: state.user,
     alert: state.alert.visible
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    matchClick: (matchId) => {
-      dispatch(selectMatch(matchId));
-    }
-  };
-};
-
-const AppContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+const AppContainer = connect(mapStateToProps)(App);
 
 export default AppContainer;

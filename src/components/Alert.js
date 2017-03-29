@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import '../styles/Alert.css';
@@ -37,6 +37,11 @@ export class Alert extends Component {
       </div>
     );
   }
+}
+
+Alert.propTypes = {
+  status: T.oneOf(['normal', 'error', 'success', 'warning']),
+  msg: T.string,
 }
 
 const mapStateToProps = (state) => {

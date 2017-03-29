@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
 import { updateMatchReq } from '../actions/matches-actions';
 import '../styles/RedeemMatch.css';
@@ -53,6 +53,12 @@ export class RedeemMatch extends Component {
       </div>
     );
   }
+}
+
+RedeemMatch.propTypes = {
+  claimTicket: T.func.isRequired,
+  user: T.object,
+  match: T.object,
 }
 
 const mapDispatchToProps = (dispatch) => {

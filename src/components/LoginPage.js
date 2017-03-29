@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { userLogoutReq, userLoginReq } from '../actions/user-actions';
@@ -54,11 +54,12 @@ export class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: _.isEmpty(state.user) ? null : state.user
-  };
-};
+LoginPage.propTypes = {
+  login: T.func.isRequired,
+  logout: T.func.isRequired,
+}
+
+const mapStateToProps = (state) => {}
 
 const mapDispatchToProps = (dispatch) => {
   return {
