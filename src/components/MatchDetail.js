@@ -11,7 +11,6 @@ export class MatchDetail extends Component {
 
     this.ticketAvailable = this.ticketAvailable.bind(this);
     this.renderMatchDetails = this.renderMatchDetails.bind(this);
-    this.handleClaimTicket = this.handleClaimTicket.bind(this);
     this.matchBelongToUser = this.matchBelongToUser.bind(this);
     this.renderMatchAvailable = this.renderMatchAvailable.bind(this);
   }
@@ -25,23 +24,11 @@ export class MatchDetail extends Component {
   }
 
   ticketAvailable(match) {
-    //TODO -- this should also check qty available when that gets set up
-    return !match.claimedUserId || match.available;
-  }
-
-  handleClaimTicket(e) {
-    e.preventDefault();
-
-    const { user, params} = this.props;
-    if (user.uid) {
-      return this.props.claimTicket(params.matchId, user.uid);
-    }
-
-    return false;
+    return !match.claimedUser || match.available || match.qtyTicketsAvailable > 0;
   }
 
   matchBelongToUser(userId, match) {
-    return match.claimedUserId === userId;
+    return match.claimedUser.uid === userId;
   }
 
   handleChange(e) {
