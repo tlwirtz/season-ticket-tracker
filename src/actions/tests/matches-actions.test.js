@@ -118,6 +118,7 @@ describe('updateMatchReq', () => {
     const store = mockStore({});
     const expected = [
       actions.UPDATE_MATCH,
+      actions.UPDATE_MATCH_SUCCESS,
       'SHOW_ALERT',
       actions.UPDATE_MATCH_SUCCESS
     ];
