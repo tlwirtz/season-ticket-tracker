@@ -6,7 +6,7 @@ import rootReducer from '../reducers';
 
 const initialState = {
   matches: {
-    data: []
+    data: {}
   }
 };
 
