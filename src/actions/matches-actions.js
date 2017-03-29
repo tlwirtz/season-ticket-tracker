@@ -94,6 +94,7 @@ const updateQtyTickets = (data) => {
 
   return Promise.resolve()
 }
+
 export const updateMatchReq = (matchId, payload, userCode) => {
   return (dispatch) => {
     const defaultSuccess = generateAlertPayload('success', 'Sweet! You\'re going to this match');
