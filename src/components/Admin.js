@@ -8,7 +8,7 @@ export class Admin extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { };
+    this.state = {};
     this.renderAdmin = this.renderAdmin.bind(this);
     this.renderNotAdmin = this.renderNotAdmin.bind(this);
     this.checkAdmin = this.checkAdmin.bind(this);
@@ -16,19 +16,19 @@ export class Admin extends Component {
 
   componentWillMount() {
     const { user } = this.props;
-    if (user)  return this.checkAdmin(user.uid);
-    return this.setState({isAdmin: false});
+    if (user) return this.checkAdmin(user.uid);
+    return this.setState({ isAdmin: false });
   }
 
   componentWillReceiveProps(nextProps) {
     const { user } = nextProps;
     if (user) return this.checkAdmin(user.uid);
-    return this.setState({isAdmin: false});
+    return this.setState({ isAdmin: false });
   }
 
   checkAdmin(userid) {
     checkIfAdmin(userid)
-    .then(result => this.setState({isAdmin: result}));
+      .then(result => this.setState({ isAdmin: result }));
   }
 
   renderAdmin() {
@@ -38,15 +38,15 @@ export class Admin extends Component {
           <ul>
             {
               this.props.claimedMatches.length > 0
-              ? this.props.claimedMatches.map( match =>
-                <li key={match.id} className="animated fadeInUp">
-                  <Match key={match.id} matchData={match} condensed />
-                </li> )
-              : (
-                <div className="animated fadeInUp">
-                  <h2 className="medium-grey-text">No Matches Claimed at this Time</h2>
-                </div>
-              )
+                ? this.props.claimedMatches.map(match =>
+                  <li key={match.id} className="animated fadeInUp">
+                    <Match key={match.id} matchData={match} condensed admin />
+                  </li>)
+                : (
+                  <div className="animated fadeInUp">
+                    <h2 className="medium-grey-text">No Matches Claimed at this Time</h2>
+                  </div>
+                )
             }
           </ul>
         </h2>
@@ -68,8 +68,8 @@ export class Admin extends Component {
         <div className="match-detail-item">
           {
             this.state.isAdmin
-            ? this.renderAdmin()
-            : this.renderNotAdmin()
+              ? this.renderAdmin()
+              : this.renderNotAdmin()
           }
         </div>
       </div>
@@ -89,7 +89,7 @@ const claimedMatches = (matches) => {
   return Object
     .keys(matches.data)
     .reduce(matchReducer(matches), [])
-    .filter((match) => !match.available && match.claimedUserId);
+    .filter((match) => !match.available && match.claimedUser);
 };
 
 const mapStateToProps = (state) => {
