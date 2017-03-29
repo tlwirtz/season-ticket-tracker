@@ -25,9 +25,10 @@ export class RedeemMatch extends Component {
     e.preventDefault();
     const { user, matchId } = this.props;
     const { redemptionCode } = this.state;
+    const { displayName, uid, email} = user
 
     if (user.uid ) {
-      return this.props.claimTicket(matchId, user.uid, redemptionCode);
+      return this.props.claimTicket(matchId, { displayName, uid, email }, redemptionCode);
     }
 
     return false;
@@ -63,8 +64,8 @@ RedeemMatch.propTypes = {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    claimTicket: (matchId, userId, redemptionCode) => {
-      const payload = { claimedUserId: userId, available: false };
+    claimTicket: (matchId, user, redemptionCode) => {
+      const payload = { claimedUser: user, available: false };
       dispatch(updateMatchReq(matchId, payload, redemptionCode));
     }
   };

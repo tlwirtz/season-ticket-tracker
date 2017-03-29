@@ -14,16 +14,17 @@ export class Match extends Component {
     const { awayTeam, date, time, ticketPrice } = this.props.matchData;
 
     return (
-        <div className="desc" >
-          <h3>{awayTeam.name}</h3>
-          <p> {date.toUpperCase()} - {time} </p>
-           <p> ${(ticketPrice / 100).toFixed(2)} </p>
-        </div>
+      <div className="desc" >
+        <h3>{awayTeam.name}</h3>
+        <p> {date.toUpperCase()} - {time} </p>
+        <p> ${(ticketPrice / 100).toFixed(2)} </p>
+      </div>
     );
   }
 
   renderMatchCondensed() {
-    const { id, awayTeam, date, time, location } = this.props.matchData;
+    const { id, awayTeam, date, time, location, claimedUser } = this.props.matchData;
+    const { admin } = this.props
 
     return (
       <Link to={`/matches/${id}`}>
@@ -31,6 +32,11 @@ export class Match extends Component {
           <h3 className="match-condensed-heading">{awayTeam.name}</h3>
           <h5 className="match-condensed-subheading medium-grey-text">{date} - {time}</h5>
           <h5 className="match-condensed-subheading medium-grey-text">{location}</h5>
+          {
+            admin
+              ? <h5 className="match-condensed-subheading medium-grey-text">{claimedUser.displayName}</h5>
+              : null
+          }
         </div>
       </Link>
     );
@@ -41,17 +47,18 @@ export class Match extends Component {
       <div>
         {
           this.props.condensed
-          ? this.renderMatchCondensed()
-          : this.renderMatchCard()
+            ? this.renderMatchCondensed()
+            : this.renderMatchCard()
         }
       </div>
     );
   }
 }
 
-Match.propTypes =  {
+Match.propTypes = {
   matchData: T.object.isRequired,
-  condensed: T.bool
+  condensed: T.bool, 
+  admin: T.bool,
 };
 
 export default Match;

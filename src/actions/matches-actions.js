@@ -89,23 +89,26 @@ const updateQtyTickets = (data) => {
   if (data.qtyTicketsAvailable > 0) {
     const qty = data.qtyTicketsAvailable - 1
     return base.update(`matches/${data.id}`, { data: { qtyTicketsAvailable: qty } })
+    .then(() => Promise.resolve(qty))
   }
 
   return Promise.resolve()
 }
+
 export const updateMatchReq = (matchId, payload, userCode) => {
   return (dispatch) => {
     const defaultSuccess = generateAlertPayload('success', 'Sweet! You\'re going to this match');
     const defaultError = generateAlertPayload('error', 'Oh no! Something went wrong. Please try again');
 
     dispatch(updateMatch());
-
+  
     return fetchAuthCode()
       .then(redemptionCode => validateRedemptionCode(userCode, redemptionCode))
       .then(validatedCode => {
         if (validatedCode) {
           return base.fetch(`matches/${matchId}`, { context: {} })
           .then(updateQtyTickets)
+          .then(qty => dispatch(updateMatchSuccess(matchId, { qtyTicketsAvailable: qty })))
           .then(() => base.update(`matches/${matchId}`, { data: payload }))
         }
         return Promise.reject({ custom: true, msg: 'You did not provide a valid redemption code' });
