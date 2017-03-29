@@ -61,15 +61,11 @@ export class MatchList extends Component {
 
 MatchList.propTypes = {
   matches: T.object.isRequired,
-  user: T.object, //TODO -- do we need the user?
   onMatchClick: T.func.isRequired,
 }
 
 const mapStateToProps = (state) => {
-  return {
-    matches: state.matches.data,
-    user: state.user,
-  };
+  return { matches: state.matches.data, };
 };
 
 const mapDispatchToProps = (dispatch) => {

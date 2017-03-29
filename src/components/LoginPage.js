@@ -55,16 +55,11 @@ export class LoginPage extends Component {
 }
 
 LoginPage.propTypes = {
-  user: T.object,
   login: T.func.isRequired,
   logout: T.func.isRequired,
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: _.isEmpty(state.user) ? null : state.user
-  };
-};
+const mapStateToProps = (state) => {}
 
 const mapDispatchToProps = (dispatch) => {
   return {

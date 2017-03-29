@@ -57,8 +57,8 @@ export class RedeemMatch extends Component {
 
 RedeemMatch.propTypes = {
   claimTicket: T.func.isRequired,
-  user: T.object.isRequired,
-  match: T.object.isRequired,
+  user: T.object,
+  match: T.object,
 }
 
 const mapDispatchToProps = (dispatch) => {
