@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { Component, PropTypes as T } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
@@ -12,8 +13,19 @@ export class MatchList extends Component {
     this.filterMatch = this.filterMatch.bind(this)
   }
 
-  filterMatch(isAvailable) {
-    return (key) => this.props.matches[key].available === isAvailable
+  isAfter(time) { return moment(time).isAfter(moment()) }
+  isBefore(time) { return moment(time).isBefore(moment()) }
+  
+  filterMatch(test) {
+    const { matches } = this.props
+    return (key) => {
+      const { available, timestamp } = matches[key]
+      if (test) {
+        return available === test && this.isAfter(timestamp)
+      } 
+
+      return available === test || this.isBefore(timestamp)
+    }
   }
 
   buildMatch(key) {

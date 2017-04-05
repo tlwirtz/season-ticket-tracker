@@ -1,5 +1,6 @@
 import React, { Component, PropTypes as T } from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 import '../styles/Match.css';
 
 export class Match extends Component {
@@ -11,26 +12,26 @@ export class Match extends Component {
   }
 
   renderMatchCard() {
-    const { awayTeam, date, time, ticketPrice } = this.props.matchData;
+    const { timestamp, awayTeam, ticketPrice } = this.props.matchData;
 
     return (
       <div className="desc" >
         <h3>{awayTeam.name}</h3>
-        <p> {date.toUpperCase()} - {time} </p>
+        <p> {moment(timestamp).format('dddd, MMMM D - h:mm A').toUpperCase()} </p>
         <p> ${(ticketPrice / 100).toFixed(2)} </p>
       </div>
     );
   }
 
   renderMatchCondensed() {
-    const { id, awayTeam, date, time, location, claimedUser } = this.props.matchData;
+    const { timestamp, id, awayTeam, location, claimedUser } = this.props.matchData;
     const { admin } = this.props
 
     return (
       <Link to={`/matches/${id}`}>
         <div className="match-condensed">
           <h3 className="match-condensed-heading">{awayTeam.name}</h3>
-          <h5 className="match-condensed-subheading medium-grey-text">{date} - {time}</h5>
+          <h5 className="match-condensed-subheading medium-grey-text">{moment(timestamp).format('dddd, MMMM D - h:mm A').toUpperCase()}</h5>
           <h5 className="match-condensed-subheading medium-grey-text">{location}</h5>
           {
             admin
@@ -57,7 +58,7 @@ export class Match extends Component {
 
 Match.propTypes = {
   matchData: T.object.isRequired,
-  condensed: T.bool, 
+  condensed: T.bool,
   admin: T.bool,
 };
 
