@@ -63,7 +63,7 @@ UserProfile.propTypes = {
   user: T.object
 }
 
-const filterUserMatches = (match, userid) => match.claimedUserId === userid;
+const filterUserMatches = (match, userid) => match.claimedUser && match.claimedUser.uid === userid;
 const reduceMatches = (matches) => (a, b) => a.concat([matches[b]]);
 const matchReducer = matches => reduceMatches(matches.data);
 const computeUserMatches = (user, matches) => {
