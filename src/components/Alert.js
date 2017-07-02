@@ -29,6 +29,8 @@ export class Alert extends Component {
       'alert-item': true
     });
 
+    setTimeout(this.sendUpdate, 5000)
+
     return (
       <div className='alert-container' onClick={() => {this.sendUpdate();}} >
         <div className={alertClasses}>
