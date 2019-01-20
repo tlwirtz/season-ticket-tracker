@@ -45,7 +45,7 @@ export class NavBar extends Component {
           <Link to="/">
             <h1 className="nav-bar-title">Match Finder</h1>
           </Link>
-          <h3 className="nav-bar-subheading soft-grey-text">Seattle Sounders 2017 Season</h3>
+          <h3 className="nav-bar-subheading soft-grey-text">Seattle Sounders 2019 Season</h3>
         </div>
 
         { this.props.user.user ?

@@ -6,7 +6,7 @@ class Footer extends Component {
     return (
       <div className="footer-container">
         <div className="footer-item">
-          <h4 className="soft-grey-text">&copy; 2017 - <a href="http://greysky.io">greysky.io</a></h4>
+          <h4 className="soft-grey-text">&copy; 2019 - <a href="http://greysky.io">greysky.io</a></h4>
         </div>
         <div className='footer-item'>
           <a href="https://twitter.com/wirtzt">
