@@ -20,8 +20,7 @@ export class NavBar extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user && nextProps.user.user) {
-      checkIfAdmin(nextProps.user.user.uid)
-      .then(result => this.setState({isAdmin: result}));
+      checkIfAdmin(nextProps.user.user.uid).then((result) => this.setState({ isAdmin: result }));
     }
   }
 
@@ -45,50 +44,66 @@ export class NavBar extends Component {
           <Link to="/">
             <h1 className="nav-bar-title">Match Finder</h1>
           </Link>
-          <h3 className="nav-bar-subheading soft-grey-text">Seattle Sounders 2019 Season</h3>
+          <h3 className="nav-bar-subheading soft-grey-text">
+            Seattle Sounders {new Date(Date.now()).getFullYear()} Season
+          </h3>
         </div>
 
-        { this.props.user.user ?
-        <div className="nav-bar-group">
-          <div className="nav-bar-item">
-            <Link to="/">
-              <div className="nav-link">Home</div>
-            </Link>
-          </div>
-          <div className="nav-bar-item">
-            <Link to="/about">
-              <div className="nav-link">About</div>
-            </Link>
-          </div>
+        {this.props.user.user ? (
+          <div className="nav-bar-group">
+            <div className="nav-bar-item">
+              <Link to="/">
+                <div className="nav-link">Home</div>
+              </Link>
+            </div>
+            <div className="nav-bar-item">
+              <Link to="/about">
+                <div className="nav-link">About</div>
+              </Link>
+            </div>
 
-          <div className="nav-bar-item">
-            <Link to="/profile">
-              <div className="nav-link">My Matches</div>
-            </Link>
-          </div>
-      
-          { this.state.isAdmin
-            ? <div className="nav-bar-item">
+            <div className="nav-bar-item">
+              <Link to="/profile">
+                <div className="nav-link">My Matches</div>
+              </Link>
+            </div>
+
+            {this.state.isAdmin ? (
+              <div className="nav-bar-item">
                 <Link to="/admin">
                   <div className="nav-link">Admin</div>
                 </Link>
               </div>
-            : null
-          }
-          <div className="nav-bar-item">
-            <img alt="user-logo" className="nav-bar-user-logo" src={this.props.user.user.photoURL} />
+            ) : null}
+            <div className="nav-bar-item">
+              <img
+                alt="user-logo"
+                className="nav-bar-user-logo"
+                src={this.props.user.user.photoURL}
+              />
+            </div>
+            <div className="nav-bar-item">
+              <button
+                className="action-button"
+                onClick={(e) => {
+                  this.props.logout(e);
+                }}
+              >
+                {' '}
+                Logout
+              </button>
+            </div>
           </div>
-          <div className="nav-bar-item">
-            <button className="action-button" onClick={(e) => {this.props.logout(e);}} > Logout</button>
-          </div>
-        </div>
-          :
-          <div className="nav-bar-group">
-            <Link to="/login"  className="nav-bar-item" >
-            <button className="action-button">Login</button>
-          </ Link>
-          </div>
-        }
+        ) : (
+          !this.props.isSeasonStatusFetching &&
+          !this.props.isSeasonDelayed && (
+            <div className="nav-bar-group">
+              <Link to="/login" className="nav-bar-item">
+                <button className="action-button">Login</button>
+              </Link>
+            </div>
+          )
+        )}
       </div>
     );
   }
@@ -96,12 +111,16 @@ export class NavBar extends Component {
 
 NavBar.propTypes = {
   user: T.object.isRequired,
-  logout: T.func.isRequired
-}
+  logout: T.func.isRequired,
+  isSeasonDelayed: T.bool.isRequired,
+  isSeasonStatusFetching: T.bool.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    isSeasonDelayed: state.seasonStatus.data.isSeasonDelayed,
+    isSeasonStatusFetching: state.seasonStatus.isFetching,
   };
 };
 
@@ -110,13 +129,10 @@ const mapDispatchToProps = (dispatch) => {
     logout: (e) => {
       e.preventDefault();
       return dispatch(userLogoutReq());
-    }
+    },
   };
 };
 
-const NavBarContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavBar);
+const NavBarContainer = connect(mapStateToProps, mapDispatchToProps)(NavBar);
 
 export default NavBarContainer;

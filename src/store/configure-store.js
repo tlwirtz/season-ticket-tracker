@@ -6,8 +6,15 @@ import rootReducer from '../reducers';
 
 const initialState = {
   matches: {
-    data: {}
-  }
+    data: {},
+  },
+  seasonStatus: {
+    data: {
+      isSeasonDelayed: false,
+      messageText: null,
+      messageHeader: null,
+    },
+  },
 };
 
 const middleware = applyMiddleware(thunkMiddleware);
