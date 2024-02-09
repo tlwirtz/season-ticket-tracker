@@ -1,5 +1,4 @@
-import base from '../base';
-import { history } from '../store/configure-store';
+import { fetch, unauth, authWithOAuthPopup, onAuth } from '../base';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
 export const USER_LOGIN_REQUEST_SUCCESS = 'USER_LOGIN_REQUEST_SUCCESS';
@@ -49,7 +48,7 @@ export const userLogoutReq = () => {
   return (dispatch, getState) => {
     dispatch(userLogout());
     localStorage.setItem('user', null);
-    base.unauth();
+    unauth();
     dispatch(userLogoutSuccess());
   };
 };
@@ -61,11 +60,11 @@ export const userLoginReq = (provider) => {
       if (err) return dispatch(userLoginFailure(err));
 
       localStorage.setItem('user', JSON.stringify(authData));
-      history.push('/');
+      // history.push('/'); //todo -- this should use `useHistory()` in the component
       return dispatch(userLoginSuccess(authData));
     };
 
-    return base.authWithOAuthPopup(provider, authHandler);
+    return authWithOAuthPopup(provider, authHandler);
   };
 };
 
@@ -80,7 +79,7 @@ export const userLoginLocalStorage = (authData) => {
 
       return dispatch(userLogoutReq());
     };
-    return base.onAuth(authHandler);
+    return onAuth(authHandler);
   };
 };
 
@@ -94,7 +93,7 @@ export const checkIfLoggedIn = () => {
 };
 
 export const checkIfAdmin = (userId) => {
-  return base.fetch('admins', { context: {} })
-  .then(admins => Object.keys(admins).includes(userId))
-  .catch(() => { return false; });
+  return fetch('admins', { context: {} })
+    .then(admins => Object.keys(admins).includes(userId))
+    .catch(() => { return false; });
 };

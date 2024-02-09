@@ -1,7 +1,4 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import thunkMiddleware from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit'
 import rootReducer from '../reducers';
 
 const initialState = {
@@ -17,12 +14,9 @@ const initialState = {
   },
 };
 
-const middleware = applyMiddleware(thunkMiddleware);
-const enhancers = compose(
-  middleware,
-  window.devToolsExtension ? window.devToolsExtension() : (f) => f
-);
+const store = configureStore({
+  reducer: rootReducer,
+  preloadedState: initialState
+})
 
-const store = createStore(rootReducer, initialState, enhancers);
-export const history = syncHistoryWithStore(browserHistory, store);
 export default store;
