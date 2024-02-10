@@ -1,4 +1,5 @@
-import { fetch, unauth, authWithOAuthPopup, onAuth } from '../base';
+import { fetch, unAuth, authWithOAuthPopup, onAuth } from '../base';
+import { redirect } from "react-router-dom"
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
 export const USER_LOGIN_REQUEST_SUCCESS = 'USER_LOGIN_REQUEST_SUCCESS';
@@ -13,6 +14,7 @@ export const userLogin = () => {
 };
 
 export const userLoginSuccess = (authData) => {
+  console.log('auth', authData)
   const { user, credential } = authData;
   return {
     type: USER_LOGIN_REQUEST_SUCCESS,
@@ -48,7 +50,7 @@ export const userLogoutReq = () => {
   return (dispatch, getState) => {
     dispatch(userLogout());
     localStorage.setItem('user', null);
-    unauth();
+    unAuth();
     dispatch(userLogoutSuccess());
   };
 };
@@ -56,18 +58,16 @@ export const userLogoutReq = () => {
 export const userLoginReq = (provider) => {
   return (dispatch) => {
     dispatch(userLogin());
-    const authHandler = (err, authData) => {
-      if (err) return dispatch(userLoginFailure(err));
 
+    return authWithOAuthPopup(provider).then(authData => {
       localStorage.setItem('user', JSON.stringify(authData));
-      // history.push('/'); //todo -- this should use `useHistory()` in the component
+      redirect("/")
       return dispatch(userLoginSuccess(authData));
-    };
-
-    return authWithOAuthPopup(provider, authHandler);
+    }).catch(err => dispatch(userLoginFailure(err)))
   };
 };
 
+//todo -- this doesn't seem correct
 export const userLoginLocalStorage = (authData) => {
   return (dispatch) => {
     dispatch(userLogin());

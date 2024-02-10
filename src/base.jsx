@@ -8,8 +8,17 @@
 
 // export default base;
 
+import _ from 'lodash';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, child, get } from 'firebase/database';
+import {
+    getAuth,
+    onAuthStateChanged,
+    GithubAuthProvider,
+    FacebookAuthProvider,
+    TwitterAuthProvider,
+    signInWithPopup
+} from 'firebase/auth';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyAGt32afx0uk5uDIJlFxfKnRH0tqgV-jSg',
@@ -18,6 +27,8 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
 
 const db = getDatabase(app);
 const dbRef = ref(db);
@@ -32,29 +43,60 @@ export const fetch = path => {
     });
 };
 
-//todo -- fixme
-export const unauth = () => {
-    //unauth stuff here
-    return;
-};
-
-//todo -- fixme
-export const authWithOAuthPopup = (provider, authHandler) => {
-    //do login stuff here
-    return { user: { admin: true } };
-};
-
-//not sure we really need this any more...
-//todo -- fix me
-export const onAuth = authHandler => {
-    authHandler();
-};
-
 export const update = (route, data) => {
     const updates = {};
     updates[route] = data;
 
     return update(dbRef, updates);
+};
+
+export const unAuth = () => {
+    return auth.signOut().then(() => null);
+};
+
+export const authWithOAuthPopup = provider => {
+    let authProvider = null;
+    switch (provider) {
+        case 'facebook':
+            authProvider = FacebookAuthProvider;
+            break;
+        case 'twitter':
+            authProvider = TwitterAuthProvider;
+            break;
+        case 'github':
+            authProvider = GithubAuthProvider;
+            break;
+        default:
+            break;
+    }
+
+    if (!authProvider) {
+        throw new Error('Auth provider must be specified');
+    }
+
+    const initProvider = new authProvider();
+
+    return signInWithPopup(auth, initProvider).then(result => {
+        const credential = authProvider.credentialFromResult(result);
+
+        const user = result.user;
+        const userData = _.omit(user, [
+            'auth',
+            'proactiveRefresh',
+            'reloadUserInfo',
+            'stsTokenManager'
+        ]);
+
+        console.log('cred', credential);
+        console.log('user', user);
+
+        return { credential, user: userData };
+    });
+};
+
+//not sure we really need this any more...
+export const onAuth = authHandler => {
+    return onAuthStateChanged(auth, authHandler);
 };
 
 export const base = {
