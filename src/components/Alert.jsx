@@ -1,69 +1,93 @@
-import React, { Component } from 'react';
-import * as T from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import '../styles/Alert.css';
 
 import { HIDE_ALERT, updateAlert } from '../actions/alert-actions';
 
-export class Alert extends Component {
-    constructor(props) {
-        super(props);
+export default function Alert() {
+    const status = useSelector(state => state.alert.status);
+    const msg = useSelector(state => state.alert.msg);
+    const dispatch = useDispatch();
 
-        this.sendUpdate = this.sendUpdate.bind(this);
+    function dispatchUpdateAlert(payload = {}) {
+        return dispatch(updateAlert(payload));
     }
 
-    sendUpdate() {
+    function sendUpdate() {
         const payload = { type: HIDE_ALERT, visible: false };
-        return this.props.updateAlert(payload);
+        return dispatchUpdateAlert(payload);
     }
 
-    render() {
-        const alertClasses = classNames({
-            animated: true,
-            fadeInLeft: true,
-            normal: this.props.status === 'normal',
-            error: this.props.status === 'error',
-            success: this.props.status === 'success',
-            warning: this.props.status === 'warning',
-            'alert-item': true
-        });
+    const alertClasses = classNames({
+        animated: true,
+        fadeInLeft: true,
+        normal: this.props.status === 'normal',
+        error: this.props.status === 'error',
+        success: this.props.status === 'success',
+        warning: this.props.status === 'warning',
+        'alert-item': true
+    });
 
-        setTimeout(this.sendUpdate, 5000);
+    setTimeout(sendUpdate, 5000);
 
-        return (
-            <div
-                className="alert-container"
-                onClick={() => {
-                    this.sendUpdate();
-                }}
-            >
-                <div className={alertClasses}>
-                    <p>{this.props.msg}</p>
-                </div>
+    return (
+        <div
+            className="alert-container"
+            onClick={() => {
+                this.sendUpdate();
+            }}
+        >
+            <div className={alertClasses}>
+                <p>{this.props.msg}</p>
             </div>
-        );
-    }
+        </div>
+    );
 }
+// export class Alert extends Component {
+//     constructor(props) {
+//         super(props);
 
-Alert.propTypes = {
-    status: T.oneOf(['normal', 'error', 'success', 'warning']),
-    msg: T.string
-};
+//         this.sendUpdate = this.sendUpdate.bind(this);
+//     }
 
-const mapStateToProps = state => {
-    return {
-        status: state.alert.status,
-        msg: state.alert.msg
-    };
-};
+//     sendUpdate() {
+//         const payload = { type: HIDE_ALERT, visible: false };
+//         return this.props.updateAlert(payload);
+//     }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        updateAlert: (payload = {}) => dispatch(updateAlert(payload))
-    };
-};
+//     render() {
+//         const alertClasses = classNames({
+//             animated: true,
+//             fadeInLeft: true,
+//             normal: this.props.status === 'normal',
+//             error: this.props.status === 'error',
+//             success: this.props.status === 'success',
+//             warning: this.props.status === 'warning',
+//             'alert-item': true
+//         });
 
-const AlertContainer = connect(mapStateToProps, mapDispatchToProps)(Alert);
+//         setTimeout(this.sendUpdate, 5000);
 
-export default AlertContainer;
+//         return (
+//             <div
+//                 className="alert-container"
+//                 onClick={() => {
+//                     this.sendUpdate();
+//                 }}
+//             >
+//                 <div className={alertClasses}>
+//                     <p>{this.props.msg}</p>
+//                 </div>
+//             </div>
+//         );
+//     }
+// }
+
+// Alert.propTypes = {
+//     status: T.oneOf(['normal', 'error', 'success', 'warning']),
+//     msg: T.string
+// };
+
+// const AlertContainer = connect(mapStateToProps, mapDispatchToProps)(Alert);
+
+// export default AlertContainer;

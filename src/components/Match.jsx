@@ -1,19 +1,10 @@
-import React, { Component } from 'react';
-import * as T from 'prop-types';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import '../styles/Match.css';
 
-export class Match extends Component {
-    constructor(props) {
-        super(props);
-
-        this.renderMatchCard = this.renderMatchCard.bind(this);
-        this.renderMatchCondensed = this.renderMatchCondensed.bind(this);
-    }
-
-    renderMatchCard() {
-        const { timestamp, awayTeam, ticketPrice } = this.props.matchData;
+export default function Match(props) {
+    function renderMatchCard() {
+        const { timestamp, awayTeam, ticketPrice } = props.matchData;
 
         return (
             <div className="desc">
@@ -24,9 +15,9 @@ export class Match extends Component {
         );
     }
 
-    renderMatchCondensed() {
-        const { timestamp, id, awayTeam, location, claimedUser } = this.props.matchData;
-        const { admin } = this.props;
+    function renderMatchCondensed() {
+        const { timestamp, id, awayTeam, location, claimedUser } = props.matchData;
+        const { admin } = props;
 
         return (
             <Link to={`/matches/${id}`}>
@@ -46,17 +37,5 @@ export class Match extends Component {
         );
     }
 
-    render() {
-        return (
-            <div>{this.props.condensed ? this.renderMatchCondensed() : this.renderMatchCard()}</div>
-        );
-    }
+    return <div>{props.condensed ? renderMatchCondensed() : renderMatchCard()}</div>;
 }
-
-Match.propTypes = {
-    matchData: T.object.isRequired,
-    condensed: T.bool,
-    admin: T.bool
-};
-
-export default Match;

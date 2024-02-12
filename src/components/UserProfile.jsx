@@ -1,26 +1,39 @@
-import React, { Component } from 'react';
-import * as T from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import Match from './Match';
 import NotLoggedIn from './NotLoggedIn';
 
-export class UserProfile extends Component {
-    constructor(props) {
-        super(props);
+export default function UserProfile() {
+    const user = useSelector(state => (_.isEmpty(state.user) ? null : state.user.user));
+    const matches = useSelector(state => state.matches);
+    const userMatches = user ? computeUserMatches(user, matches) : null;
 
-        this.renderLoggedIn = this.renderLoggedIn.bind(this);
-        this.renderNotLoggedIn = this.renderNotLoggedIn.bind(this);
+    function filterUserMatches(match, userid) {
+        return match.claimedUser && match.claimedUser.uid === userid;
     }
 
-    renderLoggedIn() {
+    function reduceMatches(matches) {
+        return (a, b) => a.concat([matches[b]]);
+    }
+
+    function matchReducer(matches) {
+        return reduceMatches(matches.data);
+    }
+
+    function computeUserMatches(user, matches) {
+        return Object.keys(matches.data)
+            .reduce(matchReducer(matches), [])
+            .filter(match => filterUserMatches(match, user.uid));
+    }
+
+    function renderLoggedIn() {
         return (
             <div>
                 <h2 className="animated fadeInUp">Your Matches</h2>
                 <ul>
-                    {this.props.userMatches.length > 0 ? (
-                        this.props.userMatches.map(match => (
+                    {userMatches.length > 0 ? (
+                        userMatches.map(match => (
                             <li key={match.id} className="animated fadeInUp">
                                 <Match key={match.id} matchData={match} condensed />
                             </li>
@@ -42,45 +55,13 @@ export class UserProfile extends Component {
         );
     }
 
-    renderNotLoggedIn() {
+    function renderNotLoggedIn() {
         return <NotLoggedIn />;
     }
 
-    render() {
-        return (
-            <div className="match-detail-container">
-                <div className="match-detail-item">
-                    {this.props.user ? this.renderLoggedIn() : this.renderNotLoggedIn()}
-                </div>
-            </div>
-        );
-    }
+    return (
+        <div className="match-detail-container">
+            <div className="match-detail-item">{user ? renderLoggedIn() : renderNotLoggedIn()}</div>
+        </div>
+    );
 }
-
-UserProfile.propTypes = {
-    userMatches: T.array,
-    user: T.object
-};
-
-const filterUserMatches = (match, userid) => match.claimedUser && match.claimedUser.uid === userid;
-const reduceMatches = matches => (a, b) => a.concat([matches[b]]);
-const matchReducer = matches => reduceMatches(matches.data);
-const computeUserMatches = (user, matches) => {
-    return Object.keys(matches.data)
-        .reduce(matchReducer(matches), [])
-        .filter(match => filterUserMatches(match, user.uid));
-};
-
-const mapStateToProps = state => {
-    const { matches } = state;
-    const user = _.isEmpty(state.user) ? null : state.user.user;
-
-    return {
-        userMatches: user ? computeUserMatches(user, matches) : null,
-        user
-    };
-};
-
-const UserProfileContainer = connect(mapStateToProps)(UserProfile);
-
-export default UserProfileContainer;
