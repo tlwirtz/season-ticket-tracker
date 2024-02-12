@@ -1,44 +1,51 @@
 import _ from 'lodash';
-import React, { Component } from 'react';
-import * as T from 'prop-types';
-import { connect } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { checkIfAdmin } from '../actions/user-actions';
 import Match from './Match';
 
-export class Admin extends Component {
-    constructor(props) {
-        super(props);
+export default function Admin() {
+    const user = useSelector(state => (_.isEmpty(state.user) ? null : state.user.user));
+    const matches = useSelector(state => (state.matches ? state.matches : []));
+    const [isAdmin, setIsAdmin] = useState(false);
+    const claimedMatches = filterClaimedMatches(matches);
 
-        this.state = {};
-        this.renderAdmin = this.renderAdmin.bind(this);
-        this.renderNotAdmin = this.renderNotAdmin.bind(this);
-        this.checkAdmin = this.checkAdmin.bind(this);
+    //fetch current list of admins
+    useEffect(() => {
+        let ignore = false;
+
+        checkIfAdmin(user?.uid).then(result => {
+            if (!ignore) {
+                setIsAdmin(result);
+            }
+        });
+        return () => {
+            ignore = true;
+        };
+    }, [user]);
+
+    function filterClaimedMatches(matches) {
+        function reduceMatches(matches) {
+            return (a, b) => a.concat([matches[b]]);
+        }
+
+        function matchReducer(matches) {
+            return reduceMatches(matches.data);
+        }
+
+        return Object.keys(matches.data)
+            .reduce(matchReducer(matches), [])
+            .filter(match => !match.available && match.claimedUser);
     }
 
-    componentWillMount() {
-        const { user } = this.props;
-        if (user) return this.checkAdmin(user.uid);
-        return this.setState({ isAdmin: false });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const { user } = nextProps;
-        if (user) return this.checkAdmin(user.uid);
-        return this.setState({ isAdmin: false });
-    }
-
-    checkAdmin(userid) {
-        checkIfAdmin(userid).then(result => this.setState({ isAdmin: result }));
-    }
-
-    renderAdmin() {
+    function renderAdmin() {
         return (
             <div>
                 <h2 className="animated fadeInUp">
                     ClaimedMatches
                     <ul>
-                        {this.props.claimedMatches.length > 0 ? (
-                            this.props.claimedMatches.map(match => (
+                        {claimedMatches.length > 0 ? (
+                            claimedMatches.map(match => (
                                 <li key={match.id} className="animated fadeInUp">
                                     <Match key={match.id} matchData={match} condensed admin />
                                 </li>
@@ -56,7 +63,7 @@ export class Admin extends Component {
         );
     }
 
-    renderNotAdmin() {
+    function renderNotAdmin() {
         return (
             <div>
                 <h1 className="match-detail-title"> Oh no! You don't have access to this page.</h1>
@@ -64,41 +71,9 @@ export class Admin extends Component {
         );
     }
 
-    render() {
-        return (
-            <div className="match-detail-container">
-                <div className="match-detail-item">
-                    {this.state.isAdmin ? this.renderAdmin() : this.renderNotAdmin()}
-                </div>
-            </div>
-        );
-    }
+    return (
+        <div className="match-detail-container">
+            <div className="match-detail-item">{isAdmin ? renderAdmin() : renderNotAdmin()}</div>
+        </div>
+    );
 }
-
-Admin.propTypes = {
-    user: T.object.isRequired,
-    claimedMatches: T.array.isRequired
-};
-
-const reduceMatches = matches => (a, b) => a.concat([matches[b]]);
-const matchReducer = matches => reduceMatches(matches.data);
-
-const claimedMatches = matches => {
-    return Object.keys(matches.data)
-        .reduce(matchReducer(matches), [])
-        .filter(match => !match.available && match.claimedUser);
-};
-
-const mapStateToProps = state => {
-    const { matches } = state;
-    const user = _.isEmpty(state.user) ? null : state.user.user;
-
-    return {
-        user,
-        claimedMatches: matches ? claimedMatches(matches) : null
-    };
-};
-
-const AdminContainer = connect(mapStateToProps)(Admin);
-
-export default AdminContainer;
