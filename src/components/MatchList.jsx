@@ -7,7 +7,6 @@ import Match from './Match';
 
 export default function MatchList({ props }) {
     const matches = useSelector(state => state.matches?.data);
-    console.log('matches', matches);
     const dispatch = useDispatch();
 
     function onMatchClick(matchId) {
@@ -15,7 +14,6 @@ export default function MatchList({ props }) {
     }
 
     function isAfter(time) {
-        console.log(moment(time).toISOString());
         return moment(time).isAfter(moment());
     }
 
