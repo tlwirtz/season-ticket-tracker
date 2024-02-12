@@ -10,7 +10,6 @@ export default function App({ children }) {
     const alert = useSelector(state => state.alert.visible);
     const seasonStatus = useSelector(state => state.seasonStatus);
 
-    console.log('season status', seasonStatus);
     function contentSelector() {
         if (seasonStatus.isFetching) {
             return null;

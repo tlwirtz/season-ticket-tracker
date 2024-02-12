@@ -1,14 +1,19 @@
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { userLoginReq } from '../actions/user-actions';
+import { useNavigate } from 'react-router-dom';
 import '../styles/LoginPage.css';
 
 export default function LoginPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     function handleSignIn(e, provider) {
         e.preventDefault();
         dispatch(userLoginReq(provider));
+        //this works, but isn't great b/c the redirect happens immediately.
+        //might need to also fire of an "alert" or some type of loading.
+        navigate('/');
     }
 
     function renderLogin() {

@@ -51,7 +51,7 @@ export const update = (route, data) => {
 };
 
 export const unAuth = () => {
-    return auth.signOut().then(() => null);
+    return auth.signOut();
 };
 
 export const authWithOAuthPopup = provider => {
@@ -77,30 +77,12 @@ export const authWithOAuthPopup = provider => {
     const initProvider = new authProvider();
 
     return signInWithPopup(auth, initProvider).then(result => {
-        const credential = authProvider.credentialFromResult(result);
-
         const user = result.user;
-        const userData = _.omit(user, [
-            'auth',
-            'proactiveRefresh',
-            'reloadUserInfo',
-            'stsTokenManager'
-        ]);
-
-        console.log('cred', credential);
-        console.log('user', user);
-
-        return { credential, user: userData };
+        return { user: user.toJSON() };
     });
 };
 
 //not sure we really need this any more...
 export const onAuth = authHandler => {
     return onAuthStateChanged(auth, authHandler);
-};
-
-export const base = {
-    fetch: route => {},
-    update: (reoute, update) => update,
-    unauth: () => null
 };

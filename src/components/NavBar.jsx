@@ -13,7 +13,6 @@ export default function NavBar() {
 
     const user = useSelector(state => (state.user ? state.user : null));
     const isSeasonStatusFetching = useSelector(state => state.seasonStatus.isFetching);
-    console.log('isSeasonFetch', isSeasonStatusFetching);
     const isSeasonDelayed = useSelector(state => state.seasonStatus.data.isSeasonDelayed);
 
     function logout(e) {

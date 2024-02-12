@@ -1,5 +1,4 @@
 import { fetch, unAuth, authWithOAuthPopup, onAuth } from '../base';
-import { redirect } from "react-router-dom"
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
 export const USER_LOGIN_REQUEST_SUCCESS = 'USER_LOGIN_REQUEST_SUCCESS';
@@ -14,7 +13,6 @@ export const userLogin = () => {
 };
 
 export const userLoginSuccess = (authData) => {
-  console.log('auth', authData)
   const { user, credential } = authData;
   return {
     type: USER_LOGIN_REQUEST_SUCCESS,
@@ -50,8 +48,8 @@ export const userLogoutReq = () => {
   return (dispatch, getState) => {
     dispatch(userLogout());
     localStorage.setItem('user', null);
-    unAuth();
-    dispatch(userLogoutSuccess());
+    return unAuth().then(() => dispatch(userLogoutSuccess()));
+
   };
 };
 
@@ -61,20 +59,19 @@ export const userLoginReq = (provider) => {
 
     return authWithOAuthPopup(provider).then(authData => {
       localStorage.setItem('user', JSON.stringify(authData));
-      redirect("/")
       return dispatch(userLoginSuccess(authData));
     }).catch(err => dispatch(userLoginFailure(err)))
   };
 };
 
-//todo -- this doesn't seem correct
-export const userLoginLocalStorage = (authData) => {
+export const userLoginLocalStorage = () => {
   return (dispatch) => {
     dispatch(userLogin());
+
     const authHandler = (user) => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-        return dispatch(userLoginSuccess({ user }));
+        localStorage.setItem('user', JSON.stringify({ user: user.toJSON() }));
+        return dispatch(userLoginSuccess({ user: user.toJSON() }));
       }
 
       return dispatch(userLogoutReq());
@@ -87,7 +84,7 @@ export const checkIfLoggedIn = () => {
   return (dispatch) => {
     const auth = localStorage.getItem('user');
     if (auth) {
-      dispatch(userLoginLocalStorage(JSON.parse(auth)));
+      dispatch(userLoginLocalStorage());
     }
   };
 };
