@@ -17,7 +17,6 @@ const initialState = {
 const store = configureStore({
   reducer: rootReducer,
   preloadedState: initialState,
-  middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false })
 })
 
 export default store;
