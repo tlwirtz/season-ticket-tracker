@@ -21,10 +21,10 @@ export default function Alert() {
     const alertClasses = classNames({
         animated: true,
         fadeInLeft: true,
-        normal: this.props.status === 'normal',
-        error: this.props.status === 'error',
-        success: this.props.status === 'success',
-        warning: this.props.status === 'warning',
+        normal: status === 'normal',
+        error: status === 'error',
+        success: status === 'success',
+        warning: status === 'warning',
         'alert-item': true
     });
 
@@ -34,60 +34,12 @@ export default function Alert() {
         <div
             className="alert-container"
             onClick={() => {
-                this.sendUpdate();
+                sendUpdate();
             }}
         >
             <div className={alertClasses}>
-                <p>{this.props.msg}</p>
+                <p>{msg}</p>
             </div>
         </div>
     );
 }
-// export class Alert extends Component {
-//     constructor(props) {
-//         super(props);
-
-//         this.sendUpdate = this.sendUpdate.bind(this);
-//     }
-
-//     sendUpdate() {
-//         const payload = { type: HIDE_ALERT, visible: false };
-//         return this.props.updateAlert(payload);
-//     }
-
-//     render() {
-//         const alertClasses = classNames({
-//             animated: true,
-//             fadeInLeft: true,
-//             normal: this.props.status === 'normal',
-//             error: this.props.status === 'error',
-//             success: this.props.status === 'success',
-//             warning: this.props.status === 'warning',
-//             'alert-item': true
-//         });
-
-//         setTimeout(this.sendUpdate, 5000);
-
-//         return (
-//             <div
-//                 className="alert-container"
-//                 onClick={() => {
-//                     this.sendUpdate();
-//                 }}
-//             >
-//                 <div className={alertClasses}>
-//                     <p>{this.props.msg}</p>
-//                 </div>
-//             </div>
-//         );
-//     }
-// }
-
-// Alert.propTypes = {
-//     status: T.oneOf(['normal', 'error', 'success', 'warning']),
-//     msg: T.string
-// };
-
-// const AlertContainer = connect(mapStateToProps, mapDispatchToProps)(Alert);
-
-// export default AlertContainer;
