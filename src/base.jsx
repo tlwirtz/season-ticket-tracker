@@ -10,7 +10,7 @@
 
 import _ from 'lodash';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, child, get } from 'firebase/database';
+import { getDatabase, ref, child, get, update } from 'firebase/database';
 import {
     getAuth,
     onAuthStateChanged,
@@ -43,11 +43,11 @@ export const fetch = path => {
     });
 };
 
-export const update = (route, data) => {
+export const fbUpdate = (route, data) => {
     const updates = {};
-    updates[route] = data;
+    updates[route] = { ...data.data };
 
-    return update(dbRef, updates);
+    return update(dbRef, updates).then(() => true);
 };
 
 export const unAuth = () => {
