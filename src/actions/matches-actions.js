@@ -1,5 +1,5 @@
 import base64 from 'base-64';
-import { fetch, update } from '../base';
+import { fetch, fbUpdate } from '../base';
 import { updateAlert, generateAlertPayload } from './alert-actions';
 
 export const ADD_MATCHES = 'ADD_MATCHES';
@@ -89,13 +89,14 @@ const fetchAuthCode = () => fetch('redemption-codes');
 const validateRedemptionCode = (userCode, redemptionCode) => base64.encode(userCode.toLowerCase()) === redemptionCode;
 const updateQtyTickets = (data) => {
   if (data.qtyTicketsAvailable > 0) {
-    const qty = data.qtyTicketsAvailable - 1
-    return update(`matches/${data.id}`, { data: { qtyTicketsAvailable: qty } })
-      .then(() => Promise.resolve(qty))
+    data.qtyTicketsAvailable = data.qtyTicketsAvailable - 1
+    return fbUpdate(`matches/${data.id}`, { data })
+      .then(() => data)
   }
 
   return Promise.resolve()
 }
+
 
 export const updateMatchReq = (matchId, payload, userCode) => {
   return (dispatch) => {
@@ -108,10 +109,16 @@ export const updateMatchReq = (matchId, payload, userCode) => {
       .then(redemptionCode => validateRedemptionCode(userCode, redemptionCode))
       .then(validatedCode => {
         if (validatedCode) {
-          return fetch(`matches/${matchId}`, { context: {} })
+          return fetch(`matches/${matchId}`)
             .then(updateQtyTickets)
-            .then(qty => dispatch(updateMatchSuccess(matchId, { qtyTicketsAvailable: qty })))
-            .then(() => update(`matches/${matchId}`, { data: payload }))
+            .then(updatedMatch => {
+              return Object.assign(updatedMatch, { ...payload })
+            })
+            .then(updated => {
+              dispatch(updateMatchSuccess(matchId, updated))
+              return updated
+            })
+            .then((updated) => fbUpdate(`matches/${matchId}`, { data: updated }))
         }
         return Promise.reject({ custom: true, msg: 'You did not provide a valid redemption code' });
       })
@@ -120,10 +127,11 @@ export const updateMatchReq = (matchId, payload, userCode) => {
         dispatch(updateMatchSuccess(matchId, payload));
       })
       .catch(err => {
+        console.error(err)
         err.custom
           ? dispatch(updateAlert(generateAlertPayload('error', err.msg)))
           : dispatch(updateAlert(defaultError));
-        dispatch(updateMatchFailure(matchId, err));
+        dispatch(updateMatchFailure(matchId, JSON.stringify(err)));
       });
   };
 };
