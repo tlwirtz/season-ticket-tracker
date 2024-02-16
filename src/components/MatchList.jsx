@@ -21,6 +21,12 @@ export default function MatchList({ props }) {
         return moment(time).isBefore(moment());
     }
 
+    //I only want to see matches for this season.
+    function filterMatchYear(key) {
+        const { timestamp } = matches[key];
+        return moment(timestamp).isSameOrAfter(moment(), 'year');
+    }
+
     function filterMatch(test) {
         return key => {
             const { available, timestamp } = matches[key];
@@ -28,6 +34,7 @@ export default function MatchList({ props }) {
                 return available === test && isAfter(timestamp);
             }
 
+            //the ticket is taken or the game is in the past.
             return available === test || isBefore(timestamp);
         };
     }
@@ -47,8 +54,9 @@ export default function MatchList({ props }) {
         );
     }
 
-    const availableGames = Object.keys(matches).filter(filterMatch(true)).map(buildMatch);
-    const reservedGames = Object.keys(matches).filter(filterMatch(false)).map(buildMatch);
+    const gamesThisYear = Object.keys(matches).filter(filterMatchYear);
+    const availableGames = gamesThisYear.filter(filterMatch(true)).map(buildMatch);
+    const reservedGames = gamesThisYear.filter(filterMatch(false)).map(buildMatch);
 
     return (
         <section>
