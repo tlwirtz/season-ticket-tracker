@@ -26,9 +26,7 @@ export const userLoginSuccess = (authData) => {
 export const userLoginFailure = (err) => {
   return {
     type: USER_LOGIN_REQUEST_FAILURE,
-    payload: {
-      err
-    }
+    payload: err
   };
 };
 
@@ -48,7 +46,7 @@ export const userLogoutReq = () => {
   return (dispatch, getState) => {
     dispatch(userLogout());
     localStorage.setItem('user', null);
-    return unAuth().then(() => dispatch(userLogoutSuccess()));
+    return unAuth().then(() => dispatch(userLogoutSuccess()))
 
   };
 };
