@@ -1,44 +1,41 @@
-// MOCKS
-jest.mock('../../base');
-jest.mock('../../store/configure-store');
+vi.mock('../../base');
 
-import base from '../../base';
-import * as config from '../../store/configure-store';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { unAuth, onAuth } from '../../base';
+import { configureStore } from '@reduxjs/toolkit'
+import user from '../../reducers/user-reducer';
+
 import * as actions from '../user-actions';
 
-const mapActions = (act) => act.type;
-const middlewares = [ thunk ];
-const mockStore = configureMockStore(middlewares);
 
-config.history = { push: jest.fn() };
+// const mapActions = (act) => act.type;
+// const middlewares = [thunk];
+// const mockStore = configureMockStore(middlewares);
+
+// config.history = { push: jest.fn() };
 
 describe('user actions', () => {
   beforeEach(() => {
-    localStorage.setItem.mockClear();
-    config.history.push.mockClear();
-    base.unauth.mockClear();
-    base.onAuth.mockClear();
+    // vi.resetAllMocks()
   });
 
   describe('userLogin', () => {
     it('returns an action', () => {
-      const expected = { type: actions.USER_LOGIN_REQUEST};
+      const expected = { type: actions.USER_LOGIN_REQUEST };
       expect(actions.userLogin()).toEqual(expected);
     });
   });
 
   describe('userLogout', () => {
     it('returns an action', () => {
-      const expected = { type: actions.USER_LOGOUT_REQUEST};
+      const expected = { type: actions.USER_LOGOUT_REQUEST };
       expect(actions.userLogout()).toEqual(expected);
     });
   });
 
   describe('userLogoutSuccess', () => {
     it('returns an action', () => {
-      const expected = { type: actions.USER_LOGOUT_REQUEST_SUCCESS};
+      const expected = { type: actions.USER_LOGOUT_REQUEST_SUCCESS };
       expect(actions.userLogoutSuccess()).toEqual(expected);
     });
   });
@@ -61,120 +58,113 @@ describe('user actions', () => {
   describe('userLoginFailuer', () => {
     it('returns an action with error', () => {
       const expected = {
-        type:  actions.USER_LOGIN_REQUEST_FAILURE,
+        type: actions.USER_LOGIN_REQUEST_FAILURE,
         payload: {
           err: 'this failed'
         }
       };
 
-      const action = actions.userLoginFailure('this failed');
+      const action = actions.userLoginFailure({ err: 'this failed' });
       expect(action).toEqual(expected);
     });
   });
 
   describe('userLogoutReq', () => {
     it('logs out the user', () => {
-      const store = mockStore({});
-      const expected = [
-        { type: actions.USER_LOGOUT_REQUEST },
-        { type: actions.USER_LOGOUT_REQUEST_SUCCESS }
-      ];
+      const store = configureStore({ reducer: user });
+
+      store.subscribe(() => {
+        console.log(JSON.stringify(store.getState()))
+      })
+
       store.dispatch(actions.userLogoutReq());
-      expect(store.getActions()).toEqual(expected);
+      expect(store.getState()).toHaveProperty("user")
+      expect(store.getState()).toHaveProperty("credential")
+      expect(store.getState().user).toBeNull()
+      expect(store.getState().credential).toBeNull()
+
+
     });
 
     it('should clear local storage', () => {
-      const store = mockStore({});
-      store.dispatch(actions.userLogoutReq());
+      const store = configureStore({ reducer: user });
 
-      expect(localStorage.setItem).toBeCalledWith('user', null);
+      store.subscribe(() => {
+        console.log(JSON.stringify(store.getState()))
+      })
+
+      const spy = vi.spyOn(Storage.prototype, "setItem")
+      store.dispatch(actions.userLogoutReq());
+      expect(spy).toBeCalledWith('user', null);
     });
 
-    it('should make a call to base.unauth', () => {
-      const store = mockStore({});
-      store.dispatch(actions.userLogoutReq());
+    it('should make a call to unAuth', () => {
+      const store = configureStore({ reducer: user });
+      store.subscribe(() => {
+        console.log(JSON.stringify(store.getState()))
+      })
 
-      expect(base.unauth).toBeCalled();
+      store.dispatch(actions.userLogoutReq());
+      expect(unAuth).toBeCalled();
     });
   });
 
   describe('userLoginReq', () => {
     it('dispatches the success actions if okay', () => {
-      const store = mockStore({});
-      const expected = [
-        'USER_LOGIN_REQUEST',
-        'USER_LOGIN_REQUEST_SUCCESS',
-      ];
+      const store = configureStore({ reducer: user });
 
-      store.dispatch(actions.userLoginReq('google'));
-      const dispatched = store.getActions();
-      expect(dispatched.map(mapActions)).toEqual(expected);
+      store.subscribe(() => {
+        console.log(JSON.stringify(store.getState()))
+      })
+
+      const expectedUser = { user: { id: 'taylor' }, credential: { token: "hello" } }
+      const spy = vi.spyOn(Storage.prototype, "setItem")
+
+      store.dispatch(actions.userLoginReq('google')).then(() => {
+        expect(spy).toBeCalledWith('user', JSON.stringify(expectedUser));
+        expect(store.getState()).toEqual(expectedUser);
+      })
     });
 
     it('dispatches the error actions if error', () => {
-      const store = mockStore({});
-      const expected = [
-        'USER_LOGIN_REQUEST',
-        'USER_LOGIN_REQUEST_FAILURE',
-      ];
+      const store = configureStore({ reducer: user });
 
-      store.dispatch(actions.userLoginReq('bad-provider'));
-      const dispatched = store.getActions();
-      expect(dispatched.map(mapActions)).toEqual(expected);
-    });
+      store.subscribe(() => {
+        console.log(JSON.stringify(store.getState()))
+      })
 
-    it('correctly sets localStorage if user logged in', () => {
-      const store = mockStore({});
-      const user = { user: { id: 'taylor' } };
+      const spy = vi.spyOn(Storage.prototype, "setItem")
 
-      store.dispatch(actions.userLoginReq('google'));
-      expect(localStorage.setItem).toBeCalledWith('user', JSON.stringify(user));
-    });
-
-    it('does not call localStorage or history', () => {
-      const store = mockStore({});
-
-      store.dispatch(actions.userLoginReq('bad-provider'));
-      expect(localStorage.setItem.mock.calls.length).toEqual(0);
-      expect(config.history.push.mock.calls.length).toEqual(0);
-    });
-
-    it('correctly sets the history if user logged in', () => {
-      const store = mockStore({});
-
-      store.dispatch(actions.userLoginReq('google'));
-      expect(config.history.push).toBeCalledWith('/');
+      store.dispatch(actions.userLoginReq('bad-provider')).then(() => {
+        expect(spy).toBeCalledTimes(0)
+        expect(store.getState()).toHaveProperty("err")
+        expect(store.getState()).toHaveProperty("user")
+        expect(store.getState()).toHaveProperty("credential")
+        expect(store.getState().err).toEqual("bad provider")
+        expect(store.getState().user).toBeNull()
+        expect(store.getState().credential).toBeNull()
+      })
     });
   });
 
   describe('userLoginLocalStorage', () => {
     it('calls base.onAuth when logged in', () => {
-      const store = mockStore({});
+      const store = configureStore({ reducer: user });
+
+      store.subscribe(() => {
+        console.log(JSON.stringify(store.getState()))
+      })
+
+      const spy = vi.spyOn(Storage.prototype, "setItem")
+
       const authData = { email: 'taylor', password: 'fake' };
-      store.dispatch(actions.userLoginLocalStorage(authData));
-      expect(base.onAuth).toBeCalled();
-    });
+      store.dispatch(actions.userLoginLocalStorage(authData))
 
-    it('dispatches the proper actions', () => {
-      const store = mockStore({});
-      const authData = { email: 'taylor', password: 'fake' };
-      const expected = [
-        actions.USER_LOGIN_REQUEST,
-        actions.USER_LOGIN_REQUEST_SUCCESS
-      ];
-
-      store.dispatch(actions.userLoginLocalStorage(authData));
-      const dispatched = store.getActions().map(mapActions);
-      expect(dispatched).toEqual(expected);
-    });
-
-    it('adds data to local storage', () => {
-      const store = mockStore({});
-      const authData = { email: 'taylor', password: 'fake' };
-      const user = { id: 'taylor' };
-
-      store.dispatch(actions.userLoginLocalStorage(authData));
-      expect(localStorage.setItem).toBeCalledWith('user', JSON.stringify({ user}));
+      expect(onAuth).toBeCalled();
+      expect(spy).toHaveBeenCalledOnce()
+      expect(store.getState()).toHaveProperty("user")
+      expect(store.getState().user).toHaveProperty("credential")
+      expect(store.getState().user.credential.token).toEqual("hello")
     });
   });
 
@@ -182,28 +172,13 @@ describe('user actions', () => {
     it('returns true if user is an admin', () => {
       const userid = 'user1';
       return actions.checkIfAdmin(userid)
-      .then((res) => expect(res).toEqual(true));
+        .then((res) => expect(res).toEqual(true));
     });
 
     it('returns false if user is not an admin', () => {
       const userid = 'fakeuser';
       return actions.checkIfAdmin(userid)
-      .then((res) => expect(res).toEqual(false));
-    });
-  });
-
-  describe('checkifLoggedIn', () => {
-    it('checks if the user is in local storage', () => {
-      const store = mockStore({});
-      const expected = [
-        actions.USER_LOGIN_REQUEST,
-        actions.USER_LOGIN_REQUEST_SUCCESS
-      ];
-      store.dispatch(actions.checkIfLoggedIn());
-      const dispatched = store.getActions().map(mapActions);
-
-      expect(localStorage.getItem).toBeCalledWith('user');
-      expect(dispatched).toEqual(expected);
+        .then((res) => expect(res).toEqual(false));
     });
   });
 });

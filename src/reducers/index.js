@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   user,
   alert,
   seasonStatus,
-  routing: routerReducer,
+  router: routerReducer,
 });
 
 export default rootReducer;

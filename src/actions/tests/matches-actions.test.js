@@ -1,13 +1,10 @@
-jest.mock('../../base');
+vi.mock('../../base');
 
-import base from '../../base';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { describe, it, expect, vi } from 'vitest'
+import { configureStore } from '@reduxjs/toolkit'
 import * as actions from '../matches-actions';
+import matches from '../../reducers/matches-reducer';
 
-const mapActions = (act) => act.type;
-const middlewares = [ thunk ];
-const mockStore = configureMockStore(middlewares);
 
 describe('selectMatch', () => {
   it('returns MATCH_SELECTED', () => {
@@ -41,7 +38,7 @@ describe('addMatchesSuccess', () => {
       type: actions.ADD_MATCHES_SUCCESS,
       payload: {
         isFetching: false,
-        data: { matches: 'test'}
+        data: { matches: 'test' }
       }
     };
 
@@ -59,7 +56,7 @@ describe('addMatchesFailure', () => {
       }
     };
 
-    expect(actions.addMatchesFailure({msg: 'test'})).toEqual(expected);
+    expect(actions.addMatchesFailure({ msg: 'test' })).toEqual(expected);
   });
 });
 
@@ -83,7 +80,7 @@ describe('updateMatchSuccess', () => {
       payload: { matches: 'test' }
     };
 
-    expect(actions.updateMatchSuccess('test', {matches: 'test'})).toEqual(expected);
+    expect(actions.updateMatchSuccess('test', { matches: 'test' })).toEqual(expected);
   });
 });
 
@@ -95,50 +92,61 @@ describe('updateMatchFailure', () => {
       payload: { err: { msg: 'test err' } }
     };
 
-    expect(actions.updateMatchFailure('test', {msg: 'test err' })).toEqual(expected);
+    expect(actions.updateMatchFailure('test', { msg: 'test err' })).toEqual(expected);
   });
 });
 
 describe('fetchMatches', () => {
   it('dispatches correct actions on success', () => {
-    const store = mockStore({});
-    const expected = [
-      actions.ADD_MATCHES,
-      actions.ADD_MATCHES_SUCCESS
-    ];
+    const store = configureStore({ reducer: matches });
+
+    store.subscribe(() => {
+      console.log(JSON.stringify(store.getState()))
+    })
 
     return store.dispatch(actions.fetchMatches())
-    .then(() => store.getActions().map(mapActions))
-    .then(actions => expect(actions).toEqual(expected));
+      .then(() => expect(store.getState().data.testmatch).toBe("test"))
+      .then(() => expect(store.getState().data).toHaveProperty("testmatch"))
   });
 });
 
 describe('updateMatchReq', () => {
   it('dispatches correct actions on success', () => {
-    const store = mockStore({});
-    const expected = [
-      actions.UPDATE_MATCH,
-      actions.UPDATE_MATCH_SUCCESS,
-      'SHOW_ALERT',
-      actions.UPDATE_MATCH_SUCCESS
-    ];
+    const store = configureStore({
+      reducer: matches,
+      preloadedState: {
+        data: {},
+      }
+    });
 
-    return store.dispatch(actions.updateMatchReq('test', {available: true}, 'testcode'))
-    .then(() => store.getActions().map(mapActions))
-    .then(actions => expect(actions).toEqual(expected));
+    store.subscribe(() => {
+      console.log(JSON.stringify(store.getState()))
+    })
 
+    return store.dispatch(actions.updateMatchReq('test', { available: false }, 'testcode'))
+      .then(() => expect(store.getState()).toHaveProperty("data"))
+      .then(() => expect(store.getState().data).toHaveProperty("test"))
+      .then(() => expect(store.getState().data.test).toHaveProperty("available"))
+      .then(() => expect(store.getState().data.test.available).toEqual(false))
   });
 
   it('dispatches correct actions on failure', () => {
-    const store = mockStore({});
-    const expected = [
-      actions.UPDATE_MATCH,
-      'SHOW_ALERT',
-      actions.UPDATE_MATCH_FAILURE
-    ];
+    const store = configureStore({
+      reducer: matches,
+      preloadedState: {
+        data: {},
+      }
+    });
 
-    return store.dispatch(actions.updateMatchReq('test', {available: true}, 'fakecode'))
-    .then(() => store.getActions().map(mapActions))
-    .then(actions => expect(actions).toEqual(expected));
+    store.subscribe(() => {
+      console.log(JSON.stringify(store.getState()))
+    })
+
+    return store.dispatch(actions.updateMatchReq('test', { available: true }, 'fakecode'))
+      .then(() => expect(store.getState()).toHaveProperty("data"))
+      .then(() => expect(store.getState().data).toHaveProperty("test"))
+      .then(() => expect(store.getState().data.test).toHaveProperty("err"))
+      .then(() => expect(JSON.parse(store.getState().data.test.err)).toHaveProperty("msg"))
+    // .then(actions => expect(actions).toEqual(expected));
   });
 });

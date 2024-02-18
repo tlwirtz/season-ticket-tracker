@@ -1,38 +1,47 @@
 {
-  "name": "season-ticket-tracker",
-  "version": "1.1.1",
+  "name": "vite-app",
   "private": true,
-  "devDependencies": {
-    "react-addons-test-utils": "^15.4.2",
-    "react-scripts": "0.9.3"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "test": "vitest",
+    "deploy-fb": "npm run build && && firebase use season-ticket-tracker && firebase deploy"
   },
   "dependencies": {
-    "animate.css": "^3.5.2",
-    "base-64": "^0.1.0",
-    "classnames": "^2.2.5",
-    "enzyme": "^2.7.1",
-    "lodash": "^4.17.15",
-    "moment": "^2.18.1",
-    "nock": "^9.0.7",
-    "re-base": "^2.5.2",
-    "react": "^15.4.2",
-    "react-addons-css-transition-group": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-redux": "^5.0.2",
-    "react-router": "^3.0.1",
-    "react-router-redux": "^4.0.7",
-    "redux": "^3.6.0",
-    "redux-mock-store": "^1.2.2",
-    "redux-thunk": "^2.1.0"
+    "@reduxjs/toolkit": "^2.1.0",
+    "base-64": "^1.0.0",
+    "classnames": "^2.5.1",
+    "firebase": "^10.8.0",
+    "immer": "^10.0.3",
+    "lodash": "^4.17.21",
+    "moment": "^2.30.1",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.0",
+    "react-router": "^6.22.0",
+    "react-router-dom": "^6.22.0",
+    "react-router-redux": "^4.0.8",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "deploy-fb": "npm run build && firebase deploy"
+  "devDependencies": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "enzyme": "^3.11.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "jsdom": "^24.0.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.0",
+    "vitest": "^1.3.0"
   }
 }

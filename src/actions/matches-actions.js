@@ -1,5 +1,5 @@
 import base64 from 'base-64';
-import base from '../base';
+import { fetch, fbUpdate } from '../base';
 import { updateAlert, generateAlertPayload } from './alert-actions';
 
 export const ADD_MATCHES = 'ADD_MATCHES';
@@ -9,6 +9,7 @@ export const UPDATE_MATCH = 'UPDATE_MATCH';
 export const UPDATE_MATCH_SUCCESS = 'UPDATE_MATCH_SUCCESS';
 export const UPDATE_MATCH_FAILURE = 'UPDATE_MATCH_FAILURE';
 export const MATCH_SELECTED = 'MATCH_SELECTED';
+
 
 export const selectMatch = (matchId) => {
   return {
@@ -74,26 +75,28 @@ export const updateMatchFailure = (matchId, err) => {
   };
 };
 
+
 export const fetchMatches = () => {
   return (dispatch) => {
     dispatch(addMatches());
-    return base.fetch('matches', { context: {} })
+    return fetch('matches')
       .then((data) => dispatch(addMatchesSuccess(data)))
       .catch((err) => dispatch(addMatchesFailure(err)));
   };
 };
 
-const fetchAuthCode = () => base.fetch('redemption-codes', { context: {} });
+const fetchAuthCode = () => fetch('redemption-codes');
 const validateRedemptionCode = (userCode, redemptionCode) => base64.encode(userCode.toLowerCase()) === redemptionCode;
 const updateQtyTickets = (data) => {
   if (data.qtyTicketsAvailable > 0) {
-    const qty = data.qtyTicketsAvailable - 1
-    return base.update(`matches/${data.id}`, { data: { qtyTicketsAvailable: qty } })
-    .then(() => Promise.resolve(qty))
+    data.qtyTicketsAvailable = data.qtyTicketsAvailable - 1
+    return fbUpdate(`matches/${data.id}`, { data })
+      .then(() => data)
   }
 
   return Promise.resolve()
 }
+
 
 export const updateMatchReq = (matchId, payload, userCode) => {
   return (dispatch) => {
@@ -101,15 +104,21 @@ export const updateMatchReq = (matchId, payload, userCode) => {
     const defaultError = generateAlertPayload('error', 'Oh no! Something went wrong. Please try again');
 
     dispatch(updateMatch());
-  
+
     return fetchAuthCode()
       .then(redemptionCode => validateRedemptionCode(userCode, redemptionCode))
       .then(validatedCode => {
         if (validatedCode) {
-          return base.fetch(`matches/${matchId}`, { context: {} })
-          .then(updateQtyTickets)
-          .then(qty => dispatch(updateMatchSuccess(matchId, { qtyTicketsAvailable: qty })))
-          .then(() => base.update(`matches/${matchId}`, { data: payload }))
+          return fetch(`matches/${matchId}`)
+            .then(updateQtyTickets)
+            .then(updatedMatch => {
+              return Object.assign(updatedMatch, { ...payload })
+            })
+            .then(updated => {
+              dispatch(updateMatchSuccess(matchId, updated))
+              return updated
+            })
+            .then((updated) => fbUpdate(`matches/${matchId}`, { data: updated }))
         }
         return Promise.reject({ custom: true, msg: 'You did not provide a valid redemption code' });
       })
@@ -118,10 +127,11 @@ export const updateMatchReq = (matchId, payload, userCode) => {
         dispatch(updateMatchSuccess(matchId, payload));
       })
       .catch(err => {
+        console.error(err)
         err.custom
           ? dispatch(updateAlert(generateAlertPayload('error', err.msg)))
           : dispatch(updateAlert(defaultError));
-        dispatch(updateMatchFailure(matchId, err));
+        dispatch(updateMatchFailure(matchId, JSON.stringify(err)));
       });
   };
 };

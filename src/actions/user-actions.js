@@ -1,5 +1,4 @@
-import base from '../base';
-import { history } from '../store/configure-store';
+import { fetch, unAuth, authWithOAuthPopup, onAuth } from '../base';
 
 export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST';
 export const USER_LOGIN_REQUEST_SUCCESS = 'USER_LOGIN_REQUEST_SUCCESS';
@@ -27,9 +26,7 @@ export const userLoginSuccess = (authData) => {
 export const userLoginFailure = (err) => {
   return {
     type: USER_LOGIN_REQUEST_FAILURE,
-    payload: {
-      err
-    }
+    payload: err
   };
 };
 
@@ -49,38 +46,35 @@ export const userLogoutReq = () => {
   return (dispatch, getState) => {
     dispatch(userLogout());
     localStorage.setItem('user', null);
-    base.unauth();
-    dispatch(userLogoutSuccess());
+    return unAuth().then(() => dispatch(userLogoutSuccess()))
+
   };
 };
 
 export const userLoginReq = (provider) => {
   return (dispatch) => {
     dispatch(userLogin());
-    const authHandler = (err, authData) => {
-      if (err) return dispatch(userLoginFailure(err));
 
+    return authWithOAuthPopup(provider).then(authData => {
       localStorage.setItem('user', JSON.stringify(authData));
-      history.push('/');
       return dispatch(userLoginSuccess(authData));
-    };
-
-    return base.authWithOAuthPopup(provider, authHandler);
+    }).catch(err => dispatch(userLoginFailure(err)))
   };
 };
 
-export const userLoginLocalStorage = (authData) => {
+export const userLoginLocalStorage = () => {
   return (dispatch) => {
     dispatch(userLogin());
+
     const authHandler = (user) => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-        return dispatch(userLoginSuccess({ user }));
+        localStorage.setItem('user', JSON.stringify({ user: user.toJSON() }));
+        return dispatch(userLoginSuccess({ user: user.toJSON() }));
       }
 
       return dispatch(userLogoutReq());
     };
-    return base.onAuth(authHandler);
+    return onAuth(authHandler);
   };
 };
 
@@ -88,13 +82,13 @@ export const checkIfLoggedIn = () => {
   return (dispatch) => {
     const auth = localStorage.getItem('user');
     if (auth) {
-      dispatch(userLoginLocalStorage(JSON.parse(auth)));
+      dispatch(userLoginLocalStorage());
     }
   };
 };
 
 export const checkIfAdmin = (userId) => {
-  return base.fetch('admins', { context: {} })
-  .then(admins => Object.keys(admins).includes(userId))
-  .catch(() => { return false; });
+  return fetch('admins', { context: {} })
+    .then(admins => Object.keys(admins).includes(userId))
+    .catch(() => { return false; });
 };

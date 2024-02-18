@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import * as types from '../../actions/matches-actions';
 import reducer from '../matches-reducer';
 
@@ -53,7 +54,7 @@ describe('reducer', () => {
   });
 
   it('handles UPDATE_MATCH_SUCCESS', () => {
-    const payload = { test: 'test payload'};
+    const payload = { test: 'test payload' };
     const state = {
       data: {
         'test-match': { id: 'test-match' }
@@ -78,7 +79,7 @@ describe('reducer', () => {
   });
 
   it('handles UPDATE_MATCH_FAILURE', () => {
-    const payload = { test: 'test payload'};
+    const payload = { test: 'test payload' };
     const state = {
       data: {
         'test-match': { id: 'test-match' }
