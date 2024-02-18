@@ -1,35 +1,43 @@
 import base64 from 'base-64';
-let base = jest.genMockFromModule('../base');
+import { vi } from 'vitest'
 
-base.unauth = jest.fn();
-
-base.authWithOAuthPopup = jest.fn((provider, authHandler) => {
-  if (provider === 'bad-provider') return authHandler({ err: 'bad provider' });
-  return authHandler(null, { user: { id: 'taylor' } });
+export const unAuth = vi.fn(() => {
+  return Promise.resolve()
 });
 
-base.onAuth = jest.fn((authHandler) => {
-  const auth = { user: { id: 'taylor' } };
+export const authWithOAuthPopup = vi.fn((provider) => {
+  if (provider === 'bad-provider') return Promise.reject({ err: 'bad provider' });
+  return Promise.resolve({ user: { id: 'taylor' }, credential: { token: "hello" } })
+});
+
+export const onAuth = vi.fn((authHandler) => {
+  //mimics the firebase user object
+  const auth = {
+    toJSON: () => ({
+      user: { id: 'taylor' },
+      credential: { token: "hello" }
+    })
+  };
   authHandler(auth);
 });
 
-base.update = jest.fn((path, payload) => {
+export const fbUpdate = vi.fn((path, payload) => {
   if (path && payload) return Promise.resolve();
   return Promise.reject();
 });
 
-base.fetch = jest.fn((path) => {
+export const fetch = vi.fn((path) => {
   const admins = {
     user1: true,
     user2: true,
   };
   const matches = { 'testmatch': 'test' };
   const singleMatch = {
-    'test': {
-      id: 'test',
-      qtyTicketsAvailable: 1
-    }
+    id: 'test',
+    qtyTicketsAvailable: 1,
+    available: true
   }
+
   const codes = base64.encode('testcode');
 
   switch (path) {
@@ -47,4 +55,3 @@ base.fetch = jest.fn((path) => {
 
 });
 
-export default base;
