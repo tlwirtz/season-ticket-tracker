@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
-    "deploy-fb": "npm run build && && firebase use season-ticket-tracker && firebase deploy"
+    "deploy-fb": "npm run build && firebase use season-ticket-tracker && firebase deploy"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.1.0",
