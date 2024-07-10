@@ -12,9 +12,12 @@
     "deploy-fb": "npm run build && firebase use season-ticket-tracker && firebase deploy"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.9.4",
     "@reduxjs/toolkit": "^2.1.0",
     "base-64": "^1.0.0",
     "classnames": "^2.5.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.31.4",
     "firebase": "^10.8.0",
     "immer": "^10.0.3",
     "lodash": "^4.17.21",
