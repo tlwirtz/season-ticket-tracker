@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
-    "deploy-fb": "npm run build && firebase use season-ticket-tracker && firebase deploy"
+    "deploy-fb": "npm run build && firebase use season-ticket-tracker && firebase deploy",
+    "db:seed": "npx tsx db/seed.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.9.4",

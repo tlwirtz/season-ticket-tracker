@@ -15,9 +15,13 @@ import {
 import { db } from './db';
 import { faker } from '@faker-js/faker';
 
-const cleanDb = async (tableList: typeof tables) => {
-    const deletePromises = tableList.map(t => db.delete(t));
-    await Promise.all(deletePromises);
+type TableArray = typeof tables;
+const tables = [redemptionCodeTable, matchTable, appAlertTable, adminTable, teamTable];
+
+const cleanDb = async (tableList: TableArray) => {
+    for (const table of tableList) {
+        await db.delete(table);
+    }
 };
 
 const generateTeams = async (numOfTeams: number) => {
@@ -64,15 +68,35 @@ const generateMatches = async (numOfMatches: number, teams: SelectTeam[]) => {
     return await db.insert(matchTable).values(matches).returning();
 };
 
-async function main() {
-    const tables = [redemptionCodeTable, matchTable, appAlertTable, adminTable, teamTable];
+const generateAdmins = async (numOfAdmins: number) => {
+    const createRandomAdmin = () => ({
+        email: faker.internet.email()
+    });
 
+    const admins = faker.helpers.multiple(createRandomAdmin, { count: numOfAdmins });
+    return await db.insert(adminTable).values(admins).returning();
+};
+
+const generateRedemptionCodes = async (numOfCodes: number) => {
+    const createRandomRedemptionCode = () => ({
+        code: faker.string.nanoid()
+    });
+
+    const codes = faker.helpers.multiple(createRandomRedemptionCode, { count: numOfCodes });
+    return await db.insert(redemptionCodeTable).values(codes).returning();
+};
+
+async function main() {
     await cleanDb(tables);
     const teams = await generateTeams(30);
     const matches = await generateMatches(30, teams);
+    const admins = await generateAdmins(2);
+    const codes = await generateRedemptionCodes(2);
 
     console.log(teams);
     console.log(matches);
+    console.log(admins);
+    console.log(codes);
 }
 
 main();
