@@ -23,7 +23,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src",
+    "_old/src",
     "db/db.ts",
     "db/schema.ts"
   ],
