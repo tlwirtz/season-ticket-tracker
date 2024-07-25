@@ -44,6 +44,22 @@ export const matchTable = pgTable('matches', {
     timestamp: timestamp('timestamp') //why do we have this
 });
 
+export const ticketRedemptionTable = pgTable('ticket_redemptions', {
+    id: serial('id').primaryKey(),
+    matchId: integer('match_id')
+        .notNull()
+        .references(() => matchTable.id),
+    redemptionCodeId: integer('redemption_code_id')
+        .notNull()
+        .references(() => redemptionCodeTable.id),
+    claimQty: integer('claim_qty').notNull(),
+    claimedUserId: text('claimed_user_id'), //this should be a foreign key
+    createdAt: timestamp('createdAt').defaultNow()
+});
+
+export type InsertTicketRedemption = typeof ticketRedemptionTable.$inferInsert;
+export type SelectTicketRedemption = typeof ticketRedemptionTable.$inferSelect;
+
 export type InsertTeam = typeof teamTable.$inferInsert;
 export type SelectTeam = typeof teamTable.$inferSelect;
 
