@@ -7,12 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:seed": "npx tsx db/seed.ts"
+    "db:seed": "npx tsx db/seed.ts",
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:push-dangerous": "npx drizzle-kit push"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.9.4",
     "dotenv": "^16.4.5",
-    "drizzle-orm": "^0.30.9",
+    "drizzle-orm": "^0.32.1",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "next": "14.2.5",
