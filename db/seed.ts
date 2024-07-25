@@ -27,7 +27,7 @@ const cleanDb = async (tableList: TableArray) => {
 const generateTeams = async (numOfTeams: number) => {
     const createRandomTeam = (): InsertTeam => {
         return {
-            name: faker.string.alpha(10),
+            name: faker.company.name(),
             img: faker.image.urlLoremFlickr({ category: 'sports' })
         };
     };
