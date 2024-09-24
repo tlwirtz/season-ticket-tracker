@@ -10,6 +10,7 @@ export const teamTable = pgTable('teams', {
 
 export const adminTable = pgTable('admins', {
     id: serial('id').primaryKey(),
+    externalUid: text('external_uid').notNull().unique(),
     email: text('email').notNull().unique()
 });
 
@@ -34,7 +35,7 @@ export const matchTable = pgTable('matches', {
     homeTeam: integer('home_team')
         .notNull()
         .references(() => teamTable.id),
-    claimedUserId: text('claimed_user_id'),
+    claimedUserId: text('claimed_user_id'), //external uid
     date: text('date'), //really should be a timestamp
     location: text('location'),
     matchType: matchTypeEnum('matchType').notNull(), //should be an enum
@@ -53,7 +54,7 @@ export const ticketRedemptionTable = pgTable('ticket_redemptions', {
         .notNull()
         .references(() => redemptionCodeTable.id),
     claimQty: integer('claim_qty').notNull(),
-    claimedUserId: text('claimed_user_id'), //this should be a foreign key
+    claimedUserId: text('claimed_user_id'), //external uid
     createdAt: timestamp('createdAt').defaultNow()
 });
 

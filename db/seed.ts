@@ -10,13 +10,21 @@ import {
     matchTable,
     matchTypeEnum,
     redemptionCodeTable,
-    teamTable
+    teamTable,
+    ticketRedemptionTable
 } from './schema';
 import { db } from './db';
 import { faker } from '@faker-js/faker';
 
 type TableArray = typeof tables;
-const tables = [redemptionCodeTable, matchTable, appAlertTable, adminTable, teamTable];
+const tables = [
+    ticketRedemptionTable,
+    redemptionCodeTable,
+    matchTable,
+    appAlertTable,
+    adminTable,
+    teamTable
+];
 
 const cleanDb = async (tableList: TableArray) => {
     for (const table of tableList) {
@@ -70,7 +78,8 @@ const generateMatches = async (numOfMatches: number, teams: SelectTeam[]) => {
 
 const generateAdmins = async (numOfAdmins: number) => {
     const createRandomAdmin = () => ({
-        email: faker.internet.email()
+        email: faker.internet.email(),
+        externalUid: `user_${faker.string.nanoid()}`
     });
 
     const admins = faker.helpers.multiple(createRandomAdmin, { count: numOfAdmins });
