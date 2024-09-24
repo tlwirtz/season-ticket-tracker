@@ -1,6 +1,7 @@
-import { drizzle } from 'drizzle-orm/neon-http';
-import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import { neonConfig, Pool } from '@neondatabase/serverless';
 import { config } from 'dotenv';
+import ws from 'ws';
 
 /**
  * This is a little strange because it means we're always developing
@@ -8,7 +9,14 @@ import { config } from 'dotenv';
  *
  * I can see a world where we want to spin this up in Docker on our local machine
  * and only use neon in production.
+ *
+ * We have to use neon-serverless for now because neon-http doesn't support transactions.
+ * We have to bring our own websocket client.
+ *
+ * https://orm.drizzle.team/docs/get-started-postgresql#neon-postgres
  */
 config({ path: '.env' }); //todo -- this doesn't seem to work as intended. I had to load .env to get this to work.
-const sql = neon(process.env.DATABASE_URL!);
-export const db = drizzle(sql);
+
+neonConfig.webSocketConstructor = ws;
+const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const db = drizzle(pool);
