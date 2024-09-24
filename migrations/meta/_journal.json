@@ -29,6 +29,13 @@
       "when": 1721874195610,
       "tag": "0003_late_sumo",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1727154491436,
+      "tag": "0004_fair_lord_hawal",
+      "breakpoints": true
     }
   ]
 }
