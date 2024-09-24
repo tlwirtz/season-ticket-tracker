@@ -4,6 +4,7 @@ import { eq } from 'drizzle-orm';
 import { matchTable, redemptionCodeTable, ticketRedemptionTable } from '../../db/schema';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { auth } from '@clerk/nextjs/server';
 
 /**
  * Update and claim a ticket.
@@ -13,15 +14,19 @@ import { redirect } from 'next/navigation';
  */
 export async function validateRedemptionCode({
     matchId,
-    claimedUser,
-    available,
     redemptionCode
 }: {
     matchId: number;
-    claimedUser: { uid: number };
-    available: boolean;
     redemptionCode: string;
 }) {
+    const { userId } = auth();
+
+    console.log('userId', userId);
+
+    if (!userId) {
+        return { success: false, message: 'User not found.' };
+    }
+
     const [dbRedemptionCode] = await db
         .select()
         .from(redemptionCodeTable)
@@ -56,15 +61,15 @@ export async function validateRedemptionCode({
         await tx
             .update(matchTable)
             .set({
-                available,
-                claimedUserId: claimedUser.uid.toString(),
+                available: newTicketQty > 0,
+                claimedUserId: userId,
                 qtyTicketsAvailable: newTicketQty
             })
             .where(eq(matchTable.id, matchId));
 
         await tx.insert(ticketRedemptionTable).values({
             matchId,
-            claimedUserId: claimedUser.uid.toString(),
+            claimedUserId: userId,
             claimQty,
             redemptionCodeId: dbRedemptionCode.id
         });
