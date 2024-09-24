@@ -7,6 +7,7 @@ import { validateRedemptionCode } from '@/actions/redeemMatch';
 
 export default function RedeemMatch({ user, matchId }) {
     const [redemptionCode, setRedemptionCode] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     /**
      * TODO -- need to figure out how to get the updated match
@@ -21,12 +22,17 @@ export default function RedeemMatch({ user, matchId }) {
         const payload = { claimedUser: user, available: false };
         console.log('claiming ticket', payload);
 
-        await validateRedemptionCode({
+        const result = await validateRedemptionCode({
             matchId,
             claimedUser: user,
             redemptionCode,
-            available: false
+            available: false //todo -- this is only true if we are out of tickets.
         });
+
+        if (result && !result.success) {
+            console.error(result.message);
+            setErrorMessage(result.message);
+        }
     }
 
     function validateState() {
@@ -50,6 +56,7 @@ export default function RedeemMatch({ user, matchId }) {
 
     return (
         <div>
+            {errorMessage && <p>{errorMessage}</p>}
             <button
                 className="action-button claim-ticket-button"
                 onClick={e => handleClaimTicket(e)}

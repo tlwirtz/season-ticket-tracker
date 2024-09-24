@@ -22,20 +22,24 @@ export async function validateRedemptionCode({
     available: boolean;
     redemptionCode: string;
 }) {
-    const redemptionCodes = await db.select().from(redemptionCodeTable);
+    const [dbRedemptionCode] = await db
+        .select()
+        .from(redemptionCodeTable)
+        .where(eq(redemptionCodeTable.code, redemptionCode));
+
     const [match] = await db.select().from(matchTable).where(eq(matchTable.id, matchId));
 
-    console.log('redemptionCodes', redemptionCodes);
+    console.log('redemptionCodes', redemptionCode);
 
     //this should never really happen
     if (!match) {
-        // throw?
         console.error(`${matchId} not found.`);
+        return { success: false, message: 'Match not found.' };
     }
 
-    if (!redemptionCodes.map(rc => rc.code).includes(redemptionCode)) {
-        //throw?
-        return;
+    if (!dbRedemptionCode) {
+        console.error(`${dbRedemptionCode} not found.`);
+        return { success: false, message: 'Redemption code not found.' };
     }
 
     const claimQty = 1;
@@ -43,12 +47,10 @@ export async function validateRedemptionCode({
 
     if (match.qtyTicketsAvailable > 0) {
         newTicketQty = match.qtyTicketsAvailable - claimQty;
+    } else {
+        console.error(`${matchId} does not have any tickets available.`);
+        return { success: false, message: 'No tickets available.' };
     }
-
-    const usedRedemptionCode = redemptionCodes.find(rc => rc.code === redemptionCode) ?? {
-        id: 0,
-        code: ''
-    };
 
     await db.transaction(async tx => {
         await tx
@@ -64,12 +66,12 @@ export async function validateRedemptionCode({
             matchId,
             claimedUserId: claimedUser.uid.toString(),
             claimQty,
-            redemptionCodeId: usedRedemptionCode.id
+            redemptionCodeId: dbRedemptionCode.id
         });
     });
 
     revalidatePath(`/matches/${matchId}`);
     redirect(`/matches/${matchId}`);
 
-    return;
+    return { success: true, message: 'Ticket claimed.' };
 }
