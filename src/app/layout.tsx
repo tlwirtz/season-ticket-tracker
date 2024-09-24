@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 // import './globals.css';
 import '../../styles/index.css';
 import '../../styles/Colors.css';
 import '../../styles/App.css';
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -17,9 +17,20 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    //todo -- need to style all the login/logout stuff
     return (
-        <html lang="en">
-            <body className={inter.className}>{children}</body>
-        </html>
+        <ClerkProvider>
+            <html lang="en">
+                <body>
+                    <SignedOut>
+                        <SignInButton />
+                    </SignedOut>
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
+                    {children}
+                </body>
+            </html>
+        </ClerkProvider>
     );
 }
