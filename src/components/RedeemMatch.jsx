@@ -24,9 +24,7 @@ export default function RedeemMatch({ user, matchId }) {
 
         const result = await validateRedemptionCode({
             matchId,
-            claimedUser: user,
-            redemptionCode,
-            available: false //todo -- this is only true if we are out of tickets.
+            redemptionCode
         });
 
         if (result && !result.success) {

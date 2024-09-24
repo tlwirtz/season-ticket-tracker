@@ -2,6 +2,8 @@ import RedeemMatch from '../components/RedeemMatch';
 import '../../styles/MatchDetail.css';
 
 export default function MatchDetail({ user, match }) {
+    //todo -- we should get the user from the auth context
+    //todo -- and then look this up on the server
     function ticketAvailable(match) {
         return !match.claimedUserId || match.available || match.qtyTicketsAvailable > 0;
     }
