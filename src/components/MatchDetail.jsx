@@ -2,8 +2,6 @@ import RedeemMatch from '../components/RedeemMatch';
 import '../../styles/MatchDetail.css';
 
 export default function MatchDetail({ user, match }) {
-    //todo -- we should get the user from the auth context
-    //todo -- and then look this up on the server
     function ticketAvailable(match) {
         return !match.claimedUserId || match.available || match.qtyTicketsAvailable > 0;
     }
@@ -43,7 +41,7 @@ export default function MatchDetail({ user, match }) {
                                 {match.qtyTicketsAvailable > 1 ? 's' : ''} available for this match.
                             </h3>
                             {user ? (
-                                <RedeemMatch user={user} matchId={match.id} /> // need to pass in other props
+                                <RedeemMatch matchId={match.id} />
                             ) : (
                                 <h3 className="match-detail-subtitle medium-grey-text">
                                     {' '}

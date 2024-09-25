@@ -3,6 +3,7 @@ import { matchTable, teamTable, redemptionCodeTable } from '../../../../db/schem
 import { eq, aliasedTable } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import MatchDetail from '../../../components/MatchDetail';
+import { currentUser } from '@clerk/nextjs/server';
 
 const awayTeam = aliasedTable(teamTable, 'awayTeam');
 const homeTeam = aliasedTable(teamTable, 'homeTeam');
@@ -13,9 +14,7 @@ export default async function Page({ params }: { params: { matchId: number } }) 
      * Afterwards, we can load it on the page
      */
 
-    //todo -- this should get the user from the auth context
-    //todo -- I'm not even sure if we need to inject this in.
-    const user = { userId: 939394839, uid: 9393920293, name: 'taylor' };
+    const user = await currentUser();
     const [matchData] = await db
         .select()
         .from(matchTable)
@@ -23,7 +22,7 @@ export default async function Page({ params }: { params: { matchId: number } }) 
         .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id))
         .where(eq(matchTable.id, params.matchId));
 
-    if (!matchData) {
+    if (!matchData || !user) {
         //probably a bad match id
         redirect('/matches');
     }
@@ -35,5 +34,6 @@ export default async function Page({ params }: { params: { matchId: number } }) 
 
     console.log('match', matchMapped);
 
-    return <MatchDetail user={user} match={matchMapped} />;
+    const { id, firstName, lastName } = user;
+    return <MatchDetail user={{ uid: id, firstName, lastName }} match={matchMapped} />;
 }

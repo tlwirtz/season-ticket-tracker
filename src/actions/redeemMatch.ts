@@ -12,7 +12,7 @@ import { auth } from '@clerk/nextjs/server';
  * @param param0
  * @returns
  */
-export async function validateRedemptionCode({
+export async function validateAndClaimTicket({
     matchId,
     redemptionCode
 }: {
@@ -78,5 +78,6 @@ export async function validateRedemptionCode({
     revalidatePath(`/matches/${matchId}`);
     redirect(`/matches/${matchId}`);
 
+    //this doesn't get sent back to the client
     return { success: true, message: 'Ticket claimed.' };
 }

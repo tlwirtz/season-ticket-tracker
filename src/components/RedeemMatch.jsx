@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import '../../styles/RedeemMatch.css';
 import '../../styles/NavBar.css';
-import { validateRedemptionCode } from '@/actions/redeemMatch';
+import { validateAndClaimTicket } from '@/actions/redeemMatch';
 
-export default function RedeemMatch({ user, matchId }) {
+export default function RedeemMatch({ matchId }) {
     const [redemptionCode, setRedemptionCode] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -18,17 +18,13 @@ export default function RedeemMatch({ user, matchId }) {
      * TODO -- this tutorial has us redirect from inside of the server action
      * TODO -- https://nextjs.org/learn/dashboard-app/mutating-data
      */
-    async function claimTicket(matchId, user, redemptionCode) {
-        const payload = { claimedUser: user, available: false };
-        console.log('claiming ticket', payload);
-
-        const result = await validateRedemptionCode({
+    async function claimTicket(matchId, redemptionCode) {
+        const result = await validateAndClaimTicket({
             matchId,
             redemptionCode
         });
 
         if (result && !result.success) {
-            console.error(result.message);
             setErrorMessage(result.message);
         }
     }
@@ -43,13 +39,7 @@ export default function RedeemMatch({ user, matchId }) {
 
     function handleClaimTicket(e) {
         e.preventDefault();
-        const { displayName, uid, email } = user;
-
-        if (user.uid) {
-            return claimTicket(matchId, { displayName, uid, email }, redemptionCode);
-        }
-
-        return false;
+        return claimTicket(matchId, redemptionCode);
     }
 
     return (
