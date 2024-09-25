@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 // import { Link } from 'react-router-dom';
-import { UserButton, useUser } from '@clerk/nextjs';
+import Link from 'next/link';
+import { UserButton, useUser, SignedIn } from '@clerk/nextjs';
 import '../../styles/NavBar.css';
 import '../../styles/Colors.css';
 
@@ -34,55 +35,44 @@ export default function NavBar() {
     return (
         <div className="nav-bar-container">
             <div className="nav-bar-item nav-bar-heading">
-                {/* <Link to="/">
+                <Link href="/">
                     <h1 className="nav-bar-title">Match Finder</h1>
-                </Link> */}
+                </Link>
                 <h3 className="nav-bar-subheading soft-grey-text">
                     Seattle Sounders {new Date(Date.now()).getFullYear()} Season
                 </h3>
             </div>
 
-            {user?.user ? (
+            <SignedIn>
                 <div className="nav-bar-group">
                     <div className="nav-bar-item">
-                        {/* <Link to="/">
+                        <Link href="/">
                             <div className="nav-link">Home</div>
-                        </Link> */}
+                        </Link>
                     </div>
                     <div className="nav-bar-item">
-                        {/* <Link to="/about">
+                        <Link href="/about">
                             <div className="nav-link">About</div>
-                        </Link> */}
+                        </Link>
                     </div>
-
                     <div className="nav-bar-item">
-                        {/* <Link to="/profile">
+                        <Link href="/profile">
                             <div className="nav-link">My Matches</div>
-                        </Link> */}
+                        </Link>
                     </div>
-
+                    {/* //todo -- this doesn't work. */}
                     {isAdmin ? (
                         <div className="nav-bar-item">
-                            {/* <Link to="/admin">
+                            <Link href="/admin">
                                 <div className="nav-link">Admin</div>
-                            </Link> */}
+                            </Link>
                         </div>
                     ) : null}
                     <div className="nav-bar-item">
                         <UserButton />
                     </div>
                 </div>
-            ) : (
-                <></>
-                // !isSeasonStatusFetching &&
-                // !isSeasonDelayed && (
-                //     <div className="nav-bar-group">
-                //         <Link to="/login" className="nav-bar-item">
-                //             <button className="action-button">Login</button>
-                //         </Link>
-                //     </div>
-                // )
-            )}
+            </SignedIn>
         </div>
     );
 }
