@@ -21,8 +21,6 @@ export async function validateAndClaimTicket({
 }) {
     const { userId } = auth();
 
-    console.log('userId', userId);
-
     if (!userId) {
         return { success: false, message: 'User not found.' };
     }
@@ -78,6 +76,6 @@ export async function validateAndClaimTicket({
     revalidatePath(`/matches/${matchId}`);
     redirect(`/matches/${matchId}`);
 
-    //this doesn't get sent back to the client
+    //todo -- this doesn't get sent back to the client
     return { success: true, message: 'Ticket claimed.' };
 }
