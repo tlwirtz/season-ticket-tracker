@@ -17,6 +17,8 @@ export default function Match(props) {
         const { timestamp, id, awayTeam, location, claimedUser } = props.matchData;
         const { admin } = props;
 
+        console.log('match', props.matchData);
+
         return (
             <a href={`/matches/${id}`}>
                 <div className="match-condensed">

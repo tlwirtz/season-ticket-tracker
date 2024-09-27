@@ -76,6 +76,12 @@ export type SelectAppAlert = typeof appAlertTable.$inferSelect;
 export type InsertMatch = typeof matchTable.$inferInsert;
 export type SelectMatch = typeof matchTable.$inferSelect;
 
+export type MatchWithTeams = {
+    matches: SelectMatch;
+    awayTeam: SelectTeam;
+    homeTeam: SelectTeam;
+};
+
 //todo -- need to update this.
 // export const usersTable = pgTable('users_table', {
 //     id: serial('id').primaryKey(),

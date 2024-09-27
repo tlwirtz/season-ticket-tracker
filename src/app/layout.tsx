@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ClerkProvider, SignedIn, UserButton } from '@clerk/nextjs';
+import { ClerkProvider, SignedIn } from '@clerk/nextjs';
 import NavBar from '../components/NavBar';
 // import './globals.css';
 import '../../styles/index.css';

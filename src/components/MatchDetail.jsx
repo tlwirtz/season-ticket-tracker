@@ -19,11 +19,15 @@ export default function MatchDetail({ user, match }) {
             );
         }
 
-        return (
-            <h3 className="animated fadeInUp center-text match-detail-subtitle medium-grey-text">
-                Sorry, there are no tickets available for this match.
-            </h3>
-        );
+        if (!ticketAvailable(match)) {
+            return (
+                <h3 className="animated fadeInUp center-text match-detail-subtitle medium-grey-text">
+                    Sorry, there are no tickets available for this match.
+                </h3>
+            );
+        }
+
+        return <></>;
     }
 
     function renderMatchDetails(match) {
@@ -33,7 +37,7 @@ export default function MatchDetail({ user, match }) {
                     <h1 className="animated fadeInUp match-detail-title">
                         {match.homeTeam.name} vs. {match.awayTeam.name}
                     </h1>
-                    {ticketAvailable(match) ? (
+                    {ticketAvailable(match) && (
                         <div className="animated fadeInUp center">
                             <h3 className="match-detail-subtitle medium-grey-text">
                                 There {match.qtyTicketsAvailable > 1 ? 'are' : 'is'}{' '}
@@ -49,13 +53,10 @@ export default function MatchDetail({ user, match }) {
                                 </h3>
                             )}
                         </div>
-                    ) : (
-                        <div className="animated fadeInUp center-button">
-                            {user
-                                ? renderMatchAvailable(user.uid, match)
-                                : renderMatchAvailable(null, match)}
-                        </div>
                     )}
+                    <div className="animated fadeInUp center-button">
+                        {renderMatchAvailable(user?.uid, match)}
+                    </div>
                 </div>
                 <div className="animated fadeInUp match-detail-group">
                     <div className="match-detail-item">

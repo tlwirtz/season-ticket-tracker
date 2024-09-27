@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-// import { Link } from 'react-router-dom';
 import Link from 'next/link';
 import { UserButton, useUser, SignedIn } from '@clerk/nextjs';
 import '../../styles/NavBar.css';

@@ -1,5 +1,5 @@
 import { db } from '../../../../db/db';
-import { matchTable, teamTable, redemptionCodeTable } from '../../../../db/schema';
+import { matchTable, teamTable, MatchWithTeams } from '../../../../db/schema';
 import { eq, aliasedTable } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import MatchDetail from '../../../components/MatchDetail';
@@ -15,12 +15,12 @@ export default async function Page({ params }: { params: { matchId: number } }) 
      */
 
     const user = await currentUser();
-    const [matchData] = await db
+    const [matchData] = (await db
         .select()
         .from(matchTable)
         .leftJoin(homeTeam, eq(matchTable.homeTeam, homeTeam.id))
         .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id))
-        .where(eq(matchTable.id, params.matchId));
+        .where(eq(matchTable.id, params.matchId))) as unknown as MatchWithTeams[];
 
     if (!matchData || !user) {
         //probably a bad match id
@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: { matchId: number } }) 
     }
     const matchMapped = {
         ...matchData.matches,
-        homeTeam: matchData.homeTeam, //todo -- figure out how to fix type errors
+        homeTeam: matchData.homeTeam,
         awayTeam: matchData.awayTeam
     };
 
