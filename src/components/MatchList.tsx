@@ -1,24 +1,24 @@
 import moment from 'moment';
 import Match from './Match';
-import { timestamp } from 'drizzle-orm/mysql-core';
+import { MatchWithTeams } from '../../db/schema';
 
-export default function MatchList({ matchData }) {
-    function isAfter(time) {
+export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }) {
+    function isAfter(time: Date | null) {
         return moment(time).isAfter(moment());
     }
 
-    function isBefore(time) {
+    function isBefore(time: Date | null) {
         return moment(time).isBefore(moment());
     }
 
     //I only want to see matches for this season.
-    function filterMatchYear(match) {
+    function filterMatchYear({ matches: match }: MatchWithTeams) {
         const { timestamp } = match;
         return moment(timestamp).isSameOrAfter(moment(), 'year');
     }
 
-    function filterMatch(test) {
-        return match => {
+    function filterMatch(test: boolean) {
+        return (match: MatchWithTeams) => {
             const { available, timestamp } = match.matches;
             if (test) {
                 return available === test && isAfter(timestamp);
@@ -29,23 +29,23 @@ export default function MatchList({ matchData }) {
         };
     }
 
-    function buildMatch(match) {
+    function buildMatch(match: MatchWithTeams) {
         const bg = match?.awayTeam?.img;
-        const { id, location, claimedUser, timeStamp, ticketPrice } = match.matches;
+        const { id, location, claimedUserId, timestamp, ticketPrice } = match.matches;
 
         const props = {
             id,
             location,
-            claimedUser,
-            timeStamp,
+            claimedUserId,
+            timestamp,
             ticketPrice,
             awayTeam: match.awayTeam
         };
 
         return (
             <a
-                key={match.matches.id}
-                href={`/matches/${match.matches.id}`}
+                key={id}
+                href={`/matches/${id}`}
                 className="match animated fadeInUp"
                 style={{ backgroundImage: `url(${bg})` }}
             >
@@ -58,7 +58,6 @@ export default function MatchList({ matchData }) {
     const availableGames = gamesThisYear.filter(filterMatch(true)).map(buildMatch);
     const reservedGames = gamesThisYear.filter(filterMatch(false)).map(buildMatch);
 
-    console.log('available', availableGames);
     return (
         <section>
             <div className="match-container">
