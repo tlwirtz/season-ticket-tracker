@@ -15,7 +15,7 @@
     "@reduxjs/toolkit": "^2.1.0",
     "base-64": "^1.0.0",
     "classnames": "^2.5.1",
-    "firebase": "^10.8.0",
+    "firebase": "^10.9.0",
     "immer": "^10.0.3",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
