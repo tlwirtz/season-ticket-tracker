@@ -4,6 +4,8 @@ import { eq, aliasedTable } from 'drizzle-orm';
 import { redirect } from 'next/navigation';
 import MatchDetail from '../../../components/MatchDetail';
 import { currentUser } from '@clerk/nextjs/server';
+import '../../../../styles/Match.css';
+
 
 const awayTeam = aliasedTable(teamTable, 'awayTeam');
 const homeTeam = aliasedTable(teamTable, 'homeTeam');
