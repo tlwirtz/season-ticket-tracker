@@ -15,15 +15,15 @@ export default async function Matches() {
      *  homeTeam: {...team}
      *  awayTeam: {...team}
      * }]
-     * 
+     *
      * But the left joins don't seem to get picked up by the type system
      * convert to `unknown` before converting to `MatchWithTeams[]`
      */
-    const matches = await db
+    const matches = (await db
         .select()
         .from(matchTable)
         .leftJoin(homeTeam, eq(matchTable.homeTeam, homeTeam.id))
-        .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id)) as unknown as MatchWithTeams[]
+        .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id))) as unknown as MatchWithTeams[];
 
     return (
         <>
