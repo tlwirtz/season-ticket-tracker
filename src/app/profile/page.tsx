@@ -20,7 +20,7 @@ export default async function Profile() {
         .leftJoin(homeTeam, eq(matchTable.homeTeam, homeTeam.id))
         .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id))
         .innerJoin(ticketRedemptionTable, eq(ticketRedemptionTable.matchId, matchTable.id))
-        .where(eq(ticketRedemptionTable.claimedUserId, user.id));
+        .where(eq(ticketRedemptionTable.claimedUserId, user.id)) as unknown as MatchWithTeams[]
 
     function buildMatch(match: MatchWithTeams) {
         const { id, location, claimedUserId, timestamp, ticketPrice } = match.matches;
@@ -41,7 +41,6 @@ export default async function Profile() {
         );
     }
 
-    console.log('matches', matchList);
 
     function renderLoggedIn() {
         return (

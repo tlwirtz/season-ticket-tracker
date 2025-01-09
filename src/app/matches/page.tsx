@@ -1,5 +1,5 @@
 import { db } from '../../../db/db';
-import { matchTable, teamTable } from '../../../db/schema';
+import { matchTable, teamTable, MatchWithTeams } from '../../../db/schema';
 import { eq, aliasedTable } from 'drizzle-orm';
 import MatchList from '../../components/MatchList';
 import '../../../styles/Match.css';
@@ -15,12 +15,15 @@ export default async function Matches() {
      *  homeTeam: {...team}
      *  awayTeam: {...team}
      * }]
+     * 
+     * But the left joins don't seem to get picked up by the type system
+     * convert to `unknown` before converting to `MatchWithTeams[]`
      */
     const matches = await db
         .select()
         .from(matchTable)
         .leftJoin(homeTeam, eq(matchTable.homeTeam, homeTeam.id))
-        .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id));
+        .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id)) as unknown as MatchWithTeams[]
 
     return (
         <>
