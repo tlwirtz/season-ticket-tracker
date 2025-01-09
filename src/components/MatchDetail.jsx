@@ -14,7 +14,7 @@ export default function MatchDetail({ user, match }) {
         if (matchBelongToUser(userId, match)) {
             return (
                 <h3 className="center-text match-detail-subtitle medium-grey-text">
-                    You're going to this match!!
+                    You&apos;re going to this match!!
                 </h3>
             );
         }

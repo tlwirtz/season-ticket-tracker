@@ -17,17 +17,17 @@ export default function About() {
                     the match due to flags, banners and tifo.
                 </p>
                 <p>
-                    This section expects full partcipation, so if you are looking for a nice,
-                    relaxing expereince, this isn't the section for you. If you're looking for one
-                    of the most authentic and exciting ways to expereince American soccer, then step
+                    This section expects full participation, so if you are looking for a nice,
+                    relaxing experience, this isn&apos;t the section for you. If you&apos;re looking for one
+                    of the most authentic and exciting ways to experience American soccer, then step
                     right up.
                 </p>
 
                 <p>
                     Check out this <a href="https://www.youtube.com/watch?v=R5FQsrRSMFw">link</a> to
-                    get a feel for what it's like to sit with the Emerald City Supporters!
+                    get a feel for what it&apos;s like to sit with the Emerald City Supporters!
                 </p>
-                <p>We'll see you in the terraces.</p>
+                <p>We&apos;ll see you in the terraces.</p>
 
                 <h3 className="soft-grey-text">How Do I Get My Tickets?</h3>
                 <p>
@@ -37,7 +37,7 @@ export default function About() {
 
                 <h3 className="soft-grey-text">Payment Options</h3>
                 <p>
-                    Currently, I'm only accepting cash or venmo on or before game day. Since
+                    Currently, I&apos;m only accepting cash or venmo on or before game day. Since
                     redemption codes are only handed out to trusted friends and family we can
                     coordinate payment methods on a case by case basis.
                 </p>
@@ -48,7 +48,7 @@ export default function About() {
                     match day. This gives me time to re-list the ticket and find a replacement.
                 </p>
                 <p>
-                    Don't panic if you must cancel within 48 hours of match day! Just let me know as
+                    Don&apos;t panic if you must cancel within 48 hours of match day! Just let me know as
                     soon as you can and we can work together to find a solution.
                 </p>
             </div>
