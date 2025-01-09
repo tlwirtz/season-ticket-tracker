@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1720586091408,
+      "tag": "0000_purple_silk_fever",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1720669741855,
+      "tag": "0001_spooky_master_chief",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720746962896,
+      "tag": "0002_complete_santa_claus",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1721874195610,
+      "tag": "0003_late_sumo",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1727154491436,
+      "tag": "0004_fair_lord_hawal",
+      "breakpoints": true
+    }
+  ]
+}

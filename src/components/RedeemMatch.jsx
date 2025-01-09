@@ -1,15 +1,32 @@
+'use client';
+
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { updateMatchReq } from '../actions/matches-actions';
-import '../styles/RedeemMatch.css';
+import '../../styles/RedeemMatch.css';
+import '../../styles/NavBar.css';
+import { validateAndClaimTicket } from '@/actions/redeemMatch';
 
-export default function RedeemMatch({ user, matchId }) {
-    const dispatch = useDispatch();
+export default function RedeemMatch({ matchId }) {
     const [redemptionCode, setRedemptionCode] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    function claimTicket(matchId, user, redemptionCode) {
-        const payload = { claimedUser: user, available: false };
-        dispatch(updateMatchReq(matchId, payload, redemptionCode));
+    /**
+     * TODO -- need to figure out how to get the updated match
+     * TODO -- object back to the frontend.
+     * TODO -- having a hard time figuring out what the correct "Next.JS" way to do this.\
+     * TODO -- probably have to do something with 'useEffect' but I'm essentially
+     * TODO -- updating props...
+     * TODO -- this tutorial has us redirect from inside of the server action
+     * TODO -- https://nextjs.org/learn/dashboard-app/mutating-data
+     */
+    async function claimTicket(matchId, redemptionCode) {
+        const result = await validateAndClaimTicket({
+            matchId,
+            redemptionCode
+        });
+
+        if (result && !result.success) {
+            setErrorMessage(result.message);
+        }
     }
 
     function validateState() {
@@ -22,17 +39,12 @@ export default function RedeemMatch({ user, matchId }) {
 
     function handleClaimTicket(e) {
         e.preventDefault();
-        const { displayName, uid, email } = user;
-
-        if (user.uid) {
-            return claimTicket(matchId, { displayName, uid, email }, redemptionCode);
-        }
-
-        return false;
+        return claimTicket(matchId, redemptionCode);
     }
 
     return (
         <div>
+            {errorMessage && <p>{errorMessage}</p>}
             <button
                 className="action-button claim-ticket-button"
                 onClick={e => handleClaimTicket(e)}

@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import '../styles/Footer.css';
 
 export default function Footer() {
@@ -9,7 +10,13 @@ export default function Footer() {
                     <a href="http://greysky.io">greysky.io</a>
                 </h4>
             </div>
-            
+            <div className="footer-item">
+                <a href="https://twitter.com/wirtzt">
+                    <h4 className="center-text">
+                        <i className="fa fa-twitter fa-2x" aria-hidden="true"></i>
+                    </h4>
+                </a>
+            </div>
             <div className="footer-item">
                 <a href="https://github.com/tlwirtz">
                     <h4 className="center-text">

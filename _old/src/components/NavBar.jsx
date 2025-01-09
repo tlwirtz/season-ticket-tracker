@@ -1,18 +1,24 @@
-'use client';
-
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { UserButton, useUser, SignedIn } from '@clerk/nextjs';
-import '../../styles/NavBar.css';
-import '../../styles/Colors.css';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { userLogoutReq, checkIfAdmin } from '../actions/user-actions';
+import '../styles/NavBar.css';
+import '../styles/Colors.css';
 
-//todo -- this needs a lot of love to add links back in, but functionally works.
 export default function NavBar() {
     const [hideNav, setHideNav] = useState(false);
     const [innerWidth, setInnerWidth] = useState();
     const [isAdmin, setIsAdmin] = useState(false);
+    const dispatch = useDispatch();
 
-    const user = useUser();
+    const user = useSelector(state => (state.user ? state.user : null));
+    const isSeasonStatusFetching = useSelector(state => state.seasonStatus.isFetching);
+    const isSeasonDelayed = useSelector(state => state.seasonStatus.data.isSeasonDelayed);
+
+    function logout(e) {
+        e.preventDefault();
+        return dispatch(userLogoutReq());
+    }
 
     function windowResize() {
         const { innerWidth } = window;
@@ -27,14 +33,14 @@ export default function NavBar() {
 
     //probably don't need an effect here but...?
     //should run everytime user changes
-    // useEffect(() => {
-    //     checkIfAdmin(user?.user?.uid).then(result => setIsAdmin(result));
-    // }, [user]);
+    useEffect(() => {
+        checkIfAdmin(user?.user?.uid).then(result => setIsAdmin(result));
+    }, [user]);
 
     return (
         <div className="nav-bar-container">
             <div className="nav-bar-item nav-bar-heading">
-                <Link href="/">
+                <Link to="/">
                     <h1 className="nav-bar-title">Match Finder</h1>
                 </Link>
                 <h3 className="nav-bar-subheading soft-grey-text">
@@ -42,36 +48,61 @@ export default function NavBar() {
                 </h3>
             </div>
 
-            <SignedIn>
+            {user?.user ? (
                 <div className="nav-bar-group">
                     <div className="nav-bar-item">
-                        <Link href="/">
+                        <Link to="/">
                             <div className="nav-link">Home</div>
                         </Link>
                     </div>
                     <div className="nav-bar-item">
-                        <Link href="/about">
+                        <Link to="/about">
                             <div className="nav-link">About</div>
                         </Link>
                     </div>
+
                     <div className="nav-bar-item">
-                        <Link href="/profile">
+                        <Link to="/profile">
                             <div className="nav-link">My Matches</div>
                         </Link>
                     </div>
-                    {/* //todo -- this doesn't work. */}
+
                     {isAdmin ? (
                         <div className="nav-bar-item">
-                            <Link href="/admin">
+                            <Link to="/admin">
                                 <div className="nav-link">Admin</div>
                             </Link>
                         </div>
                     ) : null}
                     <div className="nav-bar-item">
-                        <UserButton />
+                        <img
+                            alt="user-logo"
+                            className="nav-bar-user-logo"
+                            src={user.user.photoURL}
+                        />
+                    </div>
+                    <div className="nav-bar-item">
+                        <button
+                            className="action-button"
+                            onClick={e => {
+                                logout(e);
+                            }}
+                        >
+                            {' '}
+                            Logout
+                        </button>
                     </div>
                 </div>
-            </SignedIn>
+            ) : (
+                !isSeasonStatusFetching &&
+                !isSeasonDelayed && (
+                    <div className="nav-bar-group">
+                        <Link to="/login" className="nav-bar-item">
+                            <button className="action-button">Login</button>
+                        </Link>
+                    </div>
+                )
+            )}
         </div>
     );
 }

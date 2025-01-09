@@ -1,0 +1,111 @@
+.match-detail-container {
+  display: flex;
+  padding: 1em;
+  padding-left: 3em;
+  padding-top: 0;
+}
+
+.match-detail-item {
+  flex: auto;
+  padding: 1em;
+  padding-left: 0;
+  padding-top: 0;
+}
+
+.match-detail-group {
+  display: flex;
+  width: 100%;
+  padding-top: 1em;
+  justify-content: center;
+  flex-direction: column-reverse;
+}
+
+.match-detail-title {
+  padding: 4px;
+  margin: 0;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -1.5px;
+}
+
+.match-detail-subtitle {
+  padding: 4px;
+  margin: 0px;
+  font-family: 'Work-Sans', sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.match-detail-text {
+  margin: 0;
+  padding: 4px;
+  font-size: 24px;
+  line-height: 150%;
+}
+
+.away-team-img {
+  max-width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
+/* Really small phones */
+@media screen and (max-width:320px) {
+  .match-detail-group {
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .match-detail-group > .match-detail-item {
+    align-content: center;
+  }
+}
+
+/* Regular smart phones, including iPhone 6 + with 414px viewport! */
+@media screen and (min-width: 414) {
+  .match-detail-group {
+    flex-direction: column-reverse;
+  }
+
+  .match-detail-group > .match-detail-item {
+    align-content: center;
+  }
+}
+
+/* Regular Tablets from 480 to 800px including Galaxy tablets - 768px is only good for iPad */
+@media screen and (min-width: 481px) {
+  .match-detail-group {
+    flex-direction: column-reverse;
+  }
+}
+
+@media screen and (min-width: 660px) {
+  .match-detail-group {
+    flex-direction: row-reverse;
+  }
+
+  .match-detail-group > .match-detail-item {
+    max-width: 45%;
+  }
+}
+
+@media screen and (min-width: 810px) {
+  .match-detail-group {
+    flex-direction: row-reverse;
+  }
+
+  .match-detail-group > .match-detail-item {
+    max-width: 45%;
+  }
+}

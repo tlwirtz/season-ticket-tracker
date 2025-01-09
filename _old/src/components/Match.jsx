@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 import moment from 'moment';
+import '../styles/Match.css';
 
 export default function Match(props) {
     function renderMatchCard() {
@@ -17,10 +19,8 @@ export default function Match(props) {
         const { timestamp, id, awayTeam, location, claimedUser } = props.matchData;
         const { admin } = props;
 
-        console.log('match', props.matchData);
-
         return (
-            <a href={`/matches/${id}`}>
+            <Link to={`/matches/${id}`}>
                 <div className="match-condensed">
                     <h3 className="match-condensed-heading">{awayTeam.name}</h3>
                     <h5 className="match-condensed-subheading medium-grey-text">
@@ -29,11 +29,11 @@ export default function Match(props) {
                     <h5 className="match-condensed-subheading medium-grey-text">{location}</h5>
                     {admin ? (
                         <h5 className="match-condensed-subheading medium-grey-text">
-                            {claimedUser?.displayName ?? ''}
+                            {claimedUser.displayName}
                         </h5>
                     ) : null}
                 </div>
-            </a>
+            </Link>
         );
     }
 
