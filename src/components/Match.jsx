@@ -7,7 +7,12 @@ export default function Match(props) {
         return (
             <div className="desc">
                 <h3>{awayTeam.name}</h3>
-                <p>{moment(timestamp).format('dddd, MMMM D YYYY - h:mm A').toLocaleUpperCase()} </p>
+                <p>
+                    {moment(timestamp)
+                        .local()
+                        .format('dddd, MMMM D YYYY - h:mm A')
+                        .toLocaleUpperCase()}{' '}
+                </p>
                 <p> ${(ticketPrice / 100).toFixed(2)} </p>
             </div>
         );
