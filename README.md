@@ -2,9 +2,6 @@
 ⚽️ A small app to manage our extra season ticket. See it [here](https://seasontickets.me)
 
 ## Hosting & Deploy
-This app is hosted using Google's Firebase infrastructure. The database, image storage, hosting and authentication are all facilitated by Firebase.
-
-## Design Notes
-Design inspiration: [Design Guidelines](http://designguidelines.co/)
+App hosted on Vercel and backed by a Neon SQL database. Auth by Clerk. 
 
 
