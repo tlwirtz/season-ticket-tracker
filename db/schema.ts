@@ -1,10 +1,11 @@
 import { boolean, integer, pgTable, pgEnum, serial, text, timestamp } from 'drizzle-orm/pg-core';
 
-export const matchTypeEnum = pgEnum('matchType', ['MLS']);
+export const matchTypeEnum = pgEnum('matchType', ['MLS', 'CWC', 'CONCACAF', 'USOC']);
 
 export const teamTable = pgTable('teams', {
     id: serial('id').primaryKey(),
     name: text('name').notNull(),
+    code: text('code').notNull().default('MLS'),
     img: text('img')
 });
 

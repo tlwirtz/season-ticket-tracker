@@ -36,6 +36,20 @@
       "when": 1727154491436,
       "tag": "0004_fair_lord_hawal",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1737224352649,
+      "tag": "0005_wandering_mole_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1737228758416,
+      "tag": "0006_melodic_thanos",
+      "breakpoints": true
     }
   ]
 }

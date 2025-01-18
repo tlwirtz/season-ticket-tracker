@@ -1,0 +1,1 @@
+ALTER TABLE "teams" ADD COLUMN "code" text DEFAULT 'MLS' NOT NULL;
