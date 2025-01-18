@@ -23,9 +23,7 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="en">
                 <body>
-                    <SignedIn>
-                        <NavBar />
-                    </SignedIn>
+                    <NavBar />
                     {children}
                 </body>
             </html>
