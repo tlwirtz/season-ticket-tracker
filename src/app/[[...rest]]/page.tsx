@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <>
             <SignedOut>
-                <Landing />
+                <Matches />
             </SignedOut>
             <SignedIn>
                 <Matches />
