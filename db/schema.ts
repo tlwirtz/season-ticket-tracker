@@ -43,7 +43,7 @@ export const matchTable = pgTable('matches', {
     qtyTicketsAvailable: integer('qty_tickets_available').notNull().default(0),
     ticketPrice: integer('ticket_price').notNull().default(0),
     time: text('time'),
-    timestamp: timestamp('timestamp') //why do we have this
+    timestamp: timestamp('timestamp', { withTimezone: true })
 });
 
 export const ticketRedemptionTable = pgTable('ticket_redemptions', {

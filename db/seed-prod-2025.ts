@@ -11,6 +11,7 @@ import {
     teamTable,
     ticketRedemptionTable
 } from './schema';
+import { parse } from 'date-fns';
 
 type TeamDataFromCSV = {
     team_name: string;
@@ -24,6 +25,7 @@ type MatchDataFromCSV = {
     away_team: string;
     date: string;
     time: string;
+    time_num: string;
     location: string;
     match_type: string;
 };
@@ -87,7 +89,8 @@ const generateMatches = async (teamData: SelectTeam[], matchData: MatchDataFromC
             ticketPrice: 2000,
             claimedUserId: null as null | number,
             qtyTicketsAvailable: 1,
-            matchType: md.match_type || 'MLS'
+            matchType: md.match_type || 'MLS',
+            timestamp: parse(`${md.date} ${md.time_num}`, 'MM/dd/yyyy kk:mm', new Date())
         };
         return mapped;
     }) as InsertMatch[];
