@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { UserButton, useUser, SignedIn } from '@clerk/nextjs';
+import { UserButton, useUser, SignedIn, SignedOut, SignInButton } from '@clerk/nextjs';
 import '../../styles/NavBar.css';
 import '../../styles/Colors.css';
 
@@ -42,18 +42,18 @@ export default function NavBar() {
                 </h3>
             </div>
 
-            <SignedIn>
-                <div className="nav-bar-group">
-                    <div className="nav-bar-item">
-                        <Link href="/">
-                            <div className="nav-link">Home</div>
-                        </Link>
-                    </div>
-                    <div className="nav-bar-item">
-                        <Link href="/about">
-                            <div className="nav-link">About</div>
-                        </Link>
-                    </div>
+            <div className="nav-bar-group">
+                <div className="nav-bar-item">
+                    <Link href="/">
+                        <div className="nav-link">Home</div>
+                    </Link>
+                </div>
+                <div className="nav-bar-item">
+                    <Link href="/about">
+                        <div className="nav-link">About</div>
+                    </Link>
+                </div>
+                <SignedIn>
                     <div className="nav-bar-item">
                         <Link href="/profile">
                             <div className="nav-link">My Matches</div>
@@ -70,8 +70,16 @@ export default function NavBar() {
                     <div className="nav-bar-item">
                         <UserButton />
                     </div>
-                </div>
-            </SignedIn>
+                </SignedIn>
+                <SignedOut>
+                    <div className="nav-bar-item">
+                        <SignInButton
+                            className="action-button claim-ticket-button"
+                            forceRedirectUrl="/matches"
+                        />
+                    </div>
+                </SignedOut>
+            </div>
         </div>
     );
 }
