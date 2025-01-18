@@ -60,6 +60,8 @@ export async function validateAndClaimTicket({
             .update(matchTable)
             .set({
                 available: newTicketQty > 0,
+                //todo -- this column should get dropped.
+                //todo -- multiple users could claim tickets for a match.
                 claimedUserId: userId,
                 qtyTicketsAvailable: newTicketQty
             })
@@ -74,8 +76,4 @@ export async function validateAndClaimTicket({
     });
 
     revalidatePath(`/matches/${matchId}`);
-    redirect(`/matches/${matchId}`);
-
-    //todo -- this doesn't get sent back to the client
-    return { success: true, message: 'Ticket claimed.' };
 }

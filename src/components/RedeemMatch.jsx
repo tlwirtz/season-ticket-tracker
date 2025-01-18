@@ -7,25 +7,16 @@ import { validateAndClaimTicket } from '@/actions/redeemMatch';
 
 export default function RedeemMatch({ matchId }) {
     const [redemptionCode, setRedemptionCode] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [redemptionMessage, setRedemptionMessage] = useState('');
 
-    /**
-     * TODO -- need to figure out how to get the updated match
-     * TODO -- object back to the frontend.
-     * TODO -- having a hard time figuring out what the correct "Next.JS" way to do this.\
-     * TODO -- probably have to do something with 'useEffect' but I'm essentially
-     * TODO -- updating props...
-     * TODO -- this tutorial has us redirect from inside of the server action
-     * TODO -- https://nextjs.org/learn/dashboard-app/mutating-data
-     */
     async function claimTicket(matchId, redemptionCode) {
         const result = await validateAndClaimTicket({
             matchId,
             redemptionCode
         });
 
-        if (result && !result.success) {
-            setErrorMessage(result.message);
+        if (result) {
+            setRedemptionMessage(result.message);
         }
     }
 
@@ -35,6 +26,11 @@ export default function RedeemMatch({ matchId }) {
 
     function handleChange(e) {
         setRedemptionCode(e.target.value);
+
+        //reset message when user types new code
+        if (redemptionMessage) {
+            setRedemptionMessage(null);
+        }
     }
 
     function handleClaimTicket(e) {
@@ -44,7 +40,7 @@ export default function RedeemMatch({ matchId }) {
 
     return (
         <div>
-            {errorMessage && <p>{errorMessage}</p>}
+            {redemptionMessage && <p>{redemptionMessage}</p>}
             <button
                 className="action-button claim-ticket-button"
                 onClick={e => handleClaimTicket(e)}
