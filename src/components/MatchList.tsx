@@ -54,9 +54,14 @@ export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }
         );
     }
 
+    //todo -- there's likely some bugs here b/c the timestamps and server are all in UTC.
+    //todo -- we might need a way to tell the server the user's local timezone.
     const gamesThisYear = matchData.filter(filterMatchYear);
-    const availableGames = gamesThisYear.filter(filterMatch(true)).map(buildMatch);
-    const reservedGames = gamesThisYear.filter(filterMatch(false)).map(buildMatch);
+    const availableGames = gamesThisYear
+        .filter(filterMatch(true))
+        .sort((a, b) => moment(a.matches.timestamp).unix() - moment(b.matches.timestamp).unix())
+        .map(buildMatch);
+    const reservedGames = gamesThisYear.filter(filterMatch(false)).sort().map(buildMatch);
 
     return (
         <section>

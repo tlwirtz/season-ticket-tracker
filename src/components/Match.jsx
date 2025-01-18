@@ -1,18 +1,36 @@
+'use client';
 import moment from 'moment';
+import { useState, useEffect, CSSProperties } from 'react';
 
 export default function Match(props) {
+    //we have to do this crazy stuff because the time gets
+    //rendered on the server in UTC and we need it to render in the client timezone.
+    const [currentTime, setCurrentTime] = useState(() => {
+        return moment(props.matchData.timestamp)
+            .format('dddd, MMMM D YYYY - h:mm A')
+            .toLocaleUpperCase();
+    });
+
+    const [showTimeField, setShowTimeField] = useState(() => {
+        return false;
+    });
+
+    useEffect(() => {
+        setCurrentTime(() => {
+            return moment(props.matchData.timestamp)
+                .format('dddd, MMMM D YYYY - h:mm A')
+                .toLocaleUpperCase();
+        });
+
+        setShowTimeField(() => true);
+    }, []);
+
     function renderMatchCard() {
         const { timestamp, awayTeam, ticketPrice } = props.matchData;
-
         return (
             <div className="desc">
                 <h3>{awayTeam.name}</h3>
-                <p>
-                    {moment(timestamp)
-                        .local()
-                        .format('dddd, MMMM D YYYY - h:mm A')
-                        .toLocaleUpperCase()}{' '}
-                </p>
+                <p style={{ visibility: showTimeField ? 'visible' : 'hidden' }}>{currentTime}</p>
                 <p> ${(ticketPrice / 100).toFixed(2)} </p>
             </div>
         );
@@ -28,8 +46,11 @@ export default function Match(props) {
             <a href={`/matches/${id}`}>
                 <div className="match-condensed">
                     <h3 className="match-condensed-heading">{awayTeam.name}</h3>
-                    <h5 className="match-condensed-subheading medium-grey-text">
-                        {moment(timestamp).format('dddd, MMMM D - h:mm A').toUpperCase()}
+                    <h5
+                        style={{ visibility: showTimeField ? 'visible' : 'hidden' }}
+                        className="match-condensed-subheading medium-grey-text"
+                    >
+                        {currentTime}
                     </h5>
                     <h5 className="match-condensed-subheading medium-grey-text">{location}</h5>
                     {admin ? (
