@@ -6,7 +6,6 @@ import MatchDetail from '../../../components/MatchDetail';
 import { currentUser } from '@clerk/nextjs/server';
 import '../../../../styles/Match.css';
 
-
 const awayTeam = aliasedTable(teamTable, 'awayTeam');
 const homeTeam = aliasedTable(teamTable, 'homeTeam');
 
@@ -24,7 +23,7 @@ export default async function Page({ params }: { params: { matchId: number } }) 
         .leftJoin(awayTeam, eq(matchTable.awayTeam, awayTeam.id))
         .where(eq(matchTable.id, params.matchId))) as unknown as MatchWithTeams[];
 
-    if (!matchData || !user) {
+    if (!matchData) {
         //probably a bad match id
         redirect('/matches');
     }
@@ -36,6 +35,11 @@ export default async function Page({ params }: { params: { matchId: number } }) 
 
     console.log('match', matchMapped);
 
-    const { id, firstName, lastName } = user;
-    return <MatchDetail user={{ uid: id, firstName, lastName }} match={matchMapped} />;
+    let maybeUser = null;
+
+    if (user) {
+        const { id, firstName, lastName } = user;
+        maybeUser = { uid: id, firstName, lastName };
+    }
+    return <MatchDetail user={maybeUser} match={matchMapped} />;
 }
