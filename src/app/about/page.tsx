@@ -1,5 +1,5 @@
 import '../../../styles/Match.css';
-import '../../../styles/MatchDetail.css'
+import '../../../styles/MatchDetail.css';
 
 export default function About() {
     return (
@@ -18,14 +18,20 @@ export default function About() {
                 </p>
                 <p>
                     This section expects full participation, so if you are looking for a nice,
-                    relaxing experience, this isn&apos;t the section for you. If you&apos;re looking for one
-                    of the most authentic and exciting ways to experience American soccer, then step
-                    right up.
+                    relaxing experience, this isn&apos;t the section for you. If you&apos;re looking
+                    for one of the most authentic and exciting ways to experience American soccer,
+                    then let's go mental.
                 </p>
 
                 <p>
-                    Check out this <a href="https://www.youtube.com/watch?v=R5FQsrRSMFw">link</a> to
-                    get a feel for what it&apos;s like to sit with the Emerald City Supporters!
+                    Check out this{' '}
+                    <a
+                        className="underline"
+                        href="https://youtu.be/QCtlW5r-kw4?si=VU48qoowQCNRw_6v"
+                    >
+                        link
+                    </a>{' '}
+                    to get a feel for what it&apos;s like to sit with the Emerald City Supporters!
                 </p>
                 <p>We&apos;ll see you in the terraces.</p>
 
@@ -38,18 +44,18 @@ export default function About() {
                 <h3 className="soft-grey-text">Payment Options</h3>
                 <p>
                     Currently, I&apos;m only accepting cash or venmo on or before game day. Since
-                    redemption codes are only handed out to trusted friends and family we can
-                    coordinate payment methods on a case by case basis.
+                    redemption codes are only handed out to friends and family we can coordinate
+                    payment methods on a case by case basis.
                 </p>
 
                 <h3 className="soft-grey-text">Cancellation Policy</h3>
                 <p>
-                    If you need to cancel your ticket, please inform me at least 48 hours before
-                    match day. This gives me time to re-list the ticket and find a replacement.
+                    If you need to cancel your ticket, just let me know a few days before match day.
+                    This gives me time to re-list the ticket and find a replacement.
                 </p>
                 <p>
-                    Don&apos;t panic if you must cancel within 48 hours of match day! Just let me know as
-                    soon as you can and we can work together to find a solution.
+                    Don&apos;t panic if you must cancel before match day! Just let me know as soon
+                    as you can and we can work together to find a solution.
                 </p>
             </div>
         </div>
