@@ -33,3 +33,11 @@ h3 {
 .centered {
   text-align: center;
 }
+
+a {
+  color: #505153;
+}
+
+a:hover {
+  color: #1f1f1f
+}

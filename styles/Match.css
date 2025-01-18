@@ -88,6 +88,10 @@ a {
   text-decoration: none;
 }
 
+a.underline {
+  text-decoration: underline;
+}
+
 a.soft-grey-text {
   transition: 0.25s color ease-in-out;
 }
