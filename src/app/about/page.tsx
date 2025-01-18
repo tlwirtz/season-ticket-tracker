@@ -20,7 +20,7 @@ export default function About() {
                     This section expects full participation, so if you are looking for a nice,
                     relaxing experience, this isn&apos;t the section for you. If you&apos;re looking
                     for one of the most authentic and exciting ways to experience American soccer,
-                    then let's go mental.
+                    then let&apos;s go mental.
                 </p>
 
                 <p>
