@@ -10,9 +10,8 @@ import '../../styles/Colors.css';
 export default function NavBar() {
     const [hideNav, setHideNav] = useState(false);
     const [innerWidth, setInnerWidth] = useState();
-    const [isAdmin, setIsAdmin] = useState(false);
 
-    const user = useUser();
+    const { user } = useUser();
 
     function windowResize() {
         const { innerWidth } = window;
@@ -24,12 +23,6 @@ export default function NavBar() {
         window.addEventListener('resize', windowResize);
         return () => window.removeEventListener('resize', windowResize);
     }, []);
-
-    //probably don't need an effect here but...?
-    //should run everytime user changes
-    // useEffect(() => {
-    //     checkIfAdmin(user?.user?.uid).then(result => setIsAdmin(result));
-    // }, [user]);
 
     return (
         <div className="nav-bar-container">
@@ -60,7 +53,7 @@ export default function NavBar() {
                         </Link>
                     </div>
                     {/* //todo -- this doesn't work. */}
-                    {isAdmin ? (
+                    {user && user.publicMetadata.role === 'admin' ? (
                         <div className="nav-bar-item">
                             <Link href="/admin">
                                 <div className="nav-link">Admin</div>
