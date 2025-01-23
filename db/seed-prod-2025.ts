@@ -110,9 +110,11 @@ async function main() {
 
     const teams = await generateTeams(teamData);
     const matches = await generateMatches(teams, matchData);
+    const redemptionCodes = await generateRedemptionCodes();
 
     console.log(teams);
     console.log(matches);
+    console.log(redemptionCodes);
 }
 
 main();
