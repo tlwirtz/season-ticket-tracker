@@ -24,18 +24,16 @@ export default async function Admin() {
 
     const matchesWithUsers = await Promise.all(
         claimedMatches.map(async redemption => {
-            if (redemption.ticket_redemptions.claimedUserId) {
-                const maybeUser = await client.users.getUser(
-                    redemption.ticket_redemptions.claimedUserId
-                );
+            const { claimedUserId } = redemption.ticket_redemptions;
 
-                if (maybeUser) {
-                    return { ...redemption, user: maybeUser } as unknown as RedeemedMatch;
-                }
-
-                console.error(`User not found for match ${redemption.matches.matchKey}`);
+            if (!claimedUserId) {
+                //this should never happen
+                console.error(`no claimed user found for match: ${redemption.matches.matchKey}`);
+                return { ...redemption, user: null } as unknown as RedeemedMatch;
             }
-            return { ...redemption, user: null } as unknown as RedeemedMatch;
+
+            const maybeUser = await client.users.getUser(claimedUserId);
+            return { ...redemption, user: maybeUser ?? null } as unknown as RedeemedMatch;
         })
     );
 
