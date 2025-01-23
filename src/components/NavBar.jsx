@@ -52,7 +52,6 @@ export default function NavBar() {
                             <div className="nav-link">My Matches</div>
                         </Link>
                     </div>
-                    {/* //todo -- this doesn't work. */}
                     {user && user.publicMetadata.role === 'admin' ? (
                         <div className="nav-bar-item">
                             <Link href="/admin">
