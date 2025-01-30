@@ -1,4 +1,4 @@
-import '../styles/Footer.css';
+import '../../styles/Footer.css';
 
 export default function Footer() {
     return (
@@ -9,7 +9,7 @@ export default function Footer() {
                     <a href="http://greysky.io">greysky.io</a>
                 </h4>
             </div>
-            
+
             <div className="footer-item">
                 <a href="https://github.com/tlwirtz">
                     <h4 className="center-text">
