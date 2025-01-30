@@ -1,6 +1,6 @@
 'use client';
 import moment from 'moment';
-import { useState, useEffect, CSSProperties } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Match(props) {
     //we have to do this crazy stuff because the time gets
@@ -23,10 +23,10 @@ export default function Match(props) {
         });
 
         setShowTimeField(() => true);
-    }, []);
+    }, [props.matchData.timestamp]);
 
     function renderMatchCard() {
-        const { timestamp, awayTeam, ticketPrice } = props.matchData;
+        const { awayTeam, ticketPrice } = props.matchData;
         return (
             <div className="desc">
                 <h3>{awayTeam.name}</h3>
@@ -37,10 +37,8 @@ export default function Match(props) {
     }
 
     function renderMatchCondensed() {
-        const { timestamp, id, awayTeam, location, claimedUser } = props.matchData;
+        const { id, awayTeam, location, claimedUser } = props.matchData;
         const { admin } = props;
-
-        console.log('match', props.matchData);
 
         return (
             <a href={`/matches/${id}`}>
