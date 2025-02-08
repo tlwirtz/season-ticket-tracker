@@ -1,6 +1,7 @@
 import moment from 'moment';
 import Match from './Match';
 import { MatchWithTeams } from '../../db/schema';
+import MatchGrid from './MatchGrid';
 
 export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }) {
     function isAfter(time: Date | null) {
@@ -12,6 +13,8 @@ export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }
     }
 
     //I only want to see matches for this season.
+    //todo -- we should adjust our db query to only pull matches
+    //todo -- for the season and then get rid of this.
     function filterMatchYear({ matches: match }: MatchWithTeams) {
         const { timestamp } = match;
         return moment(timestamp).isSameOrAfter(moment(), 'year');
@@ -30,28 +33,25 @@ export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }
     }
 
     function buildMatch(match: MatchWithTeams) {
-        const bg = match?.awayTeam?.img;
         const { id, location, claimedUserId, timestamp, ticketPrice } = match.matches;
 
-        const props = {
+        return {
             id,
-            location,
-            claimedUserId,
-            timestamp,
+            venue: location,
+            city: 'Seattle, WA', //todo -- add to db
+            dateTime: timestamp,
             ticketPrice,
-            awayTeam: match.awayTeam
+            homeTeam: {
+                id: match.homeTeam.id,
+                name: match.homeTeam.name,
+                logoUrl: match.homeTeam.img
+            },
+            awayTeam: {
+                id: match.awayTeam.id,
+                name: match.awayTeam.name,
+                logoUrl: match.awayTeam.img
+            }
         };
-
-        return (
-            <a
-                key={id}
-                href={`/matches/${id}`}
-                className="match animated fadeInUp"
-                style={{ backgroundImage: `url(${bg})` }}
-            >
-                <Match matchData={props} condensed={false} />
-            </a>
-        );
     }
 
     //todo -- there's likely some bugs here b/c the timestamps and server are all in UTC.
@@ -70,13 +70,17 @@ export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }
                     Available matches
                 </h3>
             </div>
-            <div className="match-container">{availableGames}</div>
+            <div className="max-w-7xl mx-auto py-8">
+                <MatchGrid matches={availableGames} />
+            </div>
             <div className="match-container">
                 <h3 className="extra-left-margin nav-bar-subheading soft-grey-text">
                     Unavailable Matches
                 </h3>
             </div>
-            <div className="match-container">{reservedGames}</div>
+            <div className="max-w-7xl mx-auto py-8">
+                <MatchGrid matches={reservedGames} />
+            </div>
         </section>
     );
 }
