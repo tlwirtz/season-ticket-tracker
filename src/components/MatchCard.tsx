@@ -60,7 +60,7 @@ const MatchCard: FC<MatchCardProps> = ({ match }) => {
                             <img
                                 src={match.awayTeam.logoUrl ?? ''}
                                 alt={match.awayTeam.name}
-                                className="w-16 h-16 object-over rounded-full"
+                                className="w-16 h-16 object-over"
                             />
                         </div>
                         <div className="flex flex-col items-center space-y-2">
