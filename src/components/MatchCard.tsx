@@ -58,14 +58,14 @@ const MatchCard: FC<MatchCardProps> = ({ match }) => {
                     <div className="flex items-center space-x-4">
                         <div className="flex flex-col items-center space-y-2">
                             <img
-                                src={match.homeTeam.logoUrl ?? ''}
-                                alt={match.homeTeam.name}
+                                src={match.awayTeam.logoUrl ?? ''}
+                                alt={match.awayTeam.name}
                                 className="w-16 h-16 object-over rounded-full"
                             />
                         </div>
                         <div className="flex flex-col items-center space-y-2">
                             <span className="text-sm font-medium text-gray-900">
-                                {match.homeTeam.name}
+                                {match.awayTeam.name}
                             </span>
                         </div>
                     </div>
