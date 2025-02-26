@@ -19,7 +19,8 @@ const testMatches = [
         dateTime: new Date('2024-03-20T19:30:00'),
         venue: 'Old Trafford',
         city: 'Manchester',
-        ticketPrice: 7587
+        ticketPrice: 7587,
+        isUserAttending: false
     },
     {
         id: 3,
@@ -36,7 +37,8 @@ const testMatches = [
         dateTime: new Date('2024-03-20T19:30:00'),
         venue: 'Old Trafford',
         city: 'Manchester',
-        ticketPrice: 7587
+        ticketPrice: 7587,
+        isUserAttending: false
     },
     {
         id: 3,
@@ -53,7 +55,8 @@ const testMatches = [
         dateTime: new Date('2024-03-20T19:30:00'),
         venue: 'Old Trafford',
         city: 'Manchester',
-        ticketPrice: 7587
+        ticketPrice: 7587,
+        isUserAttending: true
     },
     {
         id: 4,
@@ -70,7 +73,8 @@ const testMatches = [
         dateTime: new Date('2024-03-20T19:30:00'),
         venue: 'Old Trafford',
         city: 'Manchester',
-        ticketPrice: 7587
+        ticketPrice: 7587,
+        isUserAttending: false
     },
     {
         id: 5,
@@ -87,7 +91,8 @@ const testMatches = [
         dateTime: new Date('2024-03-20T19:30:00'),
         venue: 'Old Trafford',
         city: 'Manchester',
-        ticketPrice: 7587
+        ticketPrice: 7587,
+        isUserAttending: true
     },
     {
         id: 6,
@@ -104,7 +109,8 @@ const testMatches = [
         dateTime: new Date('2024-03-20T19:30:00'),
         venue: 'Old Trafford',
         city: 'Manchester',
-        ticketPrice: 7587
+        ticketPrice: 7587,
+        isUserAttending: true
     }
 ];
 
