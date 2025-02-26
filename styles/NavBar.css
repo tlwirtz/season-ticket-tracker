@@ -1,5 +1,4 @@
 .nav-bar-container {
-  padding: 3em;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -20,7 +19,6 @@
 }
 
 .nav-bar-title {
-  padding: 4px;
   margin-bottom: 0;
   line-height: 105%;
   font-family: 'Montserrat', sans-serif;
@@ -32,7 +30,6 @@
 .nav-bar-subheading {
   font-family: 'Work-Sans', sans-serif;
   font-weight: 400;
-  padding: 4px;
 }
 
 .user-name {

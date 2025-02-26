@@ -68,20 +68,16 @@ export default async function MatchList({ matchData }: { matchData: MatchWithTea
 
     return (
         <section>
-            <div className="match-container">
-                <h3 className="extra-left-margin nav-bar-subheading soft-grey-text">
-                    Upcoming matches
-                </h3>
+            <div className="match-container p-6 sm:p-6">
+                <h3 className="nav-bar-subheading soft-grey-text">Upcoming matches</h3>
             </div>
             <div className="max-w-7xl mx-auto py-2">
                 <MatchGrid matches={availableGames} />
             </div>
-            <div className="match-container">
-                <h3 className="extra-left-margin nav-bar-subheading soft-grey-text">
-                    Previous Matches
-                </h3>
+            <div className="match-container p-6 sm:p-6">
+                <h3 className="nav-bar-subheading soft-grey-text">Previous Matches</h3>
             </div>
-            <div className="max-w-7xl mx-auto py-8">
+            <div className="max-w-7xl mx-auto py-2">
                 <MatchGrid matches={reservedGames} />
             </div>
         </section>
