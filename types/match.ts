@@ -12,4 +12,5 @@ export interface Match {
     venue: string | null;
     city: string;
     ticketPrice: number;
+    isUserAttending: boolean;
 }

@@ -18,7 +18,8 @@ const testMatch = {
     dateTime: new Date('2024-03-20T19:30:00'),
     venue: 'Old Trafford',
     city: 'Manchester',
-    ticketPrice: 7587
+    ticketPrice: 7587,
+    isUserAttending: true
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
