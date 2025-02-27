@@ -2,12 +2,12 @@ import { db } from '../../../db/db';
 import { matchTable, teamTable, ticketRedemptionTable, MatchWithTeams } from '../../../db/schema';
 import { eq, aliasedTable } from 'drizzle-orm';
 import { clerkClient, User } from '@clerk/nextjs/server';
-import Match from '@/components/Match';
+import MatchGrid from '@/components/MatchGrid';
+import { buildMatch } from '@/utils/buildMatchForCard';
+import { RedeemedMatch } from '../../../types/match';
 
 const awayTeam = aliasedTable(teamTable, 'awayTeam');
 const homeTeam = aliasedTable(teamTable, 'homeTeam');
-
-type RedeemedMatch = MatchWithTeams & { user: User };
 
 export default async function Admin() {
     const claimedMatches = await db
@@ -22,7 +22,7 @@ export default async function Admin() {
 
     const client = clerkClient();
 
-    const matchesWithUsers = await Promise.all(
+    const matchesWithUsers: RedeemedMatch[] = await Promise.all(
         claimedMatches.map(async redemption => {
             const { claimedUserId } = redemption.ticket_redemptions;
 
@@ -41,34 +41,19 @@ export default async function Admin() {
         <div className="match-detail-container">
             <div className="match-detail-item">
                 <div>
-                    <h2 className="animated fadeInUp">
+                    <h2 className="animated fadeInUp soft-grey-text text-2xl p-6 sm:p-6">
                         Claimed Matches
-                        <ul>
-                            {matchesWithUsers.length > 0 ? (
-                                matchesWithUsers.map(match => (
-                                    <li key={match.matches.id} className="animated fadeInUp">
-                                        <div className="match-condensed-subheading medium-grey-text">
-                                            {match.user && match.user.emailAddresses.length
-                                                ? match.user.emailAddresses[0].emailAddress
-                                                : 'No Email Found'}
-                                        </div>
-                                        <Match
-                                            key={match.matches.id}
-                                            matchData={match.matches}
-                                            condensed
-                                            admin
-                                        />
-                                    </li>
-                                ))
-                            ) : (
-                                <div className="animated fadeInUp">
-                                    <h2 className="medium-grey-text">
-                                        No Matches Claimed at this Time
-                                    </h2>
-                                </div>
-                            )}
-                        </ul>
                     </h2>
+                    {matchesWithUsers.length > 0 ? (
+                        <MatchGrid
+                            matches={matchesWithUsers.map(mwu => buildMatch(mwu, null))}
+                            useAdminLayout={true}
+                        />
+                    ) : (
+                        <div className="animated fadeInUp">
+                            <h2 className="medium-grey-text">No Matches Claimed at this Time</h2>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
