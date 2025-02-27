@@ -62,7 +62,10 @@ export default async function MatchDetailPage({ params }: MatchDetailPageProps) 
             <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
                 {matchBelongToUser(user?.id ?? '', matchData) && <RedeemedHeader />}
                 <MatchHeader homeTeam={matchMapped.homeTeam} awayTeam={matchMapped.awayTeam} />
-                <MatchDetails dateTime={matchMapped.timestamp} location={matchMapped.location} />
+                <MatchDetails
+                    dateTime={matchMapped.timestamp}
+                    location={matchMapped.location ?? 'Unknown venue'}
+                />
                 <TicketClaim matchId={matchMapped.id} ticketTiers={matchMapped.ticketTiers} />
             </div>
         </main>
