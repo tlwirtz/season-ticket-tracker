@@ -1,14 +1,13 @@
 'use client';
 import { FC, useState, useEffect } from 'react';
-import moment from 'moment';
-
 import { Match } from '../../types/match';
 
 interface MatchCardProps {
     match: Match;
+    useAdminLayout?: Boolean;
 }
 
-const MatchCard: FC<MatchCardProps> = ({ match }) => {
+const MatchCard: FC<MatchCardProps> = ({ match, useAdminLayout = false }) => {
     const formatDate = (date: Date | null): string => {
         return new Date(date ?? Date.now()).toLocaleDateString('en-US', {
             weekday: 'short',
@@ -49,6 +48,39 @@ const MatchCard: FC<MatchCardProps> = ({ match }) => {
 
         setShowTimeField(() => true);
     }, [match.dateTime]);
+
+    //changes the card footer by injecting the email of the user who claimed the match
+    //a little clunky, but it works
+    const getCardFooter = () => {
+        const footer = (
+            <>
+                {useAdminLayout && (
+                    <div className="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
+                        <span className="text-sm text-gray-500">
+                            {match?.userEmail ?? 'No Email Found'}
+                        </span>
+                    </div>
+                )}
+
+                <div
+                    className={`mt-6 pt-6 border-t ${
+                        match.isUserAttending ? 'border-purple-200' : 'border-gray-100'
+                    } flex items-center justify-between`}
+                >
+                    {!useAdminLayout && (
+                        <span className="text-sm text-gray-500">
+                            {match.isUserAttending ? 'You Paid' : 'From'}
+                        </span>
+                    )}
+                    <span className="text-lg font-semibold text-green-600">
+                        ${match.ticketPrice > 0 ? (match.ticketPrice / 100).toFixed(2) : 'TBD'}
+                    </span>
+                </div>
+            </>
+        );
+
+        return footer;
+    };
 
     return (
         <a href={`/matches/${match.id}`}>
@@ -140,7 +172,7 @@ const MatchCard: FC<MatchCardProps> = ({ match }) => {
                     </div>
 
                     {/* Ticket Price */}
-                    <div
+                    {/* <div
                         className={`mt-6 pt-6 border-t ${
                             match.isUserAttending ? 'border-purple-200' : 'border-gray-100'
                         } flex items-center justify-between`}
@@ -151,7 +183,8 @@ const MatchCard: FC<MatchCardProps> = ({ match }) => {
                         <span className="text-lg font-semibold text-green-600">
                             ${match.ticketPrice > 0 ? (match.ticketPrice / 100).toFixed(2) : 'TBD'}
                         </span>
-                    </div>
+                    </div> */}
+                    {getCardFooter()}
                 </div>
             </div>
         </a>

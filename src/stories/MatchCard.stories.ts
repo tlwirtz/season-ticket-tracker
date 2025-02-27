@@ -34,10 +34,11 @@ const meta = {
     tags: ['autodocs'],
     // More on argTypes: https://storybook.js.org/docs/api/argtypes
     argTypes: {
-        match: testMatch
+        match: testMatch,
+        useAdminLayout: true
     },
     // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-    args: { match: testMatch }
+    args: { match: testMatch, useAdminLayout: true }
 } satisfies Meta<typeof MatchCard>;
 
 export default meta;

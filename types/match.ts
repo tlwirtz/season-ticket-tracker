@@ -1,3 +1,5 @@
+import { MatchWithTeams } from '../db/schema';
+import { User } from '@clerk/nextjs/server';
 export interface Team {
     id: number;
     name: string;
@@ -13,4 +15,7 @@ export interface Match {
     city: string;
     ticketPrice: number;
     isUserAttending: boolean;
+    userEmail?: string;
 }
+
+export type RedeemedMatch = MatchWithTeams & { user: User };

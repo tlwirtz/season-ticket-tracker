@@ -2,7 +2,7 @@ import moment from 'moment';
 import { MatchWithTeams } from '../../db/schema';
 import MatchGrid from './MatchGrid';
 import { currentUser } from '@clerk/nextjs/server';
-import { Match } from '../../types/match';
+import { buildMatch } from '../utils/buildMatchForCard';
 
 export default async function MatchList({ matchData }: { matchData: MatchWithTeams[] }) {
     const user = await currentUser();
@@ -35,36 +35,17 @@ export default async function MatchList({ matchData }: { matchData: MatchWithTea
         };
     }
 
-    function buildMatch(match: MatchWithTeams): Match {
-        const { id, location, claimedUserId, timestamp, ticketPrice } = match.matches;
-        return {
-            id,
-            venue: location,
-            city: 'Seattle, WA', //todo -- add to db
-            dateTime: timestamp,
-            ticketPrice,
-            homeTeam: {
-                id: match.homeTeam.id,
-                name: match.homeTeam.name,
-                logoUrl: match.homeTeam.img
-            },
-            awayTeam: {
-                id: match.awayTeam.id,
-                name: match.awayTeam.name,
-                logoUrl: match.awayTeam.img
-            },
-            isUserAttending: Boolean(user?.id && claimedUserId && user?.id === claimedUserId)
-        };
-    }
-
     //todo -- there's likely some bugs here b/c the timestamps and server are all in UTC.
     //todo -- we might need a way to tell the server the user's local timezone.
     const gamesThisYear = matchData.filter(filterMatchYear);
     const availableGames = gamesThisYear
         .filter(filterMatch(true))
         .sort((a, b) => moment(a.matches.timestamp).unix() - moment(b.matches.timestamp).unix())
-        .map(buildMatch);
-    const reservedGames = gamesThisYear.filter(filterMatch(false)).sort().map(buildMatch);
+        .map(m => buildMatch(m, user));
+    const reservedGames = gamesThisYear
+        .filter(filterMatch(false))
+        .sort()
+        .map(m => buildMatch(m, user));
 
     return (
         <section>
