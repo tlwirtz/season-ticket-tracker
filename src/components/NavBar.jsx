@@ -25,10 +25,10 @@ export default function NavBar() {
     }, []);
 
     return (
-        <div className="nav-bar-container">
+        <div className="nav-bar-container p-6 sm:p-6">
             <div className="nav-bar-item nav-bar-heading">
                 <Link href="/">
-                    <h1 className="nav-bar-title">Match Finder</h1>
+                    <h1 className="nav-bar-title py-1">Match Finder</h1>
                 </Link>
                 <h3 className="nav-bar-subheading soft-grey-text">
                     Seattle Sounders {new Date(Date.now()).getFullYear()} Season

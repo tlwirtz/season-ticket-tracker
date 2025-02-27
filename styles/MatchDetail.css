@@ -1,8 +1,5 @@
 .match-detail-container {
   display: flex;
-  padding: 1em;
-  padding-left: 3em;
-  padding-top: 0;
 }
 
 .match-detail-item {

@@ -1,9 +1,12 @@
 import moment from 'moment';
-import Match from './Match';
 import { MatchWithTeams } from '../../db/schema';
 import MatchGrid from './MatchGrid';
+import { currentUser } from '@clerk/nextjs/server';
+import { Match } from '../../types/match';
 
-export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }) {
+export default async function MatchList({ matchData }: { matchData: MatchWithTeams[] }) {
+    const user = await currentUser();
+
     function isAfter(time: Date | null) {
         return moment(time).isAfter(moment());
     }
@@ -32,9 +35,8 @@ export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }
         };
     }
 
-    function buildMatch(match: MatchWithTeams) {
+    function buildMatch(match: MatchWithTeams): Match {
         const { id, location, claimedUserId, timestamp, ticketPrice } = match.matches;
-
         return {
             id,
             venue: location,
@@ -50,7 +52,8 @@ export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }
                 id: match.awayTeam.id,
                 name: match.awayTeam.name,
                 logoUrl: match.awayTeam.img
-            }
+            },
+            isUserAttending: Boolean(user?.id && claimedUserId && user?.id === claimedUserId)
         };
     }
 
@@ -65,20 +68,16 @@ export default function MatchList({ matchData }: { matchData: MatchWithTeams[] }
 
     return (
         <section>
-            <div className="match-container">
-                <h3 className="extra-left-margin nav-bar-subheading soft-grey-text">
-                    Available matches
-                </h3>
+            <div className="match-container p-6 sm:p-6">
+                <h3 className="nav-bar-subheading soft-grey-text">Upcoming matches</h3>
             </div>
-            <div className="max-w-7xl mx-auto py-8">
+            <div className="max-w-7xl mx-auto py-2">
                 <MatchGrid matches={availableGames} />
             </div>
-            <div className="match-container">
-                <h3 className="extra-left-margin nav-bar-subheading soft-grey-text">
-                    Unavailable Matches
-                </h3>
+            <div className="match-container p-6 sm:p-6">
+                <h3 className="nav-bar-subheading soft-grey-text">Previous Matches</h3>
             </div>
-            <div className="max-w-7xl mx-auto py-8">
+            <div className="max-w-7xl mx-auto py-2">
                 <MatchGrid matches={reservedGames} />
             </div>
         </section>
