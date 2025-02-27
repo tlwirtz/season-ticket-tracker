@@ -55,7 +55,11 @@ const MatchCard: FC<MatchCardProps> = ({ match, useAdminLayout = false }) => {
         const footer = (
             <>
                 {useAdminLayout && (
-                    <div className="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
+                    <div
+                        className={`mt-6 pt-6 border-t ${
+                            match.isUserAttending ? 'border-purple-200' : 'border-gray-100'
+                        } flex items-center justify-between`}
+                    >
                         <span className="text-sm text-gray-500">
                             {match?.userEmail ?? 'No Email Found'}
                         </span>
