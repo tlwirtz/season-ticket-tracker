@@ -176,18 +176,7 @@ const MatchCard: FC<MatchCardProps> = ({ match, useAdminLayout = false }) => {
                     </div>
 
                     {/* Ticket Price */}
-                    {/* <div
-                        className={`mt-6 pt-6 border-t ${
-                            match.isUserAttending ? 'border-purple-200' : 'border-gray-100'
-                        } flex items-center justify-between`}
-                    >
-                        <span className="text-sm text-gray-500">
-                            {match.isUserAttending ? 'You Paid' : 'From'}
-                        </span>
-                        <span className="text-lg font-semibold text-green-600">
-                            ${match.ticketPrice > 0 ? (match.ticketPrice / 100).toFixed(2) : 'TBD'}
-                        </span>
-                    </div> */}
+
                     {getCardFooter()}
                 </div>
             </div>
