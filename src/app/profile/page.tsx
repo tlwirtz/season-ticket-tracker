@@ -4,7 +4,8 @@ import { eq, aliasedTable } from 'drizzle-orm';
 import { matchTable, teamTable, ticketRedemptionTable, MatchWithTeams } from '../../../db/schema';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import MatchList from '@/components/MatchList';
+import MatchGrid from '@/components/MatchGrid';
+import { buildMatch } from '@/utils/buildMatchForCard';
 
 const awayTeam = aliasedTable(teamTable, 'awayTeam');
 const homeTeam = aliasedTable(teamTable, 'homeTeam');
@@ -26,7 +27,7 @@ export default async function Profile() {
         return (
             <div>
                 {matchList.length > 0 ? (
-                    <MatchList matchData={matchList} />
+                    <MatchGrid matches={matchList.map(match => buildMatch(match, user))} />
                 ) : (
                     <div className="animated fadeInUp">
                         <h2 className="medium-grey-text"> You are not going to any matches</h2>

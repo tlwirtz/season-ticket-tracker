@@ -56,7 +56,7 @@ export default async function MatchList({ matchData }: { matchData: MatchWithTea
                 <MatchGrid matches={availableGames} />
             </div>
             <div className="match-container p-6 sm:p-6">
-                <h3 className="nav-bar-subheading soft-grey-text">Previous Matches</h3>
+                <h3 className="nav-bar-subheading soft-grey-text">Unavailable Matches</h3>
             </div>
             <div className="max-w-7xl mx-auto py-2">
                 <MatchGrid matches={reservedGames} />
