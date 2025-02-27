@@ -7,9 +7,10 @@ import { validateAndClaimTicket } from '@/actions/redeemMatch';
 interface TicketClaimProps {
     matchId: number;
     ticketTiers: TicketTier[];
+    isLoggedIn: boolean;
 }
 
-export function TicketClaim({ matchId, ticketTiers }: TicketClaimProps) {
+export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [redemptionCode, setRedemptionCode] = useState('');
     const [redemptionMessage, setRedemptionMessage] = useState('');
@@ -51,6 +52,51 @@ export function TicketClaim({ matchId, ticketTiers }: TicketClaimProps) {
         return tiers.some(tt => tt.availableCount > 0);
     }
 
+    function generateClaimForm() {
+        if (!isLoggedIn) {
+            return (
+                <div className="text-sm font-medium text-gray-900">
+                    Log-in or Sign-up to claim tickets!
+                </div>
+            );
+        }
+
+        return anyTicketsAvailable(ticketTiers) ? (
+            <form onSubmit={e => handleClaimTicket(e)} className="space-y-6">
+                <div>
+                    <label
+                        htmlFor="claimCode"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                        Enter Claim Code
+                    </label>
+                    <div className="mt-2">
+                        <input
+                            id="claimCode"
+                            type="text"
+                            value={redemptionCode}
+                            onChange={e => handleChange(e)}
+                            className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-purple-600 focus:border focus:outline-none focus:ring-0 sm:text-sm sm:leading-6"
+                            placeholder="Enter your code here"
+                            required
+                        />
+                    </div>
+                </div>
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full rounded-md bg-purple-600 px-2 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {isSubmitting ? 'Claiming...' : 'Claim Ticket'}
+                </button>
+            </form>
+        ) : (
+            <div className="text-sm font-medium text-gray-900">
+                Sorry, there are no tickets available for this match.
+            </div>
+        );
+    }
+
     return (
         <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5">
             <div className="border-b border-gray-200 p-8">
@@ -78,42 +124,7 @@ export function TicketClaim({ matchId, ticketTiers }: TicketClaimProps) {
                 </div>
             </div>
 
-            <div className="p-8">
-                {anyTicketsAvailable(ticketTiers) ? (
-                    <form onSubmit={e => handleClaimTicket(e)} className="space-y-6">
-                        <div>
-                            <label
-                                htmlFor="claimCode"
-                                className="block text-sm font-medium leading-6 text-gray-900"
-                            >
-                                Enter Claim Code
-                            </label>
-                            <div className="mt-2">
-                                <input
-                                    id="claimCode"
-                                    type="text"
-                                    value={redemptionCode}
-                                    onChange={e => handleChange(e)}
-                                    className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:border-purple-600 focus:border focus:outline-none focus:ring-0 sm:text-sm sm:leading-6"
-                                    placeholder="Enter your code here"
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full rounded-md bg-purple-600 px-2 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {isSubmitting ? 'Claiming...' : 'Claim Ticket'}
-                        </button>
-                    </form>
-                ) : (
-                    <div className="text-sm font-medium text-gray-900">
-                        Sorry, there are no tickets available for this match.
-                    </div>
-                )}
-            </div>
+            <div className="p-8">{generateClaimForm()}</div>
         </div>
     );
 }
