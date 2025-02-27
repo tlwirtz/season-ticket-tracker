@@ -18,4 +18,11 @@ export interface Match {
     userEmail?: string;
 }
 
+export interface TicketTier {
+    id: string;
+    name: string;
+    price: number;
+    availableCount: number;
+}
+
 export type RedeemedMatch = MatchWithTeams & { user: User };
