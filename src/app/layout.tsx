@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ClerkProvider, SignedIn } from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/nextjs';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import './globals.css';
@@ -11,7 +11,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Seattle Sounders Match Finder',
-    description: 'Grab some Seattle Sounders FC tickets!'
+    description: 'Grab some Seattle Sounders FC tickets!',
+    viewport: { width: 'device-width', initialScale: 1.0 }
 };
 
 export default function RootLayout({
