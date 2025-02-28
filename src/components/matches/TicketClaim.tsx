@@ -70,6 +70,11 @@ export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimPro
                     >
                         Enter Claim Code
                     </label>
+                    {redemptionMessage.length > 0 && (
+                        <div className="text-red-500 text-sm font-medium leading-6">
+                            {redemptionMessage}
+                        </div>
+                    )}
                     <div className="mt-2">
                         <input
                             id="claimCode"
@@ -110,7 +115,7 @@ export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimPro
                                 <div className="flex items-center">
                                     <p className="text-sm font-medium text-gray-900">{tier.name}</p>
                                 </div>
-                                <div className="ml-4 flex flex-col items-center gap-y-2 sm:gap-x-4 sm:flex-row">
+                                <div className="ml-4 flex flex-col items-center gap-y-2clear sm:gap-x-4 sm:flex-row">
                                     <span className="text-sm font-medium text-gray-900">
                                         ${(tier.price / 100).toFixed(2)}
                                     </span>
