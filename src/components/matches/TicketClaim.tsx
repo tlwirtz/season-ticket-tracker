@@ -110,7 +110,7 @@ export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimPro
                                 <div className="flex items-center">
                                     <p className="text-sm font-medium text-gray-900">{tier.name}</p>
                                 </div>
-                                <div className="ml-4 flex items-center gap-x-4">
+                                <div className="ml-4 flex flex-col items-center gap-y-2 sm:gap-x-4 sm:flex-row">
                                     <span className="text-sm font-medium text-gray-900">
                                         ${(tier.price / 100).toFixed(2)}
                                     </span>
