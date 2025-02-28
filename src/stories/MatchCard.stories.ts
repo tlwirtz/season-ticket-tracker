@@ -47,23 +47,3 @@ export const Primary: Story = {
         match: testMatch
     }
 };
-
-// export const Secondary: Story = {
-//     args: {
-//         label: 'Button'
-//     }
-// };
-
-// export const Large: Story = {
-//     args: {
-//         size: 'large',
-//         label: 'Button'
-//     }
-// };
-
-// export const Small: Story = {
-//     args: {
-//         size: 'small',
-//         label: 'Button'
-//     }
-// };
