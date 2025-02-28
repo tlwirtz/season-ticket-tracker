@@ -70,6 +70,11 @@ export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimPro
                     >
                         Enter Claim Code
                     </label>
+                    {redemptionMessage.length > 0 && (
+                        <div className="text-red-500 text-sm font-medium leading-6">
+                            {redemptionMessage}
+                        </div>
+                    )}
                     <div className="mt-2">
                         <input
                             id="claimCode"

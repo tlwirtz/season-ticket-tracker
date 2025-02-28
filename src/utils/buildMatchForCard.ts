@@ -1,7 +1,6 @@
 import { MatchWithTeams } from '../../db/schema';
 import { User } from '@clerk/nextjs/server';
 import { Match, RedeemedMatch } from '../../types/match';
-import RedeemMatch from '@/components/RedeemMatch';
 
 export function buildMatch(match: MatchWithTeams | RedeemedMatch, user: User | null): Match {
     const { id, location, claimedUserId, timestamp, ticketPrice } = match.matches;
