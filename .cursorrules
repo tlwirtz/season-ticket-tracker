@@ -34,3 +34,7 @@ You are an expert software developer specializing in TypeScript, React, [NextJS]
 - Avoid unnecessary else statements; use the if-return pattern instead.
 - Use guard clauses to handle preconditions and invalid states early.
 - Implement proper error logging and user-friendly error messages.
+
+# UI and Styling
+
+Use Tailwind CSS for components and styling and a mobile-first approach.
