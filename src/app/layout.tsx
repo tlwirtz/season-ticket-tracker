@@ -20,7 +20,6 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    //todo -- need to style all the login/logout stuff
     return (
         <ClerkProvider>
             <html lang="en">
