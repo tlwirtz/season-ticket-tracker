@@ -1,17 +1,40 @@
 import Stripe from 'stripe';
 import { db } from '../../../../../db/db';
-import { matchTable, redemptionCodeTable, ticketRedemptionTable } from '../../../../../db/schema';
+import {
+    matchTable,
+    redemptionCodeTable,
+    stripeWebhookEventsTable,
+    ticketRedemptionTable
+} from '../../../../../db/schema';
 import { eq } from 'drizzle-orm';
 import { clerkClient, User } from '@clerk/nextjs/server';
 
 interface ClaimTicketParams {
     matchId: number;
     customerEmail: string;
+    stripeEventRecordId: number;
 }
 
 const STRIPE_REDEMPTION_CODE = 'stripe_redemption';
 
-async function claimTicket({ matchId, customerEmail }: ClaimTicketParams) {
+//todo -- json docs
+//record seen webhook id
+async function recordStripeEvent(stripeEvent: Stripe.CheckoutSessionCompletedEvent) {
+    const [newRecord] = await db
+        .insert(stripeWebhookEventsTable)
+        .values({
+            eventBody: JSON.stringify(stripeEvent),
+            objectId: stripeEvent.data.object.id,
+            eventId: stripeEvent.id,
+            eventType: stripeEvent.type
+        })
+        .returning({ insertedId: stripeWebhookEventsTable.id });
+
+    return newRecord;
+}
+
+//todo -- abstract this into another file
+async function claimTicket({ matchId, customerEmail, stripeEventRecordId }: ClaimTicketParams) {
     //need to lookup the user by their email. Maybe we should actually pass the user id
     //can we pass a JSON string as the customer reference?
     const client = clerkClient();
@@ -64,8 +87,14 @@ async function claimTicket({ matchId, customerEmail }: ClaimTicketParams) {
             matchId,
             claimedUserId: maybeUsers.data[0].id,
             claimQty,
-            redemptionCodeId: dbRedemptionCode.id
+            redemptionCodeId: dbRedemptionCode.id,
+            stripeEventId: stripeEventRecordId
         });
+
+        await tx
+            .update(stripeWebhookEventsTable)
+            .set({ processedOk: true, updatedAt: new Date() })
+            .where(eq(stripeWebhookEventsTable.id, stripeEventRecordId));
     });
 }
 
@@ -79,7 +108,7 @@ export async function POST(request: Request) {
     }
 
     if (!endpointSecret) {
-        console.error(`No endpoint secrete, could not validate webhook payload`);
+        console.error(`No endpoint secret, could not validate webhook payload`);
         return new Response('Failure', { status: 500 });
     }
 
@@ -99,16 +128,15 @@ export async function POST(request: Request) {
 
     switch (event.type) {
         case 'checkout.session.completed':
+            console.log(`Found checkout session event: ${event.id}`);
             const data = event.data.object;
-            console.log(`Client Reference ${data.client_reference_id}`);
-            console.log(`Client Email: ${data.customer_email}`);
             try {
-                //todo -- check if we've handled this event before
-                claimTicket({
+                const recordId = await recordStripeEvent(event);
+                await claimTicket({
                     matchId: Number(data.client_reference_id),
-                    customerEmail: data.customer_email ?? ''
+                    customerEmail: data.customer_email ?? '',
+                    stripeEventRecordId: recordId.insertedId
                 });
-                //todo -- write event to table so we don't process duplicates
             } catch (err) {
                 const knownErr = err as Error;
                 return new Response(`Failure: ${knownErr.message}`, { status: 400 });
