@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { TicketTier } from '../../../types/match';
 import { validateAndClaimTicket } from '@/actions/redeemMatch';
+import StripeCheckout from './StripeClaim';
 
 interface TicketClaimProps {
     matchId: number;
@@ -11,6 +12,9 @@ interface TicketClaimProps {
 }
 
 export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimProps) {
+    const useStripeCheckout = process.env.NEXT_PUBLIC_USE_STRIPE === 'true';
+
+    console.log('useStripeCheckout ', useStripeCheckout);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [redemptionCode, setRedemptionCode] = useState('');
     const [redemptionMessage, setRedemptionMessage] = useState('');
@@ -61,6 +65,10 @@ export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimPro
             );
         }
 
+        if (useStripeCheckout) {
+            return <></>;
+        }
+
         return anyTicketsAvailable(ticketTiers) ? (
             <form onSubmit={e => handleClaimTicket(e)} className="space-y-6">
                 <div>
@@ -104,29 +112,38 @@ export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimPro
 
     return (
         <div className="rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5">
-            <div className="border-b border-gray-200 p-8">
+            <div className={`${useStripeCheckout ? '' : 'border-b'} border-gray-200 p-8`}>
                 <h3 className="text-base font-semibold leading-7 text-gray-900">
                     Available Tickets
                 </h3>
-                <div className="mt-6 flow-root">
-                    <ul className="-my-2 divide-y divide-gray-100">
-                        {ticketTiers.map(tier => (
-                            <li key={tier.id} className="flex items-center justify-between py-2">
-                                <div className="flex items-center">
-                                    <p className="text-sm font-medium text-gray-900">{tier.name}</p>
-                                </div>
-                                <div className="ml-4 flex flex-col items-center gap-y-2 sm:gap-x-4 sm:flex-row">
-                                    <span className="text-sm font-medium text-gray-900">
-                                        ${(tier.price / 100).toFixed(2)}
-                                    </span>
-                                    <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                                        {tier.availableCount} available
-                                    </span>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                {useStripeCheckout && isLoggedIn ? (
+                    <StripeCheckout matchId={matchId} />
+                ) : (
+                    <div className="mt-6 flow-root">
+                        <ul className="-my-2 divide-y divide-gray-100">
+                            {ticketTiers.map(tier => (
+                                <li
+                                    key={tier.id}
+                                    className="flex items-center justify-between py-2"
+                                >
+                                    <div className="flex items-center">
+                                        <p className="text-sm font-medium text-gray-900">
+                                            {tier.name}
+                                        </p>
+                                    </div>
+                                    <div className="ml-4 flex flex-col items-center gap-y-2 sm:gap-x-4 sm:flex-row">
+                                        <span className="text-sm font-medium text-gray-900">
+                                            ${(tier.price / 100).toFixed(2)}
+                                        </span>
+                                        <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                                            {tier.availableCount} available
+                                        </span>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
 
             <div className="p-8">{generateClaimForm()}</div>
