@@ -1,4 +1,13 @@
-import { boolean, integer, pgTable, pgEnum, serial, text, timestamp } from 'drizzle-orm/pg-core';
+import {
+    boolean,
+    integer,
+    pgTable,
+    pgEnum,
+    serial,
+    text,
+    timestamp,
+    jsonb
+} from 'drizzle-orm/pg-core';
 
 export const matchTypeEnum = pgEnum('matchType', ['MLS', 'CWC', 'CONCACAF', 'USOC']);
 
@@ -56,7 +65,19 @@ export const ticketRedemptionTable = pgTable('ticket_redemptions', {
         .references(() => redemptionCodeTable.id),
     claimQty: integer('claim_qty').notNull(),
     claimedUserId: text('claimed_user_id'), //external uid
-    createdAt: timestamp('createdAt').defaultNow()
+    createdAt: timestamp('createdAt').defaultNow(),
+    stripeEventId: integer('stripe_event_id').references(() => stripeWebhookEventsTable.id)
+});
+
+export const stripeWebhookEventsTable = pgTable('stripe_webhook_events', {
+    id: serial('id').primaryKey(),
+    eventId: text('event_id').notNull(),
+    objectId: text('object_id').notNull(),
+    eventType: text('event_type').notNull(),
+    createdAt: timestamp('createdAt').defaultNow(),
+    updatedAt: timestamp('updatedAt'),
+    processedOk: boolean('processed_ok').notNull().default(false),
+    eventBody: jsonb('event_body').notNull()
 });
 
 export type InsertTicketRedemption = typeof ticketRedemptionTable.$inferInsert;
@@ -76,6 +97,9 @@ export type SelectAppAlert = typeof appAlertTable.$inferSelect;
 
 export type InsertMatch = typeof matchTable.$inferInsert;
 export type SelectMatch = typeof matchTable.$inferSelect;
+
+export type InsertStripeEvent = typeof stripeWebhookEventsTable.$inferInsert;
+export type SelectStripeEvent = typeof stripeWebhookEventsTable.$inferSelect;
 
 export type MatchWithTeams = {
     matches: SelectMatch;

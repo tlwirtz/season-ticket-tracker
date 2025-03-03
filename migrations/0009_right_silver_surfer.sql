@@ -1,0 +1,1 @@
+ALTER TABLE "stripe_webhook_events" ADD COLUMN "event_id" text NOT NULL;
