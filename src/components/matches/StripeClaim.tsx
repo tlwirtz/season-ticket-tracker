@@ -24,7 +24,7 @@ const StripeCheckout: FC<StripCheckoutProps> = ({ matchId }) => {
         return <></>;
     }
 
-    if (user.emailAddresses.length <= 0) {
+    if (!user || user.emailAddresses.length <= 0) {
         console.error('user found, but no email was attached to the account');
         return <></>;
     }
