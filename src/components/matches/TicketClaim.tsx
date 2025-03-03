@@ -116,7 +116,7 @@ export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimPro
                 <h3 className="text-base font-semibold leading-7 text-gray-900">
                     Available Tickets
                 </h3>
-                {useStripeCheckout && isLoggedIn ? (
+                {useStripeCheckout && isLoggedIn && anyTicketsAvailable(ticketTiers) ? (
                     <StripeCheckout matchId={matchId} />
                 ) : (
                     <div className="mt-6 flow-root">
