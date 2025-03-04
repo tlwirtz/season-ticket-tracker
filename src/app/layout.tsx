@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next';
+
 import { Inter } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
+import Script from 'next/script';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import './globals.css';
@@ -28,6 +30,7 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="en">
                 <body>
+                    <Script src="https://js.stripe.com/v3/pricing-table.js" />
                     <NavBar />
                     {children}
                     <Footer />

@@ -66,6 +66,7 @@ export default async function MatchDetailPage({ params }: MatchDetailPageProps) 
                     dateTime={matchMapped.timestamp}
                     location={matchMapped.location ?? 'Unknown venue'}
                 />
+
                 <TicketClaim
                     matchId={matchMapped.id}
                     ticketTiers={matchMapped.ticketTiers}
