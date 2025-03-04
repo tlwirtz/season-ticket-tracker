@@ -6,7 +6,7 @@ import {
     stripeWebhookEventsTable,
     ticketRedemptionTable
 } from '../../../../../db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, and, or } from 'drizzle-orm';
 import { clerkClient, User } from '@clerk/nextjs/server';
 
 interface ClaimTicketParams {
@@ -16,6 +16,36 @@ interface ClaimTicketParams {
 }
 
 const STRIPE_REDEMPTION_CODE = 'stripe_redemption';
+
+async function haveProcessedStripeEvent(stripeEvent: Stripe.CheckoutSessionCompletedEvent) {
+    let haveSeen = false;
+
+    //check if we've seen this event before and processed it ok.
+    //stripe recommends we check both by event id and object id + event type
+    //https://docs.stripe.com/webhooks#handle-duplicate-events
+    const [maybeRecord] = await db
+        .select()
+        .from(stripeWebhookEventsTable)
+        .where(
+            or(
+                and(
+                    eq(stripeWebhookEventsTable.eventId, stripeEvent.id),
+                    eq(stripeWebhookEventsTable.processedOk, true)
+                ),
+                and(
+                    eq(stripeWebhookEventsTable.objectId, stripeEvent.data.object.id),
+                    eq(stripeWebhookEventsTable.eventType, stripeEvent.type),
+                    eq(stripeWebhookEventsTable.processedOk, true)
+                )
+            )
+        );
+
+    if (maybeRecord) {
+        haveSeen = true;
+    }
+
+    return haveSeen;
+}
 
 //todo -- json docs
 //record seen webhook id
@@ -34,6 +64,7 @@ async function recordStripeEvent(stripeEvent: Stripe.CheckoutSessionCompletedEve
 }
 
 //todo -- abstract this into another file
+//todo -- a lot of this claim logic is duplicated from the action that processes the basic form
 async function claimTicket({ matchId, customerEmail, stripeEventRecordId }: ClaimTicketParams) {
     //need to lookup the user by their email. Maybe we should actually pass the user id
     //can we pass a JSON string as the customer reference?
@@ -98,6 +129,27 @@ async function claimTicket({ matchId, customerEmail, stripeEventRecordId }: Clai
     });
 }
 
+async function handleStripeEvent(event: Stripe.CheckoutSessionCompletedEvent) {
+    //todo -- should we combine the call to "recordStripeEvent" with the larger transaction? Probably
+    const data = event.data.object;
+
+    const haveSeen = await haveProcessedStripeEvent(event);
+    if (haveSeen) {
+        console.log(`Already processed event: ${event.id}`);
+        return new Response('Success!', { status: 200 });
+    }
+
+    const recordId = await recordStripeEvent(event);
+
+    await claimTicket({
+        matchId: Number(data.client_reference_id),
+        customerEmail: data.customer_email ?? '',
+        stripeEventRecordId: recordId.insertedId
+    });
+
+    return new Response('Success!', { status: 200 });
+}
+
 export async function POST(request: Request) {
     const secretKey = process.env.STRIPE_SECRET_KEY;
     const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
@@ -129,20 +181,13 @@ export async function POST(request: Request) {
     switch (event.type) {
         case 'checkout.session.completed':
             console.log(`Found checkout session event: ${event.id}`);
-            const data = event.data.object;
             try {
-                const recordId = await recordStripeEvent(event);
-                await claimTicket({
-                    matchId: Number(data.client_reference_id),
-                    customerEmail: data.customer_email ?? '',
-                    stripeEventRecordId: recordId.insertedId
-                });
+                const res = await handleStripeEvent(event);
+                return res;
             } catch (err) {
                 const knownErr = err as Error;
                 return new Response(`Failure: ${knownErr.message}`, { status: 400 });
             }
-
-            break;
         default:
             console.log(`Unhandled event type: ${event.type}`);
             break;
