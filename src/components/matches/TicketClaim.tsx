@@ -14,7 +14,6 @@ interface TicketClaimProps {
 export function TicketClaim({ matchId, ticketTiers, isLoggedIn }: TicketClaimProps) {
     const useStripeCheckout = process.env.NEXT_PUBLIC_USE_STRIPE === 'true';
 
-    console.log('useStripeCheckout ', useStripeCheckout);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [redemptionCode, setRedemptionCode] = useState('');
     const [redemptionMessage, setRedemptionMessage] = useState('');

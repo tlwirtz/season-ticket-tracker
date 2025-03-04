@@ -3,7 +3,6 @@ import { db } from '../../db/db';
 import { eq } from 'drizzle-orm';
 import { matchTable, redemptionCodeTable, ticketRedemptionTable } from '../../db/schema';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { auth } from '@clerk/nextjs/server';
 
 /**

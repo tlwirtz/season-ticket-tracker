@@ -4,7 +4,66 @@
 
 ## Hosting & Deploy
 
-App hosted on Vercel and backed by a Neon SQL database. Auth by Clerk.
+App in Next.js and hosted on Vercel. Backed by a Neon SQL database. Auth by Clerk.
+
+## Running Locally
+
+### Prereqs
+
+Before running locally, you'll need a few things setup:
+
+1. A [Clerk Auth](https://clerk.com) account and API keys.
+2. A SQL database. I'm using [Neon](https://neon.tech), but you can use whatever you want.
+3. A [Stripe](https://stripe.com) account an API keys, if you want to go down that route. Right now the app is configured to use Stripe's no-code embedded pricing table, although that might change in the future.
+
+### Installing + Building
+
+The app is built on [Next.js](https://nextjs.org). You'll need to configure the following environment variables in your `.env.local` file.
+
+```bash
+DATABASE_URL=[[DATABASE URL]]
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=[[CLERK_PUBLISHABLE_KEY]]
+CLERK_SECRET_KEY=[[CLERK_SECRET_KEY]]
+NEXT_PUBLIC_USE_STRIPE=false #switch to true to turn on Stripe integration
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=[[STRIPE_PUBLISHABLE_KEY]]
+NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID=[[STRIPE_PRICING_TABLE_ID]]
+STRIPE_SECRET_KEY=[[STRIPE_SECRET_KEY]]
+STRIPE_ENDPOINT_SECRET=[[STRIPE_ENDPOINT_SECRET]]
+```
+
+Install
+
+```bash
+npm install
+```
+
+Seed database with demo data. We use `faker-js` to generate random data.
+
+```bash
+npm run db:seed
+```
+
+Run Dev Locally
+
+```bash
+npm run dev
+```
+
+## Update Database Schema
+
+The database schema is handled by [Drizzle ORM](https://orm.drizzle.team/docs/overview). To modify the database schema, make your changes in the `./db/schema.ts` file and then generate a migration.
+
+```bash
+npm run db:generate
+```
+
+This will generate migration SQL in the `./migrations/` directory. You should commit these into source code. Drizzle will detect which migrations have run and apply anything that's missing. To apply a migration:
+
+```bash
+npm run db:migrate
+```
+
+At the moment, all migrations have to be run manually. There is no automatic migration runner. 
 
 ## Testing the Checkout Webhook
 
