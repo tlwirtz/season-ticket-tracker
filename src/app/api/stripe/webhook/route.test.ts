@@ -2,7 +2,7 @@ import { describe, it, expect, vi, afterEach, beforeEach, MockedObject } from 'v
 import Stripe from 'stripe';
 import { POST } from './route';
 import { db } from '../../../../../db/db';
-import { clerkClient } from '@clerk/nextjs/server';
+import { clerkClient, User } from '@clerk/nextjs/server';
 import {
     matchTable,
     stripeWebhookEventsTable,
@@ -103,7 +103,7 @@ describe('POST', () => {
 
         vi.spyOn(clerkClient.users, 'getUserList').mockResolvedValueOnce({
             totalCount: 1,
-            data: [{ id: 'user_test' }]
+            data: [{ id: 'user_test' }] as User[]
         });
 
         const response = await POST(
@@ -193,7 +193,7 @@ describe('POST', () => {
 
         vi.spyOn(clerkClient.users, 'getUserList').mockResolvedValue({
             totalCount: 1,
-            data: [{ id: 'user_test' }]
+            data: [{ id: 'user_test' }] as User[]
         });
 
         // First call to process the event
