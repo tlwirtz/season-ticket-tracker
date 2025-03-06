@@ -1,4 +1,3 @@
-import Stripe from 'stripe';
 import { db } from '../../../../../db/db';
 import {
     matchTable,
@@ -7,7 +6,8 @@ import {
     ticketRedemptionTable
 } from '../../../../../db/schema';
 import { eq, and, or } from 'drizzle-orm';
-import { clerkClient, User } from '@clerk/nextjs/server';
+import { clerkClient } from '@clerk/nextjs/server';
+import Stripe from 'stripe'; //for types
 
 interface ClaimTicketParams {
     matchId: number;
