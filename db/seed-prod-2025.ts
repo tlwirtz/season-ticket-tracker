@@ -99,7 +99,9 @@ const generateMatches = async (teamData: SelectTeam[], matchData: MatchDataFromC
 };
 
 const generateRedemptionCodes = async () => {
-    const codes = ['ebfgstid', 'lfgstid', 'toughkids'].map(item => ({ code: item }));
+    const codes = ['ebfgstid', 'lfgstid', 'toughkids', 'stripe_redemption'].map(item => ({
+        code: item
+    }));
     return await db.insert(redemptionCodeTable).values(codes).returning();
 };
 

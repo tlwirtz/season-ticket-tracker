@@ -18,5 +18,5 @@ import ws from 'ws';
 config({ path: '.env' }); //todo -- this doesn't seem to work as intended. I had to load .env to get this to work.
 
 neonConfig.webSocketConstructor = ws;
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 export const db = drizzle(pool);
