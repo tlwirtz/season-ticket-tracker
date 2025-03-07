@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { describe, it, expect, vi, afterEach, beforeEach, MockedObject } from 'vitest';
 import Stripe from 'stripe';
 import { POST } from './route';
@@ -82,7 +84,7 @@ describe('POST', () => {
             .values(generateFakeTeams(2))
             .returning();
 
-        const [match] = generateFakeMatches(1, [savedTeam1, savedTeam2]);
+        const [match] = generateFakeMatches(1, [savedTeam1, savedTeam2], 1, 1);
         const [savedMatch] = await db.insert(matchTable).values(match).returning();
 
         const mockEvent = {
