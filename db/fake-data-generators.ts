@@ -6,7 +6,8 @@ import {
     InsertRedemptionCode,
     InsertStripeEvent,
     SelectTeam,
-    matchTypeEnum
+    matchTypeEnum,
+    InsertTicketRedemption
 } from './schema';
 
 export const generateFakeTeams = (numOfTeams: number): InsertTeam[] => {
@@ -90,4 +91,21 @@ export const generateFakeStripeEvents = (numOfEvents: number): InsertStripeEvent
     });
 
     return faker.helpers.multiple(createRandomStripeEvent, { count: numOfEvents });
+};
+
+export const generateFakeTicketRedemptions = (
+    numOfRedemptions: number,
+    match: { id: number },
+    redemptionCode: { id: number },
+    userId: string
+): InsertTicketRedemption[] => {
+    const createRandomTicketRedemption = (): InsertTicketRedemption => ({
+        claimedUserId: userId,
+        matchId: match.id,
+        redemptionCodeId: redemptionCode.id,
+        createdAt: faker.date.past(),
+        claimQty: 1
+    });
+
+    return faker.helpers.multiple(createRandomTicketRedemption, { count: numOfRedemptions });
 };
