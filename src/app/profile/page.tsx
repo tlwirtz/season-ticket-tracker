@@ -13,7 +13,7 @@ const homeTeam = aliasedTable(teamTable, 'homeTeam');
 export default async function Profile() {
     const user = await currentUser();
     if (!user) {
-        redirect('/sign-in');
+        return redirect('/sign-in');
     }
     const matchList = (await db
         .select()

@@ -37,3 +37,7 @@ yarn-error.log*
 next-env.d.ts
 
 *storybook.log
+
+# local testing db
+/test/.browser-db/
+/test/.integration-db/

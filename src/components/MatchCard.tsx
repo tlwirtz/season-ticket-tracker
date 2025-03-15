@@ -87,7 +87,7 @@ const MatchCard: FC<MatchCardProps> = ({ match, useAdminLayout = false }) => {
     };
 
     return (
-        <a href={`/matches/${match.id}`}>
+        <a href={`/matches/${match.id}`} data-testid={`match-card-${match.id}`}>
             <div
                 className={`${
                     match.isUserAttending ? 'bg-purple-50' : 'bg-white'
