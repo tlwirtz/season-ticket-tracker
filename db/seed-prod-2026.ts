@@ -4,12 +4,9 @@ import fs from 'fs';
 import {
     InsertMatch,
     SelectTeam,
-    adminTable,
-    appAlertTable,
     matchTable,
     redemptionCodeTable,
     teamTable,
-    ticketRedemptionTable
 } from './schema';
 import { parse } from 'date-fns';
 
@@ -35,23 +32,7 @@ const readTeamData = async () => {
 };
 
 const readMatchData = async () => {
-    return await neatCSV(fs.createReadStream('mls-team-matchups-2025.csv'));
-};
-
-type TableArray = typeof tables;
-const tables = [
-    ticketRedemptionTable,
-    redemptionCodeTable,
-    matchTable,
-    appAlertTable,
-    adminTable,
-    teamTable
-];
-
-const cleanDb = async (tableList: TableArray) => {
-    for (const table of tableList) {
-        await db.delete(table);
-    }
+    return await neatCSV(fs.createReadStream('db/mls-team-matchups-2026.csv'));
 };
 
 const generateTeams = async (teamData: TeamDataFromCSV[]) => {
@@ -65,6 +46,10 @@ const generateTeams = async (teamData: TeamDataFromCSV[]) => {
     });
 
     return await db.insert(teamTable).values(mappedData).returning();
+};
+
+const fetchTeams = async () => {
+    return await db.select().from(teamTable);
 };
 
 const generateMatches = async (teamData: SelectTeam[], matchData: MatchDataFromCSV[]) => {
@@ -106,17 +91,21 @@ const generateRedemptionCodes = async () => {
 };
 
 async function main() {
-    await cleanDb(tables);
-    const teamData = (await readTeamData()) as TeamDataFromCSV[];
     const matchData = (await readMatchData()) as MatchDataFromCSV[];
-
-    const teams = await generateTeams(teamData);
+    
+    const teams = await fetchTeams();
     const matches = await generateMatches(teams, matchData);
-    const redemptionCodes = await generateRedemptionCodes();
+
+    /** We don't need to reseed teams or redemption codes each year
+     * But keeping this here for now in case we want to add new teams or codes in the future.
+     */
+
+    // const teams = await generateTeams(await readTeamData());
+    // const redemptionCodes = await generateRedemptionCodes();
 
     console.log(teams);
     console.log(matches);
-    console.log(redemptionCodes);
+    // console.log(redemptionCodes);
 }
 
 main();
